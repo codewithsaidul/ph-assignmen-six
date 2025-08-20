@@ -58,7 +58,7 @@ export default function Navbar() {
           </div>
 
           <Button asChild variant="default" size="sm" className="text-sm">
-            <a href="#">Sign In</a>
+            <Link to="/login">Log In</Link>
           </Button>
 
           {/* Mobile menu trigger */}

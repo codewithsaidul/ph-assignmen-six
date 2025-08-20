@@ -3,8 +3,8 @@ import { Link } from "react-router";
 
 export default function Footer() {
   return (
-    <footer className="bg-white dark:bg-gray-900">
-      <div className="mx-auto container space-y-8 px-4 py-6">
+    <footer className="bg-white dark:bg-card">
+      <div className="mx-auto container space-y-8 px-4 py-16">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div>
             <div className="flex items-center gap-2">

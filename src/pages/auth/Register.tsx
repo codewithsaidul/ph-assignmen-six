@@ -18,13 +18,19 @@ import {
 import { Input } from "@/components/ui/input";
 import Password from "@/components/ui/Password";
 import { cn } from "@/lib/utils";
+import { useRegisterMutation } from "@/redux/feature/auth/auth.api";
 import { registerZodSchema } from "@/zodSchema/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router";
 import type z from "zod";
 
 export default function Register() {
+
+    const [register, { isLoading }] = useRegisterMutation();
+    const navigate = useNavigate();
+
   const form = useForm<z.infer<typeof registerZodSchema>>({
     resolver: zodResolver(registerZodSchema),
     defaultValues: {
@@ -36,7 +42,35 @@ export default function Register() {
   });
 
   const onSubmit = async (values: z.infer<typeof registerZodSchema>) => {
-    console.log(values);
+    const toastId = toast.loading("Registering...");
+    const userData = {
+        name: values.name,
+        email: values.email,
+        password: values.password
+    }
+
+
+    try {
+        const res = await register(userData).unwrap();
+
+        if (res.success && res.statusCode === 201) {
+            toast.success(res.message, { id: toastId});
+            navigate("/login")
+        }
+    } catch (error: unknown) {
+        const errorMessage =
+          typeof error === "object" &&
+          error !== null &&
+          "data" in error &&
+          typeof (error as { data?: unknown }).data === "object" &&
+          (error as { data?: unknown }).data !== null &&
+          "message" in (error as { data?: { message?: string } }).data!
+            ? ((error as { data: { message: string } }).data.message)
+            : "An error occurred";
+        toast.error(errorMessage, { id: toastId })
+
+        console.log(error)
+    }
   };
 
   return (
@@ -124,7 +158,7 @@ export default function Register() {
                     )}
                   />
 
-                  <Button type="submit" className="w-full cursor-pointer">
+                  <Button type="submit" disabled={isLoading} className="w-full cursor-pointer">
                     Register
                   </Button>
                 </form>

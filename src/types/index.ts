@@ -1,5 +1,5 @@
-export type { ILogin, ILoginResponse } from "./auth.types"
-export type {  } from "./user.types"
+export type { ILogin, ILoginResponse, IRegister } from "./auth.types"
+export type { IUser } from "./user.types"
 
 
 

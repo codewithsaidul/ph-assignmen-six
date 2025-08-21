@@ -16,3 +16,8 @@ export interface ILogin {
 }
 
 
+export interface IRegister extends ILogin {
+  name: string;
+}
+
+

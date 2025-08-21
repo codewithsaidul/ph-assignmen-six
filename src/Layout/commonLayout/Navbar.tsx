@@ -80,7 +80,7 @@ export default function Navbar() {
 
           
           {userProfile ? (
-            <ProfileAvatar name={userProfile?.name} logOutFn={handleLogout} />
+            <ProfileAvatar name={userProfile?.name} userRole={userProfile?.role} logOutFn={handleLogout} />
           ) : (
             <Button asChild variant="default" size="sm" className="text-sm">
               <Link to="/login">Log In</Link>

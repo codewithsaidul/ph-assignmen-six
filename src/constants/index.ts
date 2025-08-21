@@ -9,7 +9,7 @@ export const navigationLinks = [
 
 
 export const role = {
-  admin: "ADMIN",
-  rider: "RIDER",
-  driver: "DRIVER",
+  admin: "admin",
+  rider: "rider",
+  driver: "driver",
 };

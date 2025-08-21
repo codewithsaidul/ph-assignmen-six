@@ -6,16 +6,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { role } from "@/constants";
 import { useMediaQuery } from "react-responsive";
+import { Link } from "react-router";
 
 interface IAvatarProps {
   name: string;
   image?: string;
+  userRole: string;
   logOutFn: () => Promise<void>;
 }
 
-const ProfileAvatar = ({ name, image, logOutFn }: IAvatarProps) => {
+const ProfileAvatar = ({ name, image, userRole, logOutFn }: IAvatarProps) => {
   const isMobile = useMediaQuery({ maxWidth: 1023 });
+
+  const dashboardUrl  = userRole === role.admin ? "/admin" : userRole === role.rider ? "/rider" : "/driver"
 
   return (
     <DropdownMenu>
@@ -32,7 +37,10 @@ const ProfileAvatar = ({ name, image, logOutFn }: IAvatarProps) => {
         align={isMobile ? "end" : "start"}
       >
         <DropdownMenuItem className="cursor-pointer">
-          My Account
+          <Link to={dashboardUrl}>Dashboard</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer">
+          <Link to="/dashboard/profile">My Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={logOutFn} className="cursor-pointer">

@@ -21,7 +21,7 @@ import { useLoginMutation } from "@/redux/feature/auth/auth.api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import z from "zod";
 
 const loginSchema = z.object({
@@ -157,9 +157,9 @@ export default function Login() {
               </Form>
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <a href="#" className="underline underline-offset-4">
+                <Link to="/register" className="underline underline-offset-4">
                   Sign up
-                </a>
+                </Link>
               </div>
             </div>
           </CardContent>

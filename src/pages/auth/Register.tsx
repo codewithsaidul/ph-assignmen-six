@@ -68,8 +68,6 @@ export default function Register() {
             ? ((error as { data: { message: string } }).data.message)
             : "An error occurred";
         toast.error(errorMessage, { id: toastId })
-
-        console.log(error)
     }
   };
 

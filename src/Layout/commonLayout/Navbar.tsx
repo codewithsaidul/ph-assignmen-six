@@ -14,17 +14,26 @@ import {
 } from "@/components/ui/popover";
 import { navigationLinks } from "@/constants";
 import { useLogoutMutation } from "@/redux/feature/auth/auth.api";
+import { useGetUserProfileQuery } from "@/redux/feature/user/user.api";
 import { Link } from "react-router";
 
 // Navigation links array to be used in both desktop and mobile menus
 
 export default function Navbar() {
 
+  // get user profile data and logout mutation
+  const { data: userProfile } = useGetUserProfileQuery(undefined);
   const [logout] = useLogoutMutation();
 
+  // Handle user logout
   const handleLogout = async () => {
     await logout(undefined)
   }
+
+
+
+
+  console.log(userProfile)
 
   return (
     <header className="border-b">

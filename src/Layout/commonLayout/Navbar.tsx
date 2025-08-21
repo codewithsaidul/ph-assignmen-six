@@ -14,26 +14,30 @@ import {
 } from "@/components/ui/popover";
 import { navigationLinks } from "@/constants";
 import { useLogoutMutation } from "@/redux/feature/auth/auth.api";
-import { useGetUserProfileQuery } from "@/redux/feature/user/user.api";
+import { useGetUserProfileQuery, userApi } from "@/redux/feature/user/user.api";
 import { Link } from "react-router";
+import ProfileAvatar from "./ProfileAvatar";
+import { useAppDispatch } from "@/redux/hook";
+import toast from "react-hot-toast";
 
 // Navigation links array to be used in both desktop and mobile menus
 
 export default function Navbar() {
-
   // get user profile data and logout mutation
   const { data: userProfile } = useGetUserProfileQuery(undefined);
   const [logout] = useLogoutMutation();
+  const dispatch = useAppDispatch();
 
   // Handle user logout
   const handleLogout = async () => {
-    await logout(undefined)
-  }
-
-
-
-
-  console.log(userProfile)
+     try {
+      await logout(undefined);
+      dispatch(userApi.util.resetApiState())
+      toast.success("Logout Successfully")
+    } catch {
+      toast.error("Logout failed!")
+    }
+  };
 
   return (
     <header className="border-b">
@@ -69,20 +73,19 @@ export default function Navbar() {
         </div>
         {/* Right side */}
         <div className="flex items-center gap-2">
-
           <div>
             <ModeToggle />
           </div>
 
 
-          {/* for testing at this moment */}
-          <Button onClick={handleLogout} size="sm" variant="outline" className="cursor-pointer">
-            Logout
-          </Button>
-
-          <Button asChild variant="default" size="sm" className="text-sm">
-            <Link to="/login">Log In</Link>
-          </Button>
+          
+          {userProfile ? (
+            <ProfileAvatar name={userProfile?.name} logOutFn={handleLogout} />
+          ) : (
+            <Button asChild variant="default" size="sm" className="text-sm">
+              <Link to="/login">Log In</Link>
+            </Button>
+          )}
 
           {/* Mobile menu trigger */}
           <Popover>
@@ -124,7 +127,10 @@ export default function Navbar() {
                 <NavigationMenuList className="flex-col items-end gap-0 md:gap-2">
                   {navigationLinks.map((link, index) => (
                     <NavigationMenuItem key={index} className="w-full">
-                      <NavigationMenuLink href={link.href} className="py-1.5 text-xl">
+                      <NavigationMenuLink
+                        href={link.href}
+                        className="py-1.5 text-xl"
+                      >
                         {link.label}
                       </NavigationMenuLink>
                     </NavigationMenuItem>

@@ -4,3 +4,12 @@ export const navigationLinks = [
   { href: "#", label: "Pricing" },
   { href: "#", label: "About" },
 ];
+
+
+
+
+export const role = {
+  admin: "ADMIN",
+  rider: "RIDER",
+  driver: "DRIVER",
+};

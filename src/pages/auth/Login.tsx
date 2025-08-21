@@ -17,19 +17,29 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { useLoginMutation } from "@/redux/feature/auth/auth.api";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import z from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
+import z from "zod";
 
 const loginSchema = z.object({
-    email: z.email({ message: "please provide valid email"}),
-    password: z.string().nonempty("password is required").min(6, "password must be at least 6 characters long")
-})
-
+  email: z
+    .string()
+    .nonempty("email is required")
+    .email({ message: "please provide valid email address" }),
+  password: z
+    .string()
+    .nonempty("password is required")
+    .min(6, "password must be at least 6 characters long"),
+});
 
 export default function Login() {
-  const form = useForm<z.infer <typeof loginSchema>>({
+  const navigate = useNavigate();
+  const [login, { isLoading }] = useLoginMutation();
+
+  const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
@@ -37,8 +47,29 @@ export default function Login() {
     },
   });
 
-  const onSubmit = async (values: z.infer <typeof loginSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof loginSchema>) => {
+    const toastId = toast.loading("LoggedIn...");
+
+    try {
+      const res = await login(values).unwrap();
+
+      if (res.success && res.statusCode === 200) {
+        toast.success(res.message, { id: toastId });
+        navigate("/");
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (
+        error.status === 401 &&
+        error.data.message === "You're not verifed. Please verify your email!"
+      ) {
+        toast.error(error.data.message, { id: toastId });
+        return;
+      } else if (error.data === "Network Error" && !error.status) {
+        return toast.error("Server is currently down", { id: toastId });
+      }
+      toast.error(error.data.message, { id: toastId });
+    }
   };
 
   return (
@@ -57,8 +88,8 @@ export default function Login() {
           </CardHeader>
           <CardContent>
             <div className="grid gap-6">
-              <div>
-                <Button type="button" variant="outline" className="w-full">
+              {/* <div>
+                <Button onClick={googleLogin} type="button" variant="outline" className="w-full">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
                       d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
@@ -72,7 +103,7 @@ export default function Login() {
                 <span className="bg-card text-muted-foreground relative z-10 px-2">
                   Or continue with
                 </span>
-              </div>
+              </div> */}
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
@@ -115,7 +146,13 @@ export default function Login() {
                     )}
                   />
 
-                  <Button className="w-full cursor-pointer">Login</Button>
+                  <Button
+                    type="submit"
+                    className="w-full cursor-pointer"
+                    disabled={isLoading}
+                  >
+                    Login
+                  </Button>
                 </form>
               </Form>
               <div className="text-center text-sm">

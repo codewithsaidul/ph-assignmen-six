@@ -1,4 +1,5 @@
 import Loading from "@/components/loading/Loading";
+import ChangePasswordModal from "@/components/modals/user/ChangePasswordModal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,19 +9,24 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { useGetUserProfileQuery } from "@/redux/feature/user/user.api";
+import { useState } from "react";
 import { Link } from "react-router";
 
 export default function UserProfile() {
   const { data: userProfile, isLoading } = useGetUserProfileQuery(undefined);
+  const [open, setOpen] = useState(false)
 
   if (isLoading) return <Loading />;
 
   return (
     <div>
-      <div>
-        <h2 className="text-3xl text-foreground font-ride-title mb-10">
+      <div className="flex items-center justify-between  mb-10">
+        <h2 className="text-2xl min-[350px]:text-3xl text-foreground font-ride-title">
           My Profile
         </h2>
+        <Button size="lg" variant="default" className="cursor-pointer" asChild>
+          <Link to="/dashboard/updateProfile">Edit Profile</Link>
+        </Button>
       </div>
       <div className="max-w-2xl w-full px-4 mx-auto">
         <Card className="w-full">
@@ -75,14 +81,7 @@ export default function UserProfile() {
             </div>
           </CardContent>
           <CardFooter className="flex justify-end">
-            <Button
-              size="lg"
-              variant="default"
-              className="cursor-pointer"
-              asChild
-            >
-              <Link to="/dashboard/updateProfile">Edit Profile</Link>
-            </Button>
+            <ChangePasswordModal open={open} onChange={setOpen} />
           </CardFooter>
         </Card>
       </div>

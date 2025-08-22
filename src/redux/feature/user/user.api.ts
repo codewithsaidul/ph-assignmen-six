@@ -1,4 +1,5 @@
 import { baseApi } from "@/redux/baseApi/base.api";
+import type { IResponse, IUpdateProfile, IUser } from "@/types";
 
 
 
@@ -15,9 +16,17 @@ export const userApi = baseApi.injectEndpoints({
             providesTags: ["User Profile"],
             transformResponse: (response) => response.data
         }),
+        updateUserInfo: builder.mutation<IResponse<IUser>, IUpdateProfile>({
+            query: ( { userId, userData }) => ({
+                url: `/user/${userId}`,
+                method: "PATCH",
+                data: userData
+            }),
+            invalidatesTags: ["User Profile"]
+        }),
     })
 })
 
 
 
-export const { useGetUserProfileQuery } = userApi
+export const { useGetUserProfileQuery, useUpdateUserInfoMutation } = userApi

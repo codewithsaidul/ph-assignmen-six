@@ -1,7 +1,7 @@
 import type { ComponentType } from "react"
 
 export type { ILogin, ILoginResponse, IRegister } from "./auth.types"
-export type { IUser } from "./user.types"
+export type { IUser, IUpdateProfile, IUserProfile } from "./user.types"
 export type { SidebarContextProps } from "./sidebar.types"
 
 

@@ -3,7 +3,7 @@ import type { ComponentType, Dispatch, SetStateAction } from "react"
 export type { ILogin, ILoginResponse, IRegister, IChangePassword } from "./auth.types"
 export type { IUser, IUpdateProfile, IUserProfile } from "./user.types"
 export type { SidebarContextProps } from "./sidebar.types"
-export type { IStatsCardProps, IAdminAnalytics, RevenueTrend, IAdminAnalyticsResponseData } from "./admin.types"
+export type { IStatsCardProps, IAdminAnalytics, IDailyRevenueData, IAdminAnalyticsResponseData } from "./admin.types"
 
 
 

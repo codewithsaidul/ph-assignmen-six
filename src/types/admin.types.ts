@@ -18,11 +18,11 @@ export interface IAdminAnalytics {
   availableDriver: number
   completedRides: number
   totalPlatformRevenue: number
-  revenueTrend: RevenueTrend
+  dailyRevenueData: IDailyRevenueData[]
 }
 
-export interface RevenueTrend {
-  lastSevenDaysPlatformEarnings: number
-  lastThirtyDaysPlatformEarnings: number
-  lastNintyDaysPlatformEarnings: number
+export interface IDailyRevenueData {
+  date: string
+  totalPlatformRevenue: number
+  totalGrossFare: number
 }

@@ -1,6 +1,6 @@
 import type { ComponentType, Dispatch, SetStateAction } from "react"
 
-export type { ILogin, ILoginResponse, IRegister } from "./auth.types"
+export type { ILogin, ILoginResponse, IRegister, IChangePassword } from "./auth.types"
 export type { IUser, IUpdateProfile, IUserProfile } from "./user.types"
 export type { SidebarContextProps } from "./sidebar.types"
 

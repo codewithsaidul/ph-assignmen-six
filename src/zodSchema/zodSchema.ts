@@ -62,10 +62,10 @@ export const updateProfileSchema = z.object({
 
 export const changePasswordSchema = z
   .object({
-    currentPassword: z
-      .string("Current Password must be a string")
-      .nonempty("Current Password is required")
-      .min(8, "Current Password must be contain at least 8 characters long"),
+    oldPassword: z
+      .string("Old Password must be a string")
+      .nonempty("Old Password is required")
+      .min(8, "Old Password must be contain at least 8 characters long"),
     newPassword: z
       .string()
       .nonempty({ message: "New Password is required" })
@@ -89,4 +89,8 @@ export const changePasswordSchema = z
   .refine((data) => data.newPassword === data.confirmNewPassword, {
     message: "New Password do not match",
     path: ["confirmNewPassword"],
+  })
+  .refine((data) => data.newPassword !== data.oldPassword, {
+    message: "New Password cannot be the same as the old one",
+    path: ["newPassword"],
   });

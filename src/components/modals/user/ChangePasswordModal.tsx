@@ -18,27 +18,51 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Password from "@/components/ui/Password";
+import { useChangePasswordMutation } from "@/redux/feature/auth/auth.api";
 import type { IModalsProps } from "@/types";
 import { changePasswordSchema } from "@/zodSchema/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import z from "zod";
 
-
-
-export default function ChangePasswordModal( { open, onChange }: IModalsProps ) {
+export default function ChangePasswordModal({ open, onChange }: IModalsProps) {
+  const [changePassword, { isLoading }] = useChangePasswordMutation();
   const form = useForm<z.infer<typeof changePasswordSchema>>({
     resolver: zodResolver(changePasswordSchema),
     defaultValues: {
-      currentPassword: "",
+      oldPassword: "",
       newPassword: "",
       confirmNewPassword: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof changePasswordSchema>) => {
-    console.log(values);
-    onChange(false)
+  const onSubmit = async (values: z.infer<typeof changePasswordSchema>) => {
+    const toastId = toast.loading("Changing...");
+    const data = {
+      oldPassword: values.oldPassword,
+      newPassword: values.newPassword,
+    };
+
+    try {
+      const res = await changePassword(data).unwrap();
+
+      if (res.success && res.statusCode === 200) {
+        onChange(false);
+        toast.success(res.message, { id: toastId });
+      }
+    } catch (error: unknown) {
+      const errorMessage =
+        typeof error === "object" &&
+        error !== null &&
+        "data" in error &&
+        typeof (error as { data?: unknown }).data === "object" &&
+        (error as { data?: unknown }).data !== null &&
+        "message" in (error as { data?: { message?: string } }).data!
+          ? (error as { data: { message: string } }).data.message
+          : "An error occurred";
+      toast.error(errorMessage, { id: toastId });
+    }
   };
 
   return (
@@ -58,13 +82,17 @@ export default function ChangePasswordModal( { open, onChange }: IModalsProps ) 
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form id="change-password-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form
+            id="change-password-form"
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6"
+          >
             <FormField
               control={form.control}
-              name="currentPassword"
+              name="oldPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Current Password</FormLabel>
+                  <FormLabel>Old Password</FormLabel>
                   <FormControl>
                     <Password {...field} />
                   </FormControl>
@@ -106,7 +134,12 @@ export default function ChangePasswordModal( { open, onChange }: IModalsProps ) 
               Cancel
             </Button>
           </DialogClose>
-          <Button form="change-password-form" type="submit" className="cursor-pointer">
+          <Button
+            form="change-password-form"
+            type="submit"
+            className="cursor-pointer"
+            disabled={isLoading}
+          >
             Save changes
           </Button>
         </DialogFooter>

@@ -16,36 +16,25 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useGetUserProfileQuery } from "@/redux/feature/user/user.api";
+import {
+  useGetUserProfileQuery,
+  useUpdateUserInfoMutation,
+} from "@/redux/feature/user/user.api";
+import { updateProfileSchema } from "@/zodSchema/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 import z from "zod";
 
-const updateProfileSchema = z.object({
-  name: z
-    .string()
-    .nonempty("Name is required")
-    .min(3, "name must be contain at least 3 characters lont"),
-  email: z
-    .string()
-    .nonempty("Email is required")
-    .email("please provide a valid email"),
-  phoneNumber: z
-    .string()
-    .nonempty("Phone Number is required")
-    .regex(/^(?:\+8801\d{9}|01\d{9})$/, {
-      message:
-        "Phone number must be valid for Bangladesh. Format: +8801XXXXXXXXX or 01XXXXXXXXX",
-    }),
-  address: z
-    .string()
-    .nonempty("Address is required")
-    .max(200, "Address cannot exceed 200 characters."),
-});
+
 
 export default function UpdateProfile() {
   const { data: userProfile, isLoading } = useGetUserProfileQuery(undefined);
+  const [updateUserInfo, { isLoading: updateProfileLoading }] =
+    useUpdateUserInfoMutation();
+  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof updateProfileSchema>>({
     resolver: zodResolver(updateProfileSchema),
@@ -56,7 +45,6 @@ export default function UpdateProfile() {
       address: userProfile?.address,
     },
   });
-
 
   useEffect(() => {
     // userProfile এ ডেটা থাকলে
@@ -70,12 +58,45 @@ export default function UpdateProfile() {
       });
     }
   }, [userProfile, form]);
-  
-  
-  if (isLoading) return <Loading />
 
-  const onSubmit = (values: z.infer<typeof updateProfileSchema>) => {
-    console.log(values);
+
+
+  if (isLoading) return <Loading />;
+
+
+  // Handle Update Profile
+  const onSubmit = async (values: z.infer<typeof updateProfileSchema>) => {
+    const toastId = toast.loading("Updating...");
+
+    const userData = {
+      name: values.name,
+      phoneNumber: values.phoneNumber,
+      address: values.address
+    }
+
+
+    try {
+      const res = await updateUserInfo({
+        userId: userProfile?._id,
+        userData: userData,
+      }).unwrap();
+
+      if (res.success && res.statusCode === 200) {
+        toast.success(res.message, { id: toastId });
+        navigate("/dashboard/profile")
+      }
+    } catch (error: unknown) {
+      const errorMessage =
+        typeof error === "object" &&
+        error !== null &&
+        "data" in error &&
+        typeof (error as { data?: unknown }).data === "object" &&
+        (error as { data?: unknown }).data !== null &&
+        "message" in (error as { data?: { message?: string } }).data!
+          ? (error as { data: { message: string } }).data.message
+          : "An error occurred";
+      toast.error(errorMessage, { id: toastId });
+    }
   };
 
   return (
@@ -109,7 +130,7 @@ export default function UpdateProfile() {
                         <Input
                           placeholder="Jhon Doe"
                           {...field}
-                          value={field.value  || ""}
+                          value={field.value || ""}
                         />
                       </FormControl>
                       <FormMessage />
@@ -127,11 +148,13 @@ export default function UpdateProfile() {
                         <Input
                           placeholder="john@example.com"
                           {...field}
-                          value={field.value  || ""}
+                          value={field.value || ""}
                           disabled
                         />
                       </FormControl>
-                      <FormDescription>Email can not be updated</FormDescription>
+                      <FormDescription>
+                        Email can not be updated
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -154,7 +177,6 @@ export default function UpdateProfile() {
                     </FormItem>
                   )}
                 />
-
 
                 <FormField
                   control={form.control}
@@ -183,6 +205,7 @@ export default function UpdateProfile() {
               variant="default"
               className="cursor-pointer"
               form="update-profile-form"
+              disabled={updateProfileLoading}
             >
               Save
             </Button>

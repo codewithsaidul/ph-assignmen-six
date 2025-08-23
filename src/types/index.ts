@@ -43,3 +43,8 @@ export interface ISidebarItem {
 }
 
 
+export interface PaginationPageProps {
+  page: number;
+  totalPages: number;
+  setPage: Dispatch<SetStateAction<number>>;
+}

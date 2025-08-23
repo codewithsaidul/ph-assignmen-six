@@ -27,6 +27,7 @@ export const rideApi = baseApi.injectEndpoints({
         };
       },
       providesTags: ["Rides"],
+
     }),
   }),
 });

@@ -2,6 +2,7 @@ import Loading from "@/components/loading/Loading";
 import RideActionMenu from "@/components/ModeToggle/RideActionMenu";
 import PaginationPage from "@/components/pagination/PaginationPage";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -15,32 +16,93 @@ import { cn } from "@/lib/utils";
 import { useGetAllRidesQuery } from "@/redux/feature/ride/ride.api";
 import { dateFormater } from "@/utils/dateFormater";
 import { formatCurrency } from "@/utils/formateCurrency";
-import { useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function ViewAllRides() {
   const [page, setPage] = useState(1);
-  const { data, isLoading } = useGetAllRidesQuery({
-    page: page,
-    limit: 20,
+  const [sortConfig, setSortConfig] = useState({
+    sortBy: "createdAt",
     sortOrder: "desc",
+  });
+  const [inputValue, setInputValue] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const limit = 20;
+
+  // --- Debounce Logic ---
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setSearchTerm(inputValue); // Updating searchTerm after 500ms
+    }, 500); // 500ms delay
+
+    // Cleanup function to clear the timeout if inputValue changes before 500ms
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [inputValue]);
+
+
+  // fetch all rides
+  const { data, isLoading } = useGetAllRidesQuery({
+    page,
+    limit,
+    sortBy: sortConfig.sortBy,
+    sortOrder: sortConfig.sortOrder,
+    searchTerm,
     fields: "fare  rideStatus createdAt",
   });
 
+
+
   if (isLoading && !data) return <Loading />;
+  
 
   const allRides = data?.data;
   const pagination = data?.meta;
-  console.log(pagination?.total);
+
+  const serialNumber = (page - 1) * limit;
+
+  // handle sorting by fare or createdAt(asc or desc)
+  const handleSort = (field: string) => {
+    let newSortOrder = "asc";
+    // যদি একই ফিল্ডে আবার ক্লিক করা হয়, তাহলে অর্ডার উল্টে দিন
+    if (sortConfig.sortBy === field && sortConfig.sortOrder === "asc") {
+      newSortOrder = "desc";
+    }
+    setSortConfig({ sortBy: field, sortOrder: newSortOrder });
+  };
+
+
+  // handle search when enter key was clicked
+  const handleSearchOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      setSearchTerm(inputValue);
+    }
+  };
 
   return (
     <div className="lg:px-6">
-      <h1 className="text-3xl text-foreground font-ride-title mb-10">
-        All Rides
-      </h1>
+      <div className="mb-10">
+        <h1 className="text-3xl text-foreground font-ride-title">All Rides</h1>
+      </div>
+
+      <div className="mb-10">
+        <Input
+          placeholder="Search rider, driver, status..."
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={handleSearchOnKeyDown}
+          className="max-w-sm"
+        />
+      </div>
 
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead className="text-xl text-forground font-ride-title font-semibold">
+              SL
+            </TableHead>
             <TableHead className="text-xl text-forground font-ride-title font-semibold">
               Rider name
             </TableHead>
@@ -50,11 +112,33 @@ export default function ViewAllRides() {
             <TableHead className="text-xl text-forground font-ride-title font-semibold">
               Status
             </TableHead>
-            <TableHead className="text-xl text-forground font-ride-title font-semibold">
-              Fare
+            <TableHead
+              onClick={() => handleSort("fare")}
+              className="cursor-pointer"
+            >
+              <p className="flex items-center gap-1">
+                <span>Fare</span>
+                {sortConfig.sortBy === "fare" &&
+                  (sortConfig.sortOrder === "asc" ? (
+                    <ChevronUp size={16} />
+                  ) : (
+                    <ChevronDown size={16} />
+                  ))}
+              </p>
             </TableHead>
-            <TableHead className="text-xl text-forground font-ride-title font-semibold">
-              Date
+            <TableHead
+              onClick={() => handleSort("createdAt")}
+              className="cursor-pointer flex items-center gap-1"
+            >
+              <p className="flex items-center gap-1">
+                <span>Date</span>
+                {sortConfig.sortBy === "createdAt" &&
+                  (sortConfig.sortOrder === "asc" ? (
+                    <ChevronUp size={16} />
+                  ) : (
+                    <ChevronDown size={16} />
+                  ))}
+              </p>
             </TableHead>
             <TableHead className="text-right text-xl text-forground font-ride-title font-semibold">
               Action
@@ -63,8 +147,11 @@ export default function ViewAllRides() {
         </TableHeader>
         <TableBody>
           {Array.isArray(allRides) &&
-            allRides.map((ride) => (
+            allRides.map((ride, idx) => (
               <TableRow key={ride._id}>
+                <TableCell className="font-medium">
+                  {serialNumber + idx + 1}
+                </TableCell>
                 <TableCell className="font-medium">
                   {ride?.rider?.name}
                 </TableCell>
@@ -91,15 +178,18 @@ export default function ViewAllRides() {
         </TableBody>
       </Table>
 
-      {pagination && pagination.total > 20 && (
-        <div className="mt-10">
-          <PaginationPage
-            page={page}
-            setPage={setPage}
-            totalPages={pagination?.totalPages}
-          />
-        </div>
-      )}
+      {Array.isArray(allRides) &&
+        allRides.length > 0 &&
+        pagination &&
+        pagination.total > 20 && (
+          <div className="mt-10">
+            <PaginationPage
+              page={page}
+              setPage={setPage}
+              totalPages={pagination?.totalPages}
+            />
+          </div>
+        )}
     </div>
   );
 }

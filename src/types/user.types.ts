@@ -9,8 +9,10 @@ export interface IUser {
   isVerified: boolean
   isActive: string
   isDeleted: boolean
+  isPasswordResetTokenUsed: boolean
+  createdAt: string
+  updatedAt: string
 }
-
 
 export interface IUpdateProfile {
   userId: string;

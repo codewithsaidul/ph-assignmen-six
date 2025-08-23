@@ -1,4 +1,5 @@
 import Loading from "@/components/loading/Loading";
+import RecentRides from "@/components/modals/admin/Analytics/RecentRides";
 import RevenueChart from "@/components/modals/admin/Analytics/RevenueChart";
 import StatsCards from "@/components/modals/admin/Analytics/StatsCards";
 import { useGetAdminAnalyticsQuery } from "@/redux/feature/admin/admin.api";
@@ -8,7 +9,6 @@ export default function Analytics() {
 
   if (isLoading || !analytics) return <Loading />;
 
-  console.log(analytics.dailyRevenueData)
 
   return (
     <div>
@@ -23,6 +23,8 @@ export default function Analytics() {
         />
 
         <RevenueChart dailyRevenueData={analytics.dailyRevenueData} />
+
+        <RecentRides />
       </div>
     </div>
   );

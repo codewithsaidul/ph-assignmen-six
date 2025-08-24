@@ -1,7 +1,9 @@
 import Loading from "@/components/loading/Loading";
-import RideActionMenu from "@/components/ModeToggle/RideActionMenu";
+import { RideStatusUpdateModal } from "@/components/modals/common/RideStatusUpdateModal";
 import PaginationPage from "@/components/pagination/PaginationPage";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -14,12 +16,15 @@ import {
 import { statusColorMap } from "@/constants";
 import { cn } from "@/lib/utils";
 import { useGetAllRidesQuery } from "@/redux/feature/ride/ride.api";
+import type { IRide } from "@/types";
 import { dateFormater } from "@/utils/dateFormater";
 import { formatCurrency } from "@/utils/formateCurrency";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Eye, Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function ViewAllRides() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedRide, setSelectedRide] = useState<IRide | null>(null);
   const [page, setPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({
     sortBy: "createdAt",
@@ -41,7 +46,6 @@ export default function ViewAllRides() {
     };
   }, [inputValue]);
 
-
   // fetch all rides
   const { data, isLoading } = useGetAllRidesQuery({
     page,
@@ -52,10 +56,7 @@ export default function ViewAllRides() {
     fields: "fare  rideStatus createdAt",
   });
 
-
-
   if (isLoading && !data) return <Loading />;
-  
 
   const allRides = data?.data;
   const pagination = data?.meta;
@@ -72,7 +73,6 @@ export default function ViewAllRides() {
     setSortConfig({ sortBy: field, sortOrder: newSortOrder });
   };
 
-
   // handle search when enter key was clicked
   const handleSearchOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -80,6 +80,13 @@ export default function ViewAllRides() {
       setSearchTerm(inputValue);
     }
   };
+
+
+  // handle status update modal
+  const handleModal = (ride: IRide) => {
+    setSelectedRide(ride)
+    setIsOpen(true)
+  }
 
   return (
     <div className="lg:px-6">
@@ -170,8 +177,27 @@ export default function ViewAllRides() {
                 </TableCell>
                 <TableCell>{formatCurrency(ride?.fare)}</TableCell>
                 <TableCell>{dateFormater(ride?.createdAt)}</TableCell>
-                <TableCell className="text-right">
-                  <RideActionMenu />
+                <TableCell className="text-right flex items-center justify-end gap-3">
+                  {/* <div> */}
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button
+                        size="icon"
+                        onClick={() => handleModal(ride)}
+                        className="cursor-pointer bg-blue-700 dark:text-foreground dark:bg-blue-500"
+                      >
+                        <Pencil />
+                      </Button>
+                    </DialogTrigger>
+                  </Dialog>
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    className="cursor-pointer"
+                  >
+                    <Eye />
+                  </Button>
+                  {/* </div> */}
                 </TableCell>
               </TableRow>
             ))}
@@ -190,6 +216,12 @@ export default function ViewAllRides() {
             />
           </div>
         )}
+
+
+        {/* =============== open status update modal */}
+        {
+          isOpen && selectedRide && <RideStatusUpdateModal ride={selectedRide} open={isOpen} onChange={setIsOpen} />
+        }
     </div>
   );
 }

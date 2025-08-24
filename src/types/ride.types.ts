@@ -1,6 +1,6 @@
 import type { IUser } from "./user.types";
 
-export interface IRides {
+export interface IRide {
   _id: string;
   rider: IUser;
   driver: IUser;
@@ -41,5 +41,5 @@ export interface IRidesParams {
 
 
 export interface IRideData {
-  data: IRides[]
+  data: IRide[]
 }

@@ -4,7 +4,7 @@ export type { ILogin, ILoginResponse, IRegister, IChangePassword } from "./auth.
 export type { IUser, IUpdateProfile, IUserProfile } from "./user.types"
 export type { SidebarContextProps } from "./sidebar.types"
 export type { IStatsCardProps, IAdminAnalytics, IDailyRevenueData, IAdminAnalyticsResponseData } from "./admin.types"
-export type { IRides, IRideData, IStatusLog, IRidesParams, IPickedupLocation, IDestinationLocation } from "./ride.types"
+export type { IRide, IRideData, IStatusLog, IRidesParams, IPickedupLocation, IDestinationLocation } from "./ride.types"
 
 
 export type Theme = "dark" | "light" | "system"

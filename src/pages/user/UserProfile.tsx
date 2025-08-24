@@ -14,13 +14,13 @@ import { Link } from "react-router";
 
 export default function UserProfile() {
   const { data: userProfile, isLoading } = useGetUserProfileQuery(undefined);
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   if (isLoading) return <Loading />;
 
   return (
     <div>
-      <div className="flex items-center justify-between  mb-10">
+      <div className="flex items-center justify-between mb-10">
         <h2 className="text-2xl min-[350px]:text-3xl text-foreground font-ride-title">
           My Profile
         </h2>
@@ -28,7 +28,7 @@ export default function UserProfile() {
           <Link to="/dashboard/updateProfile">Edit Profile</Link>
         </Button>
       </div>
-      <div className="max-w-2xl w-full px-4 mx-auto">
+      <div className="max-w-2xl w-full mx-auto">
         <Card className="w-full">
           <CardHeader className="flex flex-col items-center">
             <Avatar className="cursor-pointer w-28 h-28">

@@ -106,7 +106,7 @@ export default function UpdateProfile() {
           Update Profile
         </h2>
       </div>
-      <div className="max-w-2xl w-full px-4 mx-auto">
+      <div className="max-w-2xl w-full mx-auto">
         <Card className="w-full">
           <CardHeader className="flex flex-col items-center">
             <h1 className="text-2xl text-foreground font-ride-title mt-7">

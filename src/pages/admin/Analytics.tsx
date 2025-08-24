@@ -1,14 +1,13 @@
 import Loading from "@/components/loading/Loading";
-import RecentRides from "@/components/modals/admin/Analytics/RecentRides";
-import RevenueChart from "@/components/modals/admin/Analytics/RevenueChart";
-import StatsCards from "@/components/modals/admin/Analytics/StatsCards";
+import RecentRides from "@/components/modules/admin/Analytics/RecentRides";
+import RevenueChart from "@/components/modules/admin/Analytics/RevenueChart";
+import StatsCards from "@/components/modules/admin/Analytics/StatsCards";
 import { useGetAdminAnalyticsQuery } from "@/redux/feature/admin/admin.api";
 
 export default function Analytics() {
   const { data: analytics, isLoading } = useGetAdminAnalyticsQuery(undefined);
 
   if (isLoading || !analytics) return <Loading />;
-
 
   return (
     <div>

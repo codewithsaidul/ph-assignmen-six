@@ -14,15 +14,21 @@ import {
 } from "@/components/ui/table";
 import { userStatusColorMap } from "@/constants";
 import { cn } from "@/lib/utils";
-import { useGetAllUsersQuery } from "@/redux/feature/user/user.api";
+import {
+  useDeleteUserMutation,
+  useGetAllUsersQuery,
+} from "@/redux/feature/user/user.api";
 import { dateFormater } from "@/utils/dateFormater";
-import { Eye, Pencil } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 export default function AllUsers() {
   const [page, setPage] = useState(1);
   const [inputValue, setInputValue] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [deleteUser] = useDeleteUserMutation();
   const limit = 20;
 
   // --- Debounce Logic ---
@@ -44,7 +50,8 @@ export default function AllUsers() {
     sortBy: "createdAt",
     sortOrder: "desc",
     searchTerm,
-    fields: "name email role isActive status phoneNumber address createdAt",
+    fields:
+      "name email role isActive isDeleted status phoneNumber address createdAt",
   });
 
   if (isLoading && !data) return <Loading />;
@@ -62,7 +69,38 @@ export default function AllUsers() {
     }
   };
 
-  console.log(searchTerm);
+  const handleDeleteUser = async (userId: string) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    const toastId = toast.loading("Deleting...");
+    try {
+      if (result.isConfirmed) {
+        const res = await deleteUser(userId).unwrap();
+        if (res.success && res.statusCode === 200) {
+          toast.success(res.message, { id: toastId });
+        }
+      }
+    } catch (error: unknown) {
+      const errorMessage =
+        typeof error === "object" &&
+        error !== null &&
+        "data" in error &&
+        typeof (error as { data?: unknown }).data === "object" &&
+        (error as { data?: unknown }).data !== null &&
+        "message" in (error as { data?: { message?: string } }).data!
+          ? (error as { data: { message: string } }).data.message
+          : "An error occurred";
+      toast.error(errorMessage, { id: toastId });
+    }
+  };
 
   return (
     <div className="lg:px-6">
@@ -90,6 +128,9 @@ export default function AllUsers() {
               Name
             </TableHead>
             <TableHead className="text-xl text-forground font-ride-title font-semibold">
+              Email
+            </TableHead>
+            <TableHead className="text-xl text-forground font-ride-title font-semibold">
               Phone
             </TableHead>
             <TableHead className="text-xl text-forground font-ride-title font-semibold">
@@ -115,19 +156,27 @@ export default function AllUsers() {
                   {serialNumber + idx + 1}
                 </TableCell>
                 <TableCell className="font-medium">{user?.name}</TableCell>
+                <TableCell className="font-medium">{user?.email}</TableCell>
                 <TableCell className="font-medium">
                   {user?.phoneNumber || "Not Provided"}
                 </TableCell>
-                <TableCell className="font-medium">{user?.address || "Not Provided"}</TableCell>
-                <TableCell className="font-medium capitalize">{user?.role}</TableCell>
+                <TableCell className="font-medium">
+                  {user?.address || "Not Provided"}
+                </TableCell>
+                <TableCell className="font-medium capitalize">
+                  {user?.role}
+                </TableCell>
                 <TableCell>
                   <Badge
                     className={cn(
                       "capitalize max-w-fit",
-                      userStatusColorMap[user?.status]
+                      userStatusColorMap[user?.status],
+                      user.isDeleted
+                        ? "text-red-800 bg-red-100 dark:text-red-300 dark:bg-red-900/50"
+                        : ""
                     )}
                   >
-                    {user?.status}
+                    {user?.isDeleted ? "Deleted" : user?.status}
                   </Badge>
                 </TableCell>
                 <TableCell>{dateFormater(new Date(user?.createdAt))}</TableCell>
@@ -144,10 +193,11 @@ export default function AllUsers() {
                   </Dialog>
                   <Button
                     size="icon"
-                    variant="outline"
-                    className="cursor-pointer"
+                    variant="default"
+                    className="cursor-pointer bg-red-500"
+                    onClick={() => handleDeleteUser(user._id)}
                   >
-                    <Eye />
+                    <Trash2 />
                   </Button>
                 </TableCell>
               </TableRow>

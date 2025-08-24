@@ -45,11 +45,11 @@ export default function Navbar() {
         {/* Left side */}
         {/* Main nav */}
         <div className="flex items-center gap-6">
-          <div className=" flex items-center gap-2">
-            <Link to="/" className="text-primary hover:text-primary/90">
+          <div className="">
+            <Link to="/" className="hover:text-primary duration-500 hover:duration-500 flex items-center gap-2">
               <Logo width="28" height="28" />
-            </Link>
             <h2 className="text-3xl font-ride-title">Rydex</h2>
+            </Link>
           </div>
         </div>
 

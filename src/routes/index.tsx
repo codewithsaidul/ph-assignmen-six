@@ -3,13 +3,13 @@ import { role } from "@/constants";
 import DashboardLayout from "@/Layout/dashboard/DashboardLayout";
 import Login from "@/pages/auth/Login";
 import Register from "@/pages/auth/Register";
+import UpdateProfile from "@/pages/user/UpdateProfile";
 import type { TRole } from "@/types";
 import { generateRoutes } from "@/utils/generateRoutes";
 import { withAuth } from "@/utils/withAuth";
 import { createBrowserRouter, Navigate } from "react-router";
 import { adminSidebarItems } from "./adminSidebarItems";
-import { userSidebarItems } from "./userSidebarItems";
-import UpdateProfile from "@/pages/user/UpdateProfile";
+import UserProfile from "@/pages/user/UserProfile";
 
 export const router = createBrowserRouter([
   {
@@ -25,11 +25,14 @@ export const router = createBrowserRouter([
     ] as TRole[]),
     children: [
       { index: true, element: <Navigate to="/dashboard/profile" /> },
-      ...generateRoutes(userSidebarItems),
+      {
+        path: "/dashboard/profile",
+        Component: UserProfile,
+      },
       {
         path: "/dashboard/updateProfile",
-        Component: UpdateProfile
-      }
+        Component: UpdateProfile,
+      },
     ],
   },
   {

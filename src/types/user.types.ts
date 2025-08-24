@@ -1,22 +1,24 @@
-
-
 export interface IUser {
-  _id: string
-  name: string
-  email: string
-  address: string
-  role: string
-  isVerified: boolean
-  isActive: string
-  isDeleted: boolean
-  isPasswordResetTokenUsed: boolean
-  createdAt: string
+  _id: string;
+  name: string;
+  email: string;
+  password: string;
+  role: string;
+  profilePicture: string;
+  phoneNumber: string;
+  address: string;
+  isActive: string;
+  isVerified: boolean;
+  isDeleted: boolean;
+  status: string;
+  isPasswordResetTokenUsed?: boolean;
+  createdAt: string;
   updatedAt: string
 }
 
 export interface IUpdateProfile {
   userId: string;
-  userData: IUserProfile
+  userData: IUserProfile;
 }
 
 export interface IUserProfile {

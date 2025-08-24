@@ -13,7 +13,8 @@ import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/utils/formateCurrency";
 import { Eye } from "lucide-react";
-import { statusColorMap } from "@/constants";
+import { rideStatusColorMap } from "@/constants";
+
 
 
 export default function RecentRides() {
@@ -56,7 +57,7 @@ export default function RecentRides() {
                   <Badge
                     className={cn(
                       "capitalize max-w-fit",
-                      statusColorMap[ride?.rideStatus]
+                      rideStatusColorMap[ride?.rideStatus]
                     )}
                   >
                     {ride?.rideStatus?.replace("_", " ")}

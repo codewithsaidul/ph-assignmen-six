@@ -1,5 +1,4 @@
 import Loading from "@/components/loading/Loading";
-import { RideStatusUpdateModal } from "@/components/modals/common/RideStatusUpdateModal";
 import PaginationPage from "@/components/pagination/PaginationPage";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,23 +12,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { rideStatusColorMap } from "@/constants";
+import { userStatusColorMap } from "@/constants";
 import { cn } from "@/lib/utils";
-import { useGetAllRidesQuery } from "@/redux/feature/ride/ride.api";
-import type { IRide } from "@/types";
+import { useGetAllUsersQuery } from "@/redux/feature/user/user.api";
 import { dateFormater } from "@/utils/dateFormater";
-import { formatCurrency } from "@/utils/formateCurrency";
-import { ChevronDown, ChevronUp, Eye, Pencil } from "lucide-react";
+import { Eye, Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export default function ViewAllRides() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedRide, setSelectedRide] = useState<IRide | null>(null);
+export default function AllUsers() {
   const [page, setPage] = useState(1);
-  const [sortConfig, setSortConfig] = useState({
-    sortBy: "createdAt",
-    sortOrder: "desc",
-  });
   const [inputValue, setInputValue] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const limit = 20;
@@ -47,31 +38,21 @@ export default function ViewAllRides() {
   }, [inputValue]);
 
   // fetch all rides
-  const { data, isLoading } = useGetAllRidesQuery({
+  const { data, isLoading } = useGetAllUsersQuery({
     page,
     limit,
-    sortBy: sortConfig.sortBy,
-    sortOrder: sortConfig.sortOrder,
+    sortBy: "createdAt",
+    sortOrder: "desc",
     searchTerm,
-    fields: "fare  rideStatus createdAt",
+    fields: "name email role isActive status phoneNumber address createdAt",
   });
 
   if (isLoading && !data) return <Loading />;
 
-  const allRides = data?.data;
+  const allUsers = data?.data;
   const pagination = data?.meta;
 
   const serialNumber = (page - 1) * limit;
-
-  // handle sorting by fare or createdAt(asc or desc)
-  const handleSort = (field: string) => {
-    let newSortOrder = "asc";
-    // যদি একই ফিল্ডে আবার ক্লিক করা হয়, তাহলে অর্ডার উল্টে দিন
-    if (sortConfig.sortBy === field && sortConfig.sortOrder === "asc") {
-      newSortOrder = "desc";
-    }
-    setSortConfig({ sortBy: field, sortOrder: newSortOrder });
-  };
 
   // handle search when enter key was clicked
   const handleSearchOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -81,21 +62,17 @@ export default function ViewAllRides() {
     }
   };
 
-  // handle status update modal
-  const handleModal = (ride: IRide) => {
-    setSelectedRide(ride);
-    setIsOpen(true);
-  };
+  console.log(searchTerm);
 
   return (
     <div className="lg:px-6">
       <div className="mb-10">
-        <h1 className="text-3xl text-foreground font-ride-title">All Rides</h1>
+        <h1 className="text-3xl text-foreground font-ride-title">All Users</h1>
       </div>
 
       <div className="mb-10">
         <Input
-          placeholder="Search rider, driver, status..."
+          placeholder="Search name, phone, address..."
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleSearchOnKeyDown}
@@ -110,79 +87,55 @@ export default function ViewAllRides() {
               SL
             </TableHead>
             <TableHead className="text-xl text-forground font-ride-title font-semibold">
-              Rider name
+              Name
             </TableHead>
             <TableHead className="text-xl text-forground font-ride-title font-semibold">
-              Driver name
+              Phone
+            </TableHead>
+            <TableHead className="text-xl text-forground font-ride-title font-semibold">
+              Address
+            </TableHead>
+            <TableHead className="text-xl text-forground font-ride-title font-semibold">
+              Role
             </TableHead>
             <TableHead className="text-xl text-forground font-ride-title font-semibold">
               Status
             </TableHead>
-            <TableHead
-              onClick={() => handleSort("fare")}
-              className="cursor-pointer"
-            >
-              <p className="flex items-center gap-1">
-                <span>Fare</span>
-                {sortConfig.sortBy === "fare" &&
-                  (sortConfig.sortOrder === "asc" ? (
-                    <ChevronUp size={16} />
-                  ) : (
-                    <ChevronDown size={16} />
-                  ))}
-              </p>
-            </TableHead>
-            <TableHead
-              onClick={() => handleSort("createdAt")}
-              className="cursor-pointer flex items-center gap-1"
-            >
-              <p className="flex items-center gap-1">
-                <span>Date</span>
-                {sortConfig.sortBy === "createdAt" &&
-                  (sortConfig.sortOrder === "asc" ? (
-                    <ChevronUp size={16} />
-                  ) : (
-                    <ChevronDown size={16} />
-                  ))}
-              </p>
-            </TableHead>
+            <TableHead className="cursor-pointer">Date</TableHead>
             <TableHead className="text-right text-xl text-forground font-ride-title font-semibold">
               Action
             </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {Array.isArray(allRides) &&
-            allRides.map((ride, idx) => (
-              <TableRow key={ride._id}>
+          {Array.isArray(allUsers) &&
+            allUsers.map((user, idx) => (
+              <TableRow key={user._id}>
                 <TableCell className="font-medium">
                   {serialNumber + idx + 1}
                 </TableCell>
+                <TableCell className="font-medium">{user?.name}</TableCell>
                 <TableCell className="font-medium">
-                  {ride?.rider?.name}
+                  {user?.phoneNumber || "Not Provided"}
                 </TableCell>
-                <TableCell className="font-medium">
-                  {ride?.driver?.name || "Not Assigned"}
-                </TableCell>
+                <TableCell className="font-medium">{user?.address || "Not Provided"}</TableCell>
+                <TableCell className="font-medium capitalize">{user?.role}</TableCell>
                 <TableCell>
                   <Badge
                     className={cn(
                       "capitalize max-w-fit",
-                      rideStatusColorMap[ride?.rideStatus]
+                      userStatusColorMap[user?.status]
                     )}
                   >
-                    {ride?.rideStatus?.replace("_", " ")}
+                    {user?.status}
                   </Badge>
                 </TableCell>
-                <TableCell>{formatCurrency(ride?.fare)}</TableCell>
-                <TableCell>{dateFormater(ride?.createdAt)}</TableCell>
+                <TableCell>{dateFormater(new Date(user?.createdAt))}</TableCell>
                 <TableCell className="text-right flex items-center justify-end gap-3">
-                  {/* <div> */}
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button
                         size="icon"
-                        onClick={() => handleModal(ride)}
                         className="cursor-pointer bg-blue-700 dark:text-foreground dark:bg-blue-500"
                       >
                         <Pencil />
@@ -196,15 +149,14 @@ export default function ViewAllRides() {
                   >
                     <Eye />
                   </Button>
-                  {/* </div> */}
                 </TableCell>
               </TableRow>
             ))}
         </TableBody>
       </Table>
 
-      {Array.isArray(allRides) &&
-        allRides.length > 0 &&
+      {Array.isArray(allUsers) &&
+        allUsers.length > 0 &&
         pagination &&
         pagination.total > 20 && (
           <div className="mt-10">
@@ -217,13 +169,6 @@ export default function ViewAllRides() {
         )}
 
       {/* =============== open status update modal */}
-      {isOpen && selectedRide && (
-        <RideStatusUpdateModal
-          ride={selectedRide}
-          open={isOpen}
-          onChange={setIsOpen}
-        />
-      )}
     </div>
   );
 }

@@ -16,13 +16,20 @@ export const userApi = baseApi.injectEndpoints({
             providesTags: ["User Profile"],
             transformResponse: (response) => response.data
         }),
+        getAllUsers: builder.query({
+            query: () => ({
+                url: "/user/all-users",
+                method: "GET",
+            }),
+            providesTags: ["Users"],
+        }),
         updateUserInfo: builder.mutation<IResponse<IUser>, IUpdateProfile>({
             query: ( { userId, userData }) => ({
                 url: `/user/${userId}`,
                 method: "PATCH",
                 data: userData
             }),
-            invalidatesTags: ["User Profile"]
+            invalidatesTags: ["Users", "User Profile"]
         }),
     })
 })

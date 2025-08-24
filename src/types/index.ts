@@ -6,7 +6,7 @@ export type {
   IRegister,
   IChangePassword,
 } from "./auth.types";
-export type { IUser, IUpdateProfile, IUserProfile } from "./user.types";
+export type { IUser, IUpdateProfile, IUserProfile, IRiderUpdateStatus, IUpdateDriverStatus } from "./user.types";
 export type { SidebarContextProps } from "./sidebar.types";
 export type {
   IStatsCardProps,

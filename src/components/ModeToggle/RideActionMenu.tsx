@@ -6,7 +6,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { EllipsisVertical } from "lucide-react";
-import { RideStatusUpdateModal } from "../modals/common/RideStatusUpdateModal";
+import { RideStatusUpdateModal } from "../modals/ride/RideStatusUpdateModal";
 
 export default function RideActionMenu() {
   return (
@@ -21,7 +21,9 @@ export default function RideActionMenu() {
         <DropdownMenuItem className="cursor-pointer">
           <RideStatusUpdateModal />
         </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer">View Details</DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer">
+          View Details
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

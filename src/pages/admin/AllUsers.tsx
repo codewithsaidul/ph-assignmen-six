@@ -1,4 +1,5 @@
 import Loading from "@/components/loading/Loading";
+import { UserStatusUpdateModal } from "@/components/modals/user/UserStatusUpdateModal";
 import PaginationPage from "@/components/pagination/PaginationPage";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ import {
   useDeleteUserMutation,
   useGetAllUsersQuery,
 } from "@/redux/feature/user/user.api";
+import type { IUser } from "@/types";
 import { dateFormater } from "@/utils/dateFormater";
 import { Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -28,6 +30,8 @@ export default function AllUsers() {
   const [page, setPage] = useState(1);
   const [inputValue, setInputValue] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
   const [deleteUser] = useDeleteUserMutation();
   const limit = 20;
 
@@ -69,6 +73,7 @@ export default function AllUsers() {
     }
   };
 
+  // handle delete user
   const handleDeleteUser = async (userId: string) => {
     const result = await Swal.fire({
       title: "Are you sure?",
@@ -100,6 +105,12 @@ export default function AllUsers() {
           : "An error occurred";
       toast.error(errorMessage, { id: toastId });
     }
+  };
+
+  // handle user status update modal
+  const handleModal = (user: IUser) => {
+    setSelectedUser(user);
+    setIsOpen(true);
   };
 
   return (
@@ -186,6 +197,7 @@ export default function AllUsers() {
                       <Button
                         size="icon"
                         className="cursor-pointer bg-blue-700 dark:text-foreground dark:bg-blue-500"
+                        onClick={() => handleModal(user)}
                       >
                         <Pencil />
                       </Button>
@@ -219,6 +231,13 @@ export default function AllUsers() {
         )}
 
       {/* =============== open status update modal */}
+      {isOpen && selectedUser && (
+        <UserStatusUpdateModal
+          user={selectedUser}
+          open={isOpen}
+          onChange={setIsOpen}
+        />
+      )}
     </div>
   );
 }

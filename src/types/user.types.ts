@@ -1,3 +1,4 @@
+
 export interface IUser {
   _id: string;
   name: string;
@@ -25,4 +26,14 @@ export interface IUserProfile {
   name: string;
   phoneNumber: string;
   address: string;
+}
+
+export interface IRiderUpdateStatus {
+  isActive: string;
+  userId: string
+}
+
+export interface IUpdateDriverStatus {
+  driverId: string;
+  driverStatus: string;
 }

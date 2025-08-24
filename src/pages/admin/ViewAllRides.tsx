@@ -1,5 +1,5 @@
 import Loading from "@/components/loading/Loading";
-import { RideStatusUpdateModal } from "@/components/modals/common/RideStatusUpdateModal";
+import { RideStatusUpdateModal } from "@/components/modals/ride/RideStatusUpdateModal";
 import PaginationPage from "@/components/pagination/PaginationPage";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

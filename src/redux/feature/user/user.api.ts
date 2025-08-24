@@ -1,5 +1,5 @@
 import { baseApi } from "@/redux/baseApi/base.api";
-import type { IResponse, IRidesParams, IUpdateProfile, IUser } from "@/types";
+import type { IResponse, IRiderUpdateStatus, IRidesParams, IUpdateDriverStatus, IUpdateProfile, IUser } from "@/types";
 
 export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -42,6 +42,22 @@ export const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Users", "User Profile"],
     }),
+    updateRiderStatus: builder.mutation<IResponse<IUser>, IRiderUpdateStatus>({
+      query: (userData) => ({
+        url: `/user/${userData.userId}/userStatus`,
+        method: "PATCH",
+        data: userData,
+      }),
+      invalidatesTags: ["Users", "User Profile"],
+    }),
+    updateDriverStatus: builder.mutation<IResponse<null>, IUpdateDriverStatus>({
+      query: (userData) => ({
+        url: `/drivers/${userData.driverId}/driverStatus`,
+        method: "PATCH",
+        data: userData,
+      }),
+      invalidatesTags: ["Users", "User Profile"],
+    }),
     deleteUser: builder.mutation<IResponse<null>, string>({
       query: (userId) => ({
         url: `/user/${userId}`,
@@ -56,5 +72,7 @@ export const {
   useGetUserProfileQuery,
   useGetAllUsersQuery,
   useUpdateUserInfoMutation,
+  useUpdateRiderStatusMutation,
+  useUpdateDriverStatusMutation,
   useDeleteUserMutation
 } = userApi;

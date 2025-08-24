@@ -23,10 +23,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useUpdateRideStatusMutation } from "@/redux/feature/ride/ride.api";
 import type { IRide } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, type Dispatch, type SetStateAction } from "react";
+import { type Dispatch, type SetStateAction } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import z from "zod";
 
 interface IRideStatusProps {
@@ -44,23 +46,36 @@ export function RideStatusUpdateModal({
   open,
   onChange,
 }: IRideStatusProps) {
+  const [updateRideStatus] = useUpdateRideStatusMutation()
   const form = useForm<z.infer<typeof rideStatusSchema>>({
     resolver: zodResolver(rideStatusSchema),
     defaultValues: {
       rideStatus: ride.rideStatus,
     },
   });
-  
-  useEffect(() => {
-    if (ride) {
-      form.reset({
-        rideStatus: ride.rideStatus
-      })
+
+  const onSubmit = async (values: z.infer<typeof rideStatusSchema>) => {
+    const toastId = toast.loading("Updating...")
+    
+    try {
+      const res = await updateRideStatus({ rideId: ride._id, rideStatus: values }).unwrap();
+
+      if (res.success && res.statusCode === 200) {
+        toast.success(res.message, { id: toastId })
+        onChange(false)
+      }
+    } catch (error: unknown) {
+      const errorMessage =
+        typeof error === "object" &&
+        error !== null &&
+        "data" in error &&
+        typeof (error as { data?: unknown }).data === "object" &&
+        (error as { data?: unknown }).data !== null &&
+        "message" in (error as { data?: { message?: string } }).data!
+          ? (error as { data: { message: string } }).data.message
+          : "An error occurred";
+      toast.error(errorMessage, { id: toastId });
     }
-  }, [ride, form])
-  
-  const onSubmit = (values: z.infer<typeof rideStatusSchema>) => {
-    console.log(values);
   };
 
   return (
@@ -69,7 +84,8 @@ export function RideStatusUpdateModal({
         <DialogHeader>
           <DialogTitle>Update Ride Status</DialogTitle>
           <DialogDescription>
-            Select a new status for this ride from the list below and click 'Save changes' to apply.
+            Select a new status for this ride from the list below and click
+            'Save changes' to apply.
           </DialogDescription>
         </DialogHeader>
         <div>
@@ -95,28 +111,13 @@ export function RideStatusUpdateModal({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="requested">
-                          Requested
-                        </SelectItem>
-                        <SelectItem value="cancelled">
-                          Cancelled
-                        </SelectItem>
-                        <SelectItem value="rejected">
-                          Rejected
-                        </SelectItem>
-                        <SelectItem value="accepted">
-                          Accepted
-                        </SelectItem>
-                        <SelectItem value="picked_up">
-                          Picked Up
-                        </SelectItem>
-                        <SelectItem value="in_transit">
-                          In Transit
-                        </SelectItem>
-                        <SelectItem value="completed">
-                          Completed
-                        </SelectItem>
-
+                        <SelectItem value="requested">Requested</SelectItem>
+                        <SelectItem value="cancelled">Cancelled</SelectItem>
+                        <SelectItem value="rejected">Rejected</SelectItem>
+                        <SelectItem value="accepted">Accepted</SelectItem>
+                        <SelectItem value="picked_up">Picked Up</SelectItem>
+                        <SelectItem value="in_transit">In Transit</SelectItem>
+                        <SelectItem value="completed">Completed</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -128,9 +129,17 @@ export function RideStatusUpdateModal({
         </div>
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="outline" className="cursor-pointer">Cancel</Button>
+            <Button variant="outline" className="cursor-pointer">
+              Cancel
+            </Button>
           </DialogClose>
-          <Button type="submit" form="ride-status-form" className="cursor-pointer">Save changes</Button>
+          <Button
+            type="submit"
+            form="ride-status-form"
+            className="cursor-pointer"
+          >
+            Save changes
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

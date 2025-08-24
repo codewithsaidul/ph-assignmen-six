@@ -43,3 +43,11 @@ export interface IRidesParams {
 export interface IRideData {
   data: IRide[]
 }
+
+export interface RideStatus {
+  rideStatus: string
+}
+export interface IUpdateRideStatus {
+  rideId: string;
+  rideStatus: RideStatus
+}

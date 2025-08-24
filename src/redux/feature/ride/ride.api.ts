@@ -1,10 +1,8 @@
 import { baseApi } from "@/redux/baseApi/base.api";
-import type { IResponse, IRideData, IRidesParams } from "@/types";
+import type { IResponse, IRide, IRideData, IRidesParams, IUpdateRideStatus } from "@/types";
 
 export const rideApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // ... আপনার builder এর ভেতরে
-
     getAllRides: builder.query<IResponse<IRideData>, IRidesParams>({
       query: ({ page = 1, limit = 10, sortBy = "createdAt", sortOrder = "desc", searchTerm, fields }) => {
         const params = new URLSearchParams();
@@ -27,11 +25,18 @@ export const rideApi = baseApi.injectEndpoints({
         };
       },
       providesTags: ["Rides"],
-
     }),
+    updateRideStatus: builder.mutation<IResponse<IRide>, IUpdateRideStatus>({
+      query: ({ rideId, rideStatus }) => ({
+        url: `/rides/${rideId}/rideStatus`,
+        method: "PATCH",
+        data: rideStatus
+      }),
+      invalidatesTags: ["Rides"]
+    })
   }),
 });
 
 
 
-export const { useGetAllRidesQuery } = rideApi
+export const { useGetAllRidesQuery, useUpdateRideStatusMutation } = rideApi

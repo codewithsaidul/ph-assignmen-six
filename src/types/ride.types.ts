@@ -4,8 +4,10 @@ export interface IRide {
   _id: string;
   rider: IUser;
   driver: IUser;
-  pickedupLocation: IPickedupLocation;
-  destinationLocation: IDestinationLocation;
+  pickupAddress: string;
+  destinationAddress: string;
+  pickupCoordinates: number[];
+  destinationCoordinates: number[];
   fare: number;
   rideStatus: string;
   statusLogs: IStatusLog[];
@@ -13,7 +15,7 @@ export interface IRide {
   updatedAt: string;
   platformEarnings: number;
   commisionRate: number;
-  paymentMethod: string
+  paymentMethod: string;
 }
 
 export interface IPickedupLocation {
@@ -58,10 +60,8 @@ export interface IRideRequest {
   pickupCoordinates: number[];
   destinationCoordinates: number[];
   fare: number;
-  paymentMethod: 'cash'
+  paymentMethod: "cash";
 }
-
-
 
 export interface ILocationMapProps {
   pickup: { latlng: L.LatLng; address: string } | null;

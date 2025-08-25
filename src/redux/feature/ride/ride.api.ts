@@ -91,6 +91,7 @@ export const rideApi = baseApi.injectEndpoints({
 
 export const {
   useGetAllRidesQuery,
+  useRideHistoryQuery,
   useRequestRideMutation,
   useUpdateRideStatusMutation,
 } = rideApi;

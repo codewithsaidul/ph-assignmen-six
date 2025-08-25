@@ -10,7 +10,7 @@ export default function Analytics() {
   if (isLoading || !analytics) return <Loading />;
 
   return (
-    <div>
+    <div className="lg:px-6">
       <h1 className="text-3xl font-ride-title mb-10">Dashboard</h1>
 
       <div className="space-y-16">

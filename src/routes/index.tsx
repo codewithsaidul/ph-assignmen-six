@@ -10,6 +10,7 @@ import { withAuth } from "@/utils/withAuth";
 import { createBrowserRouter, Navigate } from "react-router";
 import { adminSidebarItems } from "./adminSidebarItems";
 import UserProfile from "@/pages/user/UserProfile";
+import { rideSidebarItems } from "./rideSidebarItems";
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +42,14 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to="/admin/analytics" /> },
       ...generateRoutes(adminSidebarItems),
+    ],
+  },
+  {
+    path: "/ride",
+    Component: withAuth(DashboardLayout, role.rider as TRole),
+    children: [
+      { index: true, element: <Navigate to="/ride/request-ride" /> },
+      ...generateRoutes(rideSidebarItems),
     ],
   },
   {

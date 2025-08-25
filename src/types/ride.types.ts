@@ -36,18 +36,27 @@ export interface IRidesParams {
   sortBy?: string;
   sortOrder?: string;
   searchTerm?: string;
-  fields?: string
+  fields?: string;
 }
 
-
 export interface IRideData {
-  data: IRide[]
+  data: IRide[];
 }
 
 export interface RideStatus {
-  rideStatus: string
+  rideStatus: string;
 }
 export interface IUpdateRideStatus {
   rideId: string;
-  rideStatus: RideStatus
+  rideStatus: RideStatus;
 }
+
+export interface IRideRequest {
+  pickupAddress: string;
+  destinationAddress: string;
+  pickupCoordinates: number[];
+  destinationCoordinates: number[];
+  fare: number;
+}
+
+

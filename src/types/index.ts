@@ -1,28 +1,35 @@
 import type { ComponentType, Dispatch, SetStateAction } from "react";
 
 export type {
+  IAdminAnalytics,
+  IAdminAnalyticsResponseData,
+  IDailyRevenueData,
+  IStatsCardProps,
+} from "./admin.types";
+export type {
+  IChangePassword,
   ILogin,
   ILoginResponse,
   IRegister,
-  IChangePassword,
 } from "./auth.types";
-export type { IUser, IUpdateProfile, IUserProfile, IRiderUpdateStatus, IUpdateDriverStatus } from "./user.types";
-export type { SidebarContextProps } from "./sidebar.types";
 export type {
-  IStatsCardProps,
-  IAdminAnalytics,
-  IDailyRevenueData,
-  IAdminAnalyticsResponseData,
-} from "./admin.types";
-export type {
+  IDestinationLocation,
+  IPickedupLocation,
   IRide,
   IRideData,
-  IStatusLog,
+  IRideRequest,
   IRidesParams,
-  IPickedupLocation,
-  IDestinationLocation,
+  IStatusLog,
   IUpdateRideStatus,
 } from "./ride.types";
+export type { SidebarContextProps } from "./sidebar.types";
+export type {
+  IRiderUpdateStatus,
+  IUpdateDriverStatus,
+  IUpdateProfile,
+  IUser,
+  IUserProfile,
+} from "./user.types";
 
 export type Theme = "dark" | "light" | "system";
 

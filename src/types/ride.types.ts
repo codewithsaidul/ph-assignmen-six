@@ -60,3 +60,14 @@ export interface IRideRequest {
 }
 
 
+
+export interface ILocationMapProps {
+  pickup: { latlng: L.LatLng; address: string } | null;
+  destination: { latlng: L.LatLng; address: string } | null;
+  onPickupSelect: (
+    location: { latlng: L.LatLng; address: string } | null
+  ) => void;
+  onDestinationSelect: (
+    location: { latlng: L.LatLng; address: string } | null
+  ) => void;
+}

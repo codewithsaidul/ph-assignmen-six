@@ -5,13 +5,13 @@ import "leaflet/dist/leaflet.css";
 export default function RequestRide() {
   return (
     <div className="lg:px-6">
-      <div className="flex justify-between">
+      <div>
         <h1 className="text-3xl font-ride-title">Request a new Ride</h1>
-        <RideRequestForm />
+        {/* <RideRequestForm /> */}
       </div>
 
-      <div>
-        {/* <RideRequestForm /> */}
+      <div className="mt-10">
+        <RideRequestForm />
       </div>
     </div>
   );

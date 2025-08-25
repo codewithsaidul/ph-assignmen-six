@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -130,25 +130,4 @@
   body {
     @apply bg-background text-foreground;
   }
-}
-
-
-/* src/index.css ফাইলের শেষে যোগ করুন */
-
-/* লাইট মোডের জন্য */
-.leaflet-routing-container {
-  background-color: white;
-  color: black;
-}
-
-/* ডার্ক মোডের জন্য */
-.dark .leaflet-routing-container {
-  background-color: #1c1917; /* shadcn-এর ডার্ক কার্ডের একটি সাধারণ রঙ */
-  color: white;
-}
-
-/* রাস্তার নির্দেশনার টেক্সটের রঙ */
-.dark .leaflet-routing-container .leaflet-routing-alt h2,
-.dark .leaflet-routing-container .leaflet-routing-alt h3 {
-  color: white !important;
 }

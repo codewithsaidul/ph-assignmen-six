@@ -21,6 +21,7 @@ export type {
   IRidesParams,
   IStatusLog,
   IUpdateRideStatus,
+  ILocationMapProps
 } from "./ride.types";
 export type { SidebarContextProps } from "./sidebar.types";
 export type {

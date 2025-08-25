@@ -40,6 +40,36 @@ export const rideApi = baseApi.injectEndpoints({
       },
       providesTags: ["Rides"],
     }),
+    rideHistory: builder.query<IResponse<IRideData>, IRidesParams>({
+      query: ({
+        page = 1,
+        limit = 10,
+        sortBy = "createdAt",
+        sortOrder = "desc",
+        searchTerm,
+        fields,
+      }) => {
+        const params = new URLSearchParams();
+
+        if (page) params.append("page", page.toString());
+        if (limit) params.append("limit", limit.toString());
+        if (sortBy) params.append("sortBy", sortBy);
+        if (sortOrder) params.append("sortOrder", sortOrder);
+        if (searchTerm) {
+          params.append("searchTerm", searchTerm);
+        }
+        if (fields) {
+          params.append("fields", fields);
+        }
+
+        return {
+          url: "/rides/histroy",
+          method: "GET",
+          params: params,
+        };
+      },
+      providesTags: ["Rides History"],
+    }),
     requestRide: builder.mutation<IResponse<IRide>, IRideRequest>({
       query: (rideData) => ({
         url: "/rides",
@@ -54,7 +84,7 @@ export const rideApi = baseApi.injectEndpoints({
         method: "PATCH",
         data: rideStatus,
       }),
-      invalidatesTags: ["Rides"],
+      invalidatesTags: ["Rides", "Rides History"],
     }),
   }),
 });

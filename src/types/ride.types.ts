@@ -13,6 +13,7 @@ export interface IRide {
   updatedAt: string;
   platformEarnings: number;
   commisionRate: number;
+  paymentMethod: string
 }
 
 export interface IPickedupLocation {
@@ -57,6 +58,7 @@ export interface IRideRequest {
   pickupCoordinates: number[];
   destinationCoordinates: number[];
   fare: number;
+  paymentMethod: 'cash'
 }
 
 

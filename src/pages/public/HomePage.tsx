@@ -1,14 +1,13 @@
 import Hero from "@/components/modals/public/Home/Hero";
 import HowItWorks from "@/components/modals/public/Home/HowItWorks";
+import WhyChoose from "@/components/modals/public/Home/WhyChoose";
 
-export default function HomePage () {
+export default function HomePage() {
   return (
     <div>
-       <Hero />
-
-       <div className="container mx-auto px-4 my-20">
-        <HowItWorks />
-       </div>
-   </div>
+      <Hero />
+      <HowItWorks />
+      <WhyChoose />
+    </div>
   );
-};
+}

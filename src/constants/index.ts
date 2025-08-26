@@ -1,4 +1,11 @@
-import { CheckCircle, CreditCard, MapPin } from "lucide-react";
+import {
+  CheckCircle,
+  Clock,
+  CreditCard,
+  DollarSign,
+  MapPin,
+  Shield,
+} from "lucide-react";
 
 export const navigationLinks = [
   { href: "/", label: "Home" },
@@ -25,6 +32,51 @@ export const steps = [
     title: "Pay in Cash",
     description:
       "Simple cash payment at the end of your ride. No cards or apps required.",
+  },
+];
+
+export const highlights = [
+  {
+    icon: Shield,
+    title: "Safety First",
+    description:
+      "All drivers are background-checked and vehicles are regularly inspected for your safety.",
+    color: "text-primary",
+  },
+  {
+    icon: DollarSign,
+    title: "Affordable Pricing",
+    description:
+      "Transparent, competitive rates with no hidden fees. Cash payments make it accessible to everyone.",
+    color: "text-green-500",
+  },
+  {
+    icon: Clock,
+    title: "24/7 Availability",
+    description:
+      "Need a ride at any time? Our drivers are available around the clock, every day of the year.",
+    color: "text-primary",
+  },
+];
+
+export const testimonials = [
+  {
+    name: "Maria Rodriguez",
+    rating: 5,
+    text: "RideBook has been a lifesaver! As someone who prefers cash payments, this service is perfect. The drivers are always professional and the rides are comfortable.",
+    location: "Downtown Customer",
+  },
+  {
+    name: "David Chen",
+    rating: 5,
+    text: "I've been driving for RideBook for 6 months now. The platform is easy to use and I love helping people who need reliable transportation. Great community!",
+    location: "RideBook Driver",
+  },
+  {
+    name: "Sarah Johnson",
+    rating: 5,
+    text: "Excellent service! I use RideBook for my daily commute and it's always reliable. The cash payment option is so convenient and the drivers are friendly.",
+    location: "Regular Rider",
   },
 ];
 

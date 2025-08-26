@@ -12,11 +12,18 @@ import { adminSidebarItems } from "./adminSidebarItems";
 import UserProfile from "@/pages/user/UserProfile";
 import { rideSidebarItems } from "./rideSidebarItems";
 import RideDetails from "@/pages/ride/RideDetails";
+import HomePage from "@/pages/public/HomePage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: App,
+    children: [
+      {
+        index: true,
+        Component: HomePage
+      }
+    ]
   },
   {
     path: "/dashboard", // <-- একটি কমন পাথ, যেমন 'dashboard'

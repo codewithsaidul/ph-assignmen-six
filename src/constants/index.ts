@@ -1,12 +1,18 @@
 import {
+  BarChart3,
   CheckCircle,
   Clock,
   CreditCard,
   DollarSign,
+  Eye,
+  History as HistoryIcon,
   Mail,
   MapPin,
   Phone,
+  Settings,
   Shield,
+  Star,
+  Users,
 } from "lucide-react";
 
 export const navigationLinks = [
@@ -22,7 +28,7 @@ export const teamMembers = [
     name: "Sarah Johnson",
     role: "CEO & Founder",
     image: "/team/sarah.jpg",
-    bio: "With 15 years in transportation tech, Sarah founded RideBook to revolutionize urban mobility.",
+    bio: "With 15 years in transportation tech, Sarah founded Rydex to revolutionize urban mobility.",
     linkedin: "#",
     email: "sarah@rydex.com",
   },
@@ -41,6 +47,99 @@ export const teamMembers = [
     bio: "Operations expert ensuring safe, efficient rides and exceptional customer experiences.",
     linkedin: "#",
     email: "emily@rydex.com",
+  },
+];
+
+export const riderFeatures = [
+  {
+    icon: MapPin,
+    title: "Easy Ride Booking",
+    description:
+      "Book rides instantly with our simple interface. Enter pickup and destination, and we'll connect you with nearby drivers.",
+    highlight: "One-tap booking",
+  },
+  {
+    icon: CreditCard,
+    title: "Cash-Only Payments",
+    description:
+      "No credit card required! Pay your driver directly in cash. Simple, secure, and accessible to everyone.",
+    highlight: "100% Cash accepted",
+  },
+  {
+    icon: Eye,
+    title: "Live Ride Tracking",
+    description:
+      "See your driver's location in real-time, get accurate ETAs, and track your ride progress on our interactive map.",
+    highlight: "Real-time GPS",
+  },
+  {
+    icon: HistoryIcon,
+    title: "Ride History",
+    description:
+      "Access your complete ride history with details on routes, duration, cost, and driver ratings for every trip.",
+    highlight: "Complete records",
+  },
+];
+
+export const driverFeatures = [
+  {
+    icon: CheckCircle,
+    title: "Accept Ride Requests",
+    description:
+      "Receive instant notifications for nearby ride requests. Accept or decline based on your availability and preferences.",
+    highlight: "Smart matching",
+  },
+  {
+    icon: DollarSign,
+    title: "Earning Summaries",
+    description:
+      "Track your daily and weekly earnings with detailed breakdowns. See completed trips, total distance, and payment summaries.",
+    highlight: "Transparent earnings",
+  },
+  {
+    icon: Clock,
+    title: "Trip History",
+    description:
+      "Access your complete driving history with rider information, routes taken, and earnings per trip for easy record keeping.",
+    highlight: "Detailed logs",
+  },
+  {
+    icon: Star,
+    title: "Rider Ratings",
+    description:
+      "Rate riders after each trip and see ratings from other drivers to help maintain a safe and respectful community.",
+    highlight: "Two-way ratings",
+  },
+];
+
+export const adminFeatures = [
+  {
+    icon: Settings,
+    title: "Ride Management",
+    description:
+      "Monitor all active rides, resolve disputes, and ensure smooth operations across the entire platform.",
+    highlight: "Complete oversight",
+  },
+  {
+    icon: Users,
+    title: "User Management",
+    description:
+      "Manage driver and rider profiles, verify identities, handle account issues, and maintain platform safety standards.",
+    highlight: "User safety first",
+  },
+  {
+    icon: BarChart3,
+    title: "Analytics Dashboard",
+    description:
+      "Comprehensive insights into platform performance, user behavior, revenue trends, and operational metrics.",
+    highlight: "Data-driven decisions",
+  },
+  {
+    icon: Shield,
+    title: "Safety Controls",
+    description:
+      "Advanced safety features including driver background checks, ride monitoring, and emergency response protocols.",
+    highlight: "Enhanced security",
   },
 ];
 

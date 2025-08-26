@@ -4,6 +4,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import {
   Table,
   TableBody,
   TableCell,
@@ -18,6 +26,9 @@ import { dateFormater } from "@/utils/dateFormater";
 import { formatCurrency } from "@/utils/formateCurrency";
 import { ChevronDown, ChevronUp, Eye } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
+
+const rideStatuses = ["completed", "cancelled", "rejected"];
 
 export default function RideHistory() {
   const [page, setPage] = useState(1);
@@ -27,19 +38,27 @@ export default function RideHistory() {
   });
   const [inputValue, setInputValue] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [fareRange, setFareRange] = useState({ min: "", max: "" });
+  const [minFare, setMinFare] = useState("");
+  const [maxFare, setMaxFare] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [rideStatus, setRideStatus] = useState("");
   const limit = 20;
 
   // --- Debounce Logic ---
   useEffect(() => {
     const timerId = setTimeout(() => {
       setSearchTerm(inputValue); // Updating searchTerm after 500ms
+      setMinFare(fareRange.min);
+      setMaxFare(fareRange.max);
+      setRideStatus(statusFilter);
     }, 500); // 500ms delay
 
     // Cleanup function to clear the timeout if inputValue changes before 500ms
     return () => {
       clearTimeout(timerId);
     };
-  }, [inputValue]);
+  }, [inputValue, fareRange.min, fareRange.max, statusFilter]);
 
   // fetch all rides
   const { data, isLoading } = useRideHistoryQuery({
@@ -48,7 +67,11 @@ export default function RideHistory() {
     sortBy: sortConfig.sortBy,
     sortOrder: sortConfig.sortOrder,
     searchTerm,
-    fields: "fare pickupAddress destinationAddress paymentMethod  rideStatus createdAt",
+    minFare,
+    maxFare,
+    rideStatus: rideStatus === "all" ? "" : rideStatus,
+    fields:
+      "fare pickupAddress destinationAddress paymentMethod  rideStatus createdAt",
   });
 
   if (isLoading && !data) return <Loading />;
@@ -76,15 +99,16 @@ export default function RideHistory() {
     }
   };
 
-  console.log(rideHistory)
 
   return (
     <div className="lg:px-6">
       <div className="mb-10">
-        <h1 className="text-3xl text-foreground font-ride-title">Ride History</h1>
+        <h1 className="text-3xl text-foreground font-ride-title">
+          Ride History
+        </h1>
       </div>
 
-      <div className="mb-10">
+      <div className="mb-10 flex items-center justify-between flex-wrap gap-5">
         <Input
           placeholder="Search rider, driver, status..."
           value={inputValue}
@@ -92,6 +116,47 @@ export default function RideHistory() {
           onKeyDown={handleSearchOnKeyDown}
           className="max-w-sm"
         />
+
+        {/* ফিল্টারিং UI */}
+        <div className="flex flex-wrap items-center gap-4">
+          {/* ভাড়ার ইনপুট */}
+          <div className="flex items-center h-8 max-w-52 bg-card w-fit p-0 rounded border">
+            <Input
+              placeholder="Min Fare"
+              value={fareRange.min}
+              onChange={(e) =>
+                setFareRange((prev) => ({ ...prev, min: e.target.value }))
+              }
+              className="border-0 rounded-0! bg-transparent! outline-0 focus-visible:focus-ring-0! focus:ring-0!  focus:outline-0!"
+            />
+
+            <Separator orientation="vertical" color="#fff" />
+
+            <Input
+              placeholder="Max Fare"
+              value={fareRange.max}
+              onChange={(e) =>
+                setFareRange((prev) => ({ ...prev, max: e.target.value }))
+              }
+              className="border-0 rounded-0! bg-transparent! outline-0 focus-visible:focus-ring-0! focus:ring-0! focus:outline-0!"
+            />
+          </div>
+
+          {/* 👇 স্ট্যাটাস ড্রপডাউন */}
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Filter by Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Statuses</SelectItem>
+              {rideStatuses.map((status) => (
+                <SelectItem key={status} value={status} className="capitalize">
+                  {status.replace("_", " ")}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       <Table>
@@ -185,8 +250,11 @@ export default function RideHistory() {
                     size="icon"
                     variant="outline"
                     className="cursor-pointer"
+                    asChild
                   >
-                    <Eye />
+                    <Link to={`/dashboard/rideDetails/${ride?._id}`}>
+                      <Eye />
+                    </Link>
                   </Button>
                   {/* </div> */}
                 </TableCell>

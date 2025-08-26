@@ -9,13 +9,15 @@ import { useMap, useMapEvents } from "react-leaflet";
 export default function MapLogic({
   pickup,
   destination,
+  isInteractive,
   onPickupSelect,
   onDestinationSelect,
 }: ILocationMapProps) {
   const routingControlRef = useRef<L.Control | null>(null);
   const map = useMap();
 
-  useMapEvents({
+
+  useMapEvents(isInteractive ? {
     async click(e) {
       const latlng = e.latlng;
 
@@ -31,12 +33,12 @@ export default function MapLogic({
       const locationData = { latlng, address };
 
       if (!pickup) {
-        onPickupSelect(locationData);
+        onPickupSelect?.(locationData);
       } else if (!destination) {
-        onDestinationSelect(locationData);
+        onDestinationSelect?.(locationData);
       }
     },
-  });
+  } : {});
 
   useEffect(() => {
     // যদি ম্যাপে আগে থেকেই কোনো রাউটিং কন্ট্রোল থাকে, তাহলে সেটিকে সরিয়ে দিন
@@ -62,7 +64,7 @@ export default function MapLogic({
         showAlternatives: false,
         show: false,
         lineOptions: {
-          styles: [{ color: "#FF4D00", weight: 4, opacity: 0.7 }],
+          styles: [{ color: "#FF4D00", weight: 8, opacity: 1 }],
           extendToWaypoints: true,
           missingRouteTolerance: 1,
         },

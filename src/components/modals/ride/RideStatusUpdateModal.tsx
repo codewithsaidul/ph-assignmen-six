@@ -75,6 +75,7 @@ export function RideStatusUpdateModal({
           ? (error as { data: { message: string } }).data.message
           : "An error occurred";
       toast.error(errorMessage, { id: toastId });
+      onChange(false)
     }
   };
 

@@ -18,12 +18,18 @@ export const rideApi = baseApi.injectEndpoints({
         sortOrder = "desc",
         searchTerm,
         fields,
+        minFare,
+        maxFare,
+        rideStatus,
       }) => {
         const params = new URLSearchParams();
 
         if (page) params.append("page", page.toString());
         if (limit) params.append("limit", limit.toString());
         if (sortBy) params.append("sortBy", sortBy);
+        if (minFare) params.append("minFare", minFare);
+        if (maxFare) params.append("maxFare", maxFare);
+        if (rideStatus) params.append("rideStatus", rideStatus);
         if (sortOrder) params.append("sortOrder", sortOrder);
         if (searchTerm) {
           params.append("searchTerm", searchTerm);
@@ -48,12 +54,18 @@ export const rideApi = baseApi.injectEndpoints({
         sortOrder = "desc",
         searchTerm,
         fields,
+        minFare,
+        maxFare,
+        rideStatus
       }) => {
         const params = new URLSearchParams();
 
         if (page) params.append("page", page.toString());
         if (limit) params.append("limit", limit.toString());
         if (sortBy) params.append("sortBy", sortBy);
+        if (minFare) params.append("minFare", minFare);
+        if (maxFare) params.append("maxFare", maxFare);
+        if (rideStatus) params.append("rideStatus", rideStatus);
         if (sortOrder) params.append("sortOrder", sortOrder);
         if (searchTerm) {
           params.append("searchTerm", searchTerm);
@@ -69,6 +81,14 @@ export const rideApi = baseApi.injectEndpoints({
         };
       },
       providesTags: ["Rides History"],
+    }),
+    rideDetails: builder.query<IRide, string>({
+      query: (rideId) => ({
+          url: `/rides/${rideId}/details`,
+          method: "GET",
+      }),
+      providesTags: ["Ride"],
+      transformResponse: (response: { data: IRide }) => response.data
     }),
     requestRide: builder.mutation<IResponse<IRide>, IRideRequest>({
       query: (rideData) => ({
@@ -92,6 +112,7 @@ export const rideApi = baseApi.injectEndpoints({
 export const {
   useGetAllRidesQuery,
   useRideHistoryQuery,
+  useRideDetailsQuery,
   useRequestRideMutation,
   useUpdateRideStatusMutation,
 } = rideApi;

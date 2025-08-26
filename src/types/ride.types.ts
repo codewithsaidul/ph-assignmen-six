@@ -1,3 +1,4 @@
+import type { Dispatch, SetStateAction } from "react";
 import type { IUser } from "./user.types";
 
 export interface IRide {
@@ -6,8 +7,8 @@ export interface IRide {
   driver: IUser;
   pickupAddress: string;
   destinationAddress: string;
-  pickupCoordinates: number[];
-  destinationCoordinates: number[];
+  pickupCoordinates: IPickedupLocation;
+  destinationCoordinates: IPickedupLocation;
   fare: number;
   rideStatus: string;
   statusLogs: IStatusLog[];
@@ -40,6 +41,9 @@ export interface IRidesParams {
   sortOrder?: string;
   searchTerm?: string;
   fields?: string;
+  minFare?: string;
+  maxFare?: string;
+  rideStatus?: string;
 }
 
 export interface IRideData {
@@ -66,10 +70,12 @@ export interface IRideRequest {
 export interface ILocationMapProps {
   pickup: { latlng: L.LatLng; address: string } | null;
   destination: { latlng: L.LatLng; address: string } | null;
-  onPickupSelect: (
+  isInteractive: boolean;
+  onPickupSelect?: (
     location: { latlng: L.LatLng; address: string } | null
   ) => void;
-  onDestinationSelect: (
+  onDestinationSelect?: (
     location: { latlng: L.LatLng; address: string } | null
   ) => void;
+  onFareCalculated?: Dispatch<SetStateAction<number | null>>;
 }

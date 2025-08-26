@@ -6,6 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import {
   Table,
   TableBody,
   TableCell,
@@ -22,6 +30,16 @@ import { formatCurrency } from "@/utils/formateCurrency";
 import { ChevronDown, ChevronUp, Eye, Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 
+const rideStatuses = [
+  "requested",
+  "cancelled",
+  "rejected",
+  "accepted",
+  "picked_up",
+  "in_transit",
+  "completed",
+];
+
 export default function ViewAllRides() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedRide, setSelectedRide] = useState<IRide | null>(null);
@@ -32,19 +50,27 @@ export default function ViewAllRides() {
   });
   const [inputValue, setInputValue] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [fareRange, setFareRange] = useState({ min: "", max: "" });
+  const [minFare, setMinFare] = useState("");
+  const [maxFare, setMaxFare] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [rideStatus, setRideStatus] = useState("");
   const limit = 20;
 
   // --- Debounce Logic ---
   useEffect(() => {
     const timerId = setTimeout(() => {
       setSearchTerm(inputValue); // Updating searchTerm after 500ms
+      setMinFare(fareRange.min);
+      setMaxFare(fareRange.max);
+      setRideStatus(statusFilter);
     }, 500); // 500ms delay
 
     // Cleanup function to clear the timeout if inputValue changes before 500ms
     return () => {
       clearTimeout(timerId);
     };
-  }, [inputValue]);
+  }, [inputValue, fareRange.min, fareRange.max, statusFilter]);
 
   // fetch all rides
   const { data, isLoading } = useGetAllRidesQuery({
@@ -53,6 +79,9 @@ export default function ViewAllRides() {
     sortBy: sortConfig.sortBy,
     sortOrder: sortConfig.sortOrder,
     searchTerm,
+    minFare,
+    maxFare,
+    rideStatus: rideStatus === "all" ? "" : rideStatus,
     fields: "fare  rideStatus createdAt",
   });
 
@@ -93,14 +122,55 @@ export default function ViewAllRides() {
         <h1 className="text-3xl text-foreground font-ride-title">All Rides</h1>
       </div>
 
-      <div className="mb-10">
+      <div className="mb-10 flex items-center justify-between flex-wrap gap-5">
         <Input
           placeholder="Search rider, driver, status..."
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleSearchOnKeyDown}
-          className="max-w-sm"
+          className="max-w-2xs"
         />
+
+        {/* ফিল্টারিং UI */}
+        <div className="flex flex-wrap items-center gap-4">
+          {/* ভাড়ার ইনপুট */}
+          <div className="flex items-center h-8 max-w-52 bg-card w-fit p-0 rounded border">
+            <Input
+              placeholder="Min Fare"
+              value={fareRange.min}
+              onChange={(e) =>
+                setFareRange((prev) => ({ ...prev, min: e.target.value }))
+              }
+              className="border-0 rounded-0! bg-transparent! outline-0 focus-visible:focus-ring-0! focus:ring-0!  focus:outline-0!"
+            />
+
+            <Separator orientation="vertical" color="#fff" />
+
+            <Input
+              placeholder="Max Fare"
+              value={fareRange.max}
+              onChange={(e) =>
+                setFareRange((prev) => ({ ...prev, max: e.target.value }))
+              }
+              className="border-0 rounded-0! bg-transparent! outline-0 focus-visible:focus-ring-0! focus:ring-0! focus:outline-0!"
+            />
+          </div>
+
+          {/* 👇 স্ট্যাটাস ড্রপডাউন */}
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Filter by Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Statuses</SelectItem>
+              {rideStatuses.map((status) => (
+                <SelectItem key={status} value={status} className="capitalize">
+                  {status.replace("_", " ")}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       <Table>
@@ -204,7 +274,7 @@ export default function ViewAllRides() {
       </Table>
 
       {Array.isArray(allRides) &&
-        allRides.length > 0 &&
+        allRides.length > 19 &&
         pagination &&
         pagination.total > 20 && (
           <div className="mt-10">

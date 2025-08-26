@@ -11,6 +11,7 @@ import { createBrowserRouter, Navigate } from "react-router";
 import { adminSidebarItems } from "./adminSidebarItems";
 import UserProfile from "@/pages/user/UserProfile";
 import { rideSidebarItems } from "./rideSidebarItems";
+import RideDetails from "@/pages/ride/RideDetails";
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/updateProfile",
         Component: UpdateProfile,
+      },
+            {
+        path: "/dashboard/rideDetails/:rideId",
+        Component: RideDetails,
       },
     ],
   },

@@ -40,7 +40,6 @@ export default function Navbar() {
     }
   };
 
-  console.log(pathname)
 
   return (
     <header className="sticky top-0  bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b shadow-sm z-[60]">

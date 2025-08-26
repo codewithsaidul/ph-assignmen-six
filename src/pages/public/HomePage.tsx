@@ -1,3 +1,4 @@
+import CallToAction from "@/components/modals/public/Home/CallToAction";
 import Hero from "@/components/modals/public/Home/Hero";
 import HowItWorks from "@/components/modals/public/Home/HowItWorks";
 import Testimonial from "@/components/modals/public/Home/Testimonial";
@@ -10,6 +11,7 @@ export default function HomePage() {
       <HowItWorks />
       <WhyChoose />
       <Testimonial />
+      <CallToAction />
     </div>
   );
 }

@@ -1,5 +1,10 @@
-import PageHeading from "@/components/modals/public/PageHeading";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import PageHeading from "@/components/modules/public/PageHeading";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { faqs } from "@/constants";
@@ -14,7 +19,6 @@ export default function FaqPage() {
       faq.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
       faq.answer.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
 
   return (
     <main className="container mx-auto px-4">
@@ -76,7 +80,10 @@ export default function FaqPage() {
           Our support team is here to help 24/7. Get in touch with us directly.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button size="lg" className="bg-primary hover:bg-green-500 duration-700 hover:duration-700  cursor-pointer text-xl transition-colors text-white py-7 px-7">
+          <Button
+            size="lg"
+            className="bg-primary hover:bg-green-500 duration-700 hover:duration-700  cursor-pointer text-xl transition-colors text-white py-7 px-7"
+          >
             Contact Support
           </Button>
           {/* <Button size="lg" variant="outline" className="cursor-pointer text-xl transition-colors">

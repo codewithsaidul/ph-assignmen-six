@@ -9,7 +9,7 @@ export default function Testimonial() {
       <div className="container mx-auto px-4">
         <SectionHeading
           title="What Our Users Say"
-          desc="Real feedback from riders and drivers who trust RideBook for their transportation needs."
+          desc="Real feedback from riders and drivers who trust Rydex for their transportation needs."
         />
 
         {/* why choose container */}

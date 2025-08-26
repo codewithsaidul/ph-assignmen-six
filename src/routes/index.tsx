@@ -14,7 +14,9 @@ import { rideSidebarItems } from "./rideSidebarItems";
 import RideDetails from "@/pages/ride/RideDetails";
 import HomePage from "@/pages/public/HomePage";
 import FaqPage from "@/pages/public/FaqPage";
-import Contact from "@/pages/public/ContactPage";
+import ContactPage from "@/pages/public/ContactPage";
+import AboutPage from "@/pages/public/AboutPage";
+
 
 export const router = createBrowserRouter([
   {
@@ -26,12 +28,16 @@ export const router = createBrowserRouter([
         Component: HomePage
       },
       {
+        path: "/about",
+        Component: AboutPage
+      },
+      {
         path: "/faq",
         Component: FaqPage
       },
       {
         path: "/contact",
-        Component: Contact 
+        Component: ContactPage
       },
     ]
   },

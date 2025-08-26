@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { faqs } from "@/constants";
 import { Search } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router";
 
 export default function FaqPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -25,7 +26,7 @@ export default function FaqPage() {
       <div className="mt-20">
         <PageHeading
           title="Frequently Asked Questions"
-          desc="Find answers to common questions about RideBook's services, payments, and policies."
+          desc="Find answers to common questions about Rydex's services, payments, and policies."
         />
 
         {/* ================= search input ================== */}
@@ -82,9 +83,10 @@ export default function FaqPage() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button
             size="lg"
-            className="bg-primary hover:bg-green-500 duration-700 hover:duration-700  cursor-pointer text-xl transition-colors text-white py-7 px-7"
+            variant="default"
+            className="duration-700 hover:duration-700 cursor-pointer text-xl transition-colors text-white py-7 px-7"
           >
-            Contact Support
+            <Link to="/contact">Contact Support</Link>
           </Button>
           {/* <Button size="lg" variant="outline" className="cursor-pointer text-xl transition-colors">
             Email Us

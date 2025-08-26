@@ -15,7 +15,7 @@ export default function CallToAction() {
               ready to start your journey?
             </h2>
             <p className="text-xl text-primary-foreground/90 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Join thousands of satisfied customers who choose RideBook for
+              Join thousands of satisfied customers who choose Rydex for
               reliable, safe, and affordable transportation. Whether you need a
               ride or want to earn as a driver, we've got you covered.
             </p>

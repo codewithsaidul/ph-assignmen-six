@@ -3,8 +3,7 @@ import PageHeading from "@/components/modules/public/PageHeading";
 import { Card, CardContent } from "@/components/ui/card";
 import { contactInfo } from "@/constants";
 
-
-const Contact = () => {
+export default function ContactPage ()  {
  
 
   return (
@@ -63,7 +62,7 @@ const Contact = () => {
 
           {/* Emergency Contact */}
         <div className="mt-20 max-w-3xl mx-auto text-center w-full">
-          <Card className="gradient-hero text-primary-foreground shadow-lg">
+          <Card className="gradient-primary text-primary-foreground shadow-lg">
             <CardContent className="p-6">
               <h3 className="text-xl font-bold mb-3">Emergency Support</h3>
               <p className="text-primary-foreground/90 mb-4">
@@ -86,4 +85,3 @@ const Contact = () => {
   );
 };
 
-export default Contact;

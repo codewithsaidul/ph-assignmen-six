@@ -23,11 +23,11 @@ export default function HowItWorks() {
               <Card key={idx} className="text-center group bg-transparent border-0">
                 <CardHeader>
                   <div className="relative">
-                    <CardDescription className="bg-primary w-12 h-12 flex items-center justify-center rounded-full mx-auto mb-4 group-hover:scale-110 transition-transform text-white">
+                    <CardDescription className="gradient-accent w-12 h-12 flex items-center justify-center rounded-full mx-auto mb-4 group-hover:scale-110 transition-transform text-white/80">
                       {<step.icon size={32} />}
                     </CardDescription>
     
-                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-primary/30 rounded-full flex items-center justify-center text-accent-foreground font-bold">
+                    <div className="absolute -top-2 -right-2 w-8 h-8 gradient-primary rounded-full flex items-center justify-center text-accent-foreground font-bold">
                       {idx + 1}
                     </div>
                   </div>

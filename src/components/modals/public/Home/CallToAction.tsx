@@ -24,7 +24,7 @@ export default function CallToAction() {
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Button
                 size="lg"
-                className="bg-green-600 cursor-pointer hover:bg-accent-light text-accent-foreground border-0 text-lg px-8 py-4"
+                className="bg-green-600 cursor-pointer hover:bg-accent-light text-white border-0 text-lg px-8 py-4"
               >
                 <Link to="/register" className="flex items-center gap-3">
                   Book Your First Ride
@@ -34,7 +34,7 @@ export default function CallToAction() {
               <Button
                 size="lg"
                 variant="outline"
-                className="bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/20 text-lg px-8 py-4 cursor-pointer"
+                className="bg-primary-foreground/10 border-primary-foreground/30 text-white hover:text-white hover:bg-primary-foreground/20 text-lg px-8 py-4 cursor-pointer"
               >
                 <Link to="/register">Become a Driver</Link>
               </Button>
@@ -44,15 +44,15 @@ export default function CallToAction() {
             {/* cta footer */}
             <div className="grid grid-cols-3 gap-4 sm:gap-8 mt-8 max-w-lg mx-auto">
                 <div>
-                    <h4 className="text-2xl font-bold font-ride-title">50k+</h4>
+                    <h4 className="text-2xl text-primary-foreground font-bold font-ride-title">50k+</h4>
                     <p className="text-primary-foreground/80">Happy Riders</p>
                 </div>
                 <div>
-                    <h4 className="text-2xl font-bold font-ride-title">5k+</h4>
+                    <h4 className="text-2xl text-primary-foreground font-bold font-ride-title">5k+</h4>
                     <p className="text-primary-foreground/80">Active Drivers</p>
                 </div>
                 <div>
-                    <h4 className="text-2xl font-bold font-ride-title">1M+</h4>
+                    <h4 className="text-2xl text-primary-foreground font-bold font-ride-title">1M+</h4>
                     <p className="text-primary-foreground/80">Rides Completed</p>
                 </div>
             </div>

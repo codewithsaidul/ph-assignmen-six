@@ -42,7 +42,7 @@ export default function Navbar() {
 
 
   return (
-    <header className="sticky top-0  bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b shadow-sm z-[60]">
+    <header className="sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b shadow-sm z-[60]">
       <div className="flex h-16 items-center justify-between gap-4 container mx-auto px-4">
         {/* Left side */}
         {/* Main nav */}
@@ -50,7 +50,7 @@ export default function Navbar() {
           <div className="">
             <Link to="/" className="hover:text-primary duration-500 hover:duration-500 flex items-center gap-2">
               <Logo width="28" height="28" />
-            <h2 className="text-3xl font-ride-title">Rydex</h2>
+            <h2 className="text-3xl max-[350px]:hidden font-ride-title">Rydex</h2>
             </Link>
           </div>
         </div>

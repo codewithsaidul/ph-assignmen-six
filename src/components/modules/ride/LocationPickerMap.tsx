@@ -111,7 +111,7 @@ export default function LocationPickerMap({
           destination={destination}
           onPickupSelect={onPickupSelect}
           onDestinationSelect={onDestinationSelect}
-          isInteractive={false}
+          isInteractive={isInteractive}
         />
       </MapContainer>
     </div>

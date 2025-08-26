@@ -1,195 +1,119 @@
 import Logo from "@/components/logo/Logo";
+import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 import { Link } from "react-router";
 
-export default function Footer() {
-  return (
-    <footer className="bg-muted/50 dark:bg-muted/30">
-      <div className="mx-auto container space-y-8 px-4 py-16">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          <div>
-            <div className="flex items-center gap-2">
-              <Logo width="40" height="40" />
-              <h2 className="text-5xl">Rydex</h2>
-            </div>
+const Footer = () => {
+  const currentYear = new Date().getFullYear();
 
-            <p className="mt-4 max-w-xs text-gray-500 dark:text-gray-400">
-              Rydex is a modern ride booking system that allows users to book rides seamlessly, track drivers in real time, and manage rides efficiently with a smooth and intuitive interface.
+  const quickLinks = [
+    { name: "About Us", href: "/about" },
+    { name: "Features", href: "/features" },
+    { name: "FAQ", href: "/faq" },
+    { name: "Contact", href: "/contact" },
+  ];
+
+  const socialLinks = [
+    { name: "Facebook", icon: Facebook, href: "#" },
+    { name: "Twitter", icon: Twitter, href: "#" },
+    { name: "Instagram", icon: Instagram, href: "#" },
+    { name: "LinkedIn", icon: Linkedin, href: "#" },
+  ];
+
+  return (
+    <footer className="bg-muted/30 text-primary-foreground">
+      <div className="container mx-auto px-4 py-24">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Logo and Description */}
+          <div className="space-y-4">
+            <Link to="/" className="flex items-center space-x-2">
+              <Logo width="40" height="40" />
+              <h4 className="text-4xl font-ride-title font-bold">Rydex</h4>
+            </Link>
+            <p className="text-muted-foreground max-w-md">
+              Your trusted ride booking platform. Safe, reliable, and affordable
+              transportation available 24/7.
             </p>
 
+            <div className="flex space-x-4">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.name}
+                  href={social.href}
+                  className="bg-muted-foreground/10 p-2 rounded-lg hover:bg-primary-foreground/20 transition-colors"
+                  aria-label={social.name}
+                >
+                  <social.icon className="h-5 w-5" />
+                </a>
+              ))}
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-4">
-            <div>
-              <p className="font-medium text-gray-900 dark:text-white">
-                Services
-              </p>
-
-              <ul className="mt-6 space-y-4 text-sm">
-                <li>
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <ul className="space-y-2">
+              {quickLinks.map((link) => (
+                <li key={link.name}>
                   <Link
-                    to="#"
-                    className="text-gray-700 transition hover:opacity-75 dark:text-gray-200"
+                    to={link.href}
+                    className="text-muted-foreground hover:text-primary-foreground transition-colors"
                   >
-                    1on1 Coaching
+                    {link.name}
                   </Link>
                 </li>
+              ))}
+            </ul>
+          </div>
 
-                <li>
-                  <Link
-                    to="#"
-                    className="text-gray-700 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    Company Review
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    to="#"
-                    className="text-gray-700 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    Accounts Review
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    to="#"
-                    className="text-gray-700 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    HR Consulting
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    to="#"
-                    className="text-gray-700 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    SEO Optimisation
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <p className="font-medium text-gray-900 dark:text-white">
-                Company
-              </p>
-
-              <ul className="mt-6 space-y-4 text-sm">
-                <li>
-                  <Link
-                    to="#"
-                    className="text-gray-700 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    About
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    to="#"
-                    className="text-gray-700 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    Meet the Team
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    to="#"
-                    className="text-gray-700 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    Accounts Review
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <p className="font-medium text-gray-900 dark:text-white">
-                Helpful Links
-              </p>
-
-              <ul className="mt-6 space-y-4 text-sm">
-                <li>
-                  <Link
-                    to="#"
-                    className="text-gray-700 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    Contact
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    to="#"
-                    className="text-gray-700 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    FAQs
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    to="#"
-                    className="text-gray-700 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    Live Chat
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <p className="font-medium text-gray-900 dark:text-white">Legal</p>
-
-              <ul className="mt-6 space-y-4 text-sm">
-                <li>
-                  <Link
-                    to="#"
-                    className="text-gray-700 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    Accessibility
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    to="#"
-                    className="text-gray-700 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    Returns Policy
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    to="#"
-                    className="text-gray-700 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    Refund Policy
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    to="#"
-                    className="text-gray-700 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    Hiring-3 Statistics
-                  </Link>
-                </li>
-              </ul>
-            </div>
+          {/* Support */}
+          <div>
+            <h3 className="font-semibold text-foreground mb-4">Support</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  to="/contact"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Contact Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/help"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Help Center
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/privacy"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/terms"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Terms of Service
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <p className="text-xs text-gray-500 dark:text-gray-400">
-          &copy; 2022. Rydex | Intelligent Ride Booking Platform. All rights reserved.
-        </p>
+        {/* Copyright */}
+        <div className="border-t border-primary-foreground/20 mt-8 pt-8 text-center">
+          <p className="text-primary-foreground/80">
+            © {currentYear} Rydex. All rights reserved.
+          </p>
+        </div>
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;

@@ -84,18 +84,10 @@
   --gradient-primary: linear-gradient(
     135deg,
     hsl(25, 100%, 20%),
-    hsl(25, 100%, 50%) 
+    hsl(25, 100%, 50%)
   );
-  --gradient-accent: linear-gradient(
-    135deg,
-    hsl(142 71% 45%),
-    #90be6d
-  );
-  --gradient-hero: linear-gradient(
-    135deg,
-    hsl(25, 100%, 50%) 0%,
-    #90be6d 100%
-  );
+  --gradient-accent: linear-gradient(135deg, hsl(142 71% 45%), #90be6d);
+  --gradient-hero: linear-gradient(135deg, hsl(25, 100%, 50%) 0%, #90be6d 100%);
 }
 
 .dark {
@@ -163,10 +155,26 @@
 
 @layer base {
   * {
-   @apply border-border outline-ring/50;
+    @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* src/index.css */
+
+  /* মোবাইল ভিউতে সাইডবারকে ম্যাপের উপরে রাখার জন্য */
+  @media (max-width: 1023px) {
+    .leaflet-container {
+      /* Leaflet ম্যাপের z-index কমিয়ে দিন */
+      z-index: 10 !important;
+    }
+
+    /* আপনার সাইডবারের z-index অনেক বাড়িয়ে দিন */
+    /* এখানে 'aside' বা আপনার সাইডবারের আসল ট্যাগ/ক্লাস ব্যবহার করুন */
+    aside[data-testid="sidebar"] {
+      z-index: 1000 !important;
+    }
   }
 
   .gradient-primary {
@@ -179,7 +187,6 @@
     background-image: var(--gradient-hero);
   }
 }
-
 
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {

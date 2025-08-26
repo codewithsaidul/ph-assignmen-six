@@ -112,6 +112,7 @@ export default function RideRequestForm() {
             onPickupSelect={setPickupSelect}
             onDestinationSelect={setDestinationSelect}
             onFareCalculated={setEstimatedFare}
+            isInteractive={true}
           />
 
           {estimatedFare !== null && (

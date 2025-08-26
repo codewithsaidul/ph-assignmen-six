@@ -1,14 +1,14 @@
 import type { Dispatch, SetStateAction } from "react";
-import type { IUser } from "./user.types";
+import type { IDriver, IRider } from "./user.types";
 
 export interface IRide {
   _id: string;
-  rider: IUser;
-  driver: IUser;
+  rider: IRider;
+  driver: IDriver;
   pickupAddress: string;
   destinationAddress: string;
-  pickupCoordinates: IPickedupLocation;
-  destinationCoordinates: IPickedupLocation;
+  pickupCoordinates: IPickedupCoordinates;
+  destinationCoordinates: IPickedupCoordinates;
   fare: number;
   rideStatus: string;
   statusLogs: IStatusLog[];
@@ -19,12 +19,12 @@ export interface IRide {
   paymentMethod: string;
 }
 
-export interface IPickedupLocation {
+export interface IPickedupCoordinates {
   type: string;
   coordinates: number[];
 }
 
-export interface IDestinationLocation {
+export interface IDestinationCoordinates {
   type: string;
   coordinates: number[];
 }

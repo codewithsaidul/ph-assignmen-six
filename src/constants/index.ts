@@ -1,3 +1,5 @@
+import { CheckCircle, CreditCard, MapPin } from "lucide-react";
+
 export const navigationLinks = [
   { href: "/", label: "Home" },
   { href: "#", label: "Features" },
@@ -5,16 +7,32 @@ export const navigationLinks = [
   { href: "#", label: "About" },
 ];
 
-
-
+export const steps = [
+  {
+    icon: MapPin,
+    title: "Book Your Ride",
+    description:
+      "Enter pickup location and destination. We'll find the nearest driver for you.",
+  },
+  {
+    icon: CheckCircle,
+    title: "Enjoy the Ride",
+    description:
+      "Relax while our verified driver safely takes you to your destination.",
+  },
+  {
+    icon: CreditCard,
+    title: "Pay in Cash",
+    description:
+      "Simple cash payment at the end of your ride. No cards or apps required.",
+  },
+];
 
 export const role = {
   admin: "admin",
   rider: "rider",
   driver: "driver",
 };
-
-
 
 export const rideStatusColorMap: Record<string, string> = {
   requested:
@@ -29,24 +47,20 @@ export const rideStatusColorMap: Record<string, string> = {
   rejected: "text-red-800 bg-red-100 dark:text-red-300 dark:bg-red-900/50",
 };
 
-
-
 export const userStatusColorMap: Record<string, string> = {
   // IsActive statuses
   active:
     "text-green-800 bg-green-100 dark:text-green-300 dark:bg-green-900/50",
-  inactive:
-    "text-gray-800 bg-gray-100 dark:text-gray-400 dark:bg-gray-800/50",
-  blocked: 
-    "text-red-800 bg-red-100 dark:text-red-300 dark:bg-red-900/50",
+  inactive: "text-gray-800 bg-gray-100 dark:text-gray-400 dark:bg-gray-800/50",
+  blocked: "text-red-800 bg-red-100 dark:text-red-300 dark:bg-red-900/50",
 
   // DriverStatus statuses
   pending:
     "text-yellow-800 bg-yellow-100 dark:text-yellow-300 dark:bg-yellow-900/50",
   approved:
     "text-green-800 bg-green-100 dark:text-green-300 dark:bg-green-900/50",
-  rejected:
-    "text-red-800 bg-red-100 dark:text-red-300 dark:bg-red-900/50",
-  suspend: // 'suspend' এবং 'blocked' এর জন্য ভিন্ন কালার ব্যবহার করা যেতে পারে
+  rejected: "text-red-800 bg-red-100 dark:text-red-300 dark:bg-red-900/50",
+  // 'suspend' এবং 'blocked' এর জন্য ভিন্ন কালার ব্যবহার করা যেতে পারে
+  suspend:
     "text-orange-800 bg-orange-100 dark:text-orange-300 dark:bg-orange-900/50",
 };

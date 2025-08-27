@@ -12,6 +12,7 @@ import { useMemo } from "react";
 import { useParams } from "react-router";
 import L from "leaflet"
 import LocationPickerMap from "@/components/modules/ride/LocationPickerMap";
+import { useGetUserProfileQuery } from "@/redux/feature/user/user.api";
 
 
 
@@ -20,7 +21,7 @@ export default function RideDetails() {
   const { data: rideDetails, isLoading } = useRideDetailsQuery(
     rideId as string
   );
-
+  const { data: userProfile } = useGetUserProfileQuery(undefined)
   const formattedLocations = useMemo(() => {
     if (!rideDetails) {
       return { pickup: null, destination: null };
@@ -47,27 +48,28 @@ export default function RideDetails() {
     return { pickup, destination };
   }, [rideDetails]);
 
-  if (isLoading && !rideDetails) return <Loading />;
+  if (isLoading) return <Loading />;
 
   if (!rideDetails) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <p className="text-2xl font-ride-title font-bold">
-          No Ride Details Fond
+          No Ride Details Found
         </p>
       </div>
     );
   }
 
   const riderTitle =
-    rideDetails?.rider?.role === "rider" &&
+    userProfile?.role === "rider" &&
     `your trip ${dateFormater(new Date(rideDetails?.createdAt))}`;
   const adminTitle =
-    rideDetails?.rider?.role === "admin" &&
+    userProfile?.role === "admin" &&
     `Ride Details: #${rideDetails?._id}`;
   const driverTitle =
-    rideDetails?.rider?.role === "driver" &&
+    userProfile?.role === "driver" &&
     `Trip with ${rideDetails?.rider?.name}`;
+
 
   return (
     <div className="lg:px-6">

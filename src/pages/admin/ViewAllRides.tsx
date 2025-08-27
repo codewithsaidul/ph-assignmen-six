@@ -29,6 +29,7 @@ import { dateFormater } from "@/utils/dateFormater";
 import { formatCurrency } from "@/utils/formateCurrency";
 import { ChevronDown, ChevronUp, Eye, Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
 
 const rideStatuses = [
   "requested",
@@ -264,7 +265,9 @@ export default function ViewAllRides() {
                     variant="outline"
                     className="cursor-pointer"
                   >
-                    <Eye />
+                    <Link to={`/dashboard/rideDetails/${ride?._id}`}>
+                      <Eye />
+                    </Link>
                   </Button>
                   {/* </div> */}
                 </TableCell>

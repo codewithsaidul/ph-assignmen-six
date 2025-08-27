@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import z from "zod";
 import LocationPickerMap from "./LocationPickerMap";
+import { useNavigate } from "react-router";
 
 interface LocationData {
   latlng: L.LatLng;
@@ -34,6 +35,7 @@ export default function RideRequestForm() {
   );
   const [estimatedFare, setEstimatedFare] = useState<number | null>(null);
   const [requestRide] = useRequestRideMutation();
+  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -69,7 +71,7 @@ export default function RideRequestForm() {
         destination?.latlng?.lng,
       ] as number[],
       fare: estimatedFare as number,
-      paymentMethod: values.paymentMethod
+      paymentMethod: values.paymentMethod,
     };
 
     try {
@@ -91,10 +93,40 @@ export default function RideRequestForm() {
         "message" in (error as { data?: { message?: string } }).data!
           ? (error as { data: { message: string } }).data.message
           : "An error occurred";
-      toast.error(errorMessage, { id: toastId });
-      setPickupSelect(null);
-      setDestinationSelect(null);
-      setEstimatedFare(null);
+
+      if (
+        errorMessage ===
+        "To request a ride, please add your Phone Number and Address to your profile"
+      ) {
+        navigate("/dashboard/profile");
+        toast.error(errorMessage, { id: toastId });
+        setPickupSelect(null);
+        setDestinationSelect(null);
+        setEstimatedFare(null);
+      } else if (
+        errorMessage ===
+        "To request a ride, please add your Phone Number to your profile"
+      ) {
+        navigate("/dashboard/profile");
+        toast.error(errorMessage, { id: toastId });
+        setPickupSelect(null);
+        setDestinationSelect(null);
+        setEstimatedFare(null);
+      } else if (
+        errorMessage ===
+        "To request a ride, please add your Address to your profile"
+      ) {
+        navigate("/dashboard/profile");
+        toast.error(errorMessage, { id: toastId });
+        setPickupSelect(null);
+        setDestinationSelect(null);
+        setEstimatedFare(null);
+      } else {
+        toast.error(errorMessage, { id: toastId });
+        setPickupSelect(null);
+        setDestinationSelect(null);
+        setEstimatedFare(null);
+      }
     }
   };
 

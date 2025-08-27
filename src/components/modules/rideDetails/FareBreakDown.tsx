@@ -18,17 +18,17 @@ export default function FareBreakDown( { fare, platformEarnings, commisionRate }
               ৳
               {(
                 (fare as number) - platformEarnings
-              ).toFixed(2)}
+              ).toFixed(2) || 0}
             </span>
           </div>
           <div className="flex justify-between">
             <span>Platform Fee</span>
-            <span>৳{platformEarnings}</span>
+            <span>৳{platformEarnings || 0}</span>
           </div>
           <div className="border-t pt-2">
             <div className="flex justify-between font-bold text-lg">
               <span>Total Fare</span>
-              <span>৳{fare}</span>
+              <span>৳{fare || 0}</span>
             </div>
           </div>
           <p className="text-xs text-muted-foreground">

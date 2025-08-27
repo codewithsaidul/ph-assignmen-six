@@ -1,12 +1,12 @@
 import z from "zod";
 
-export const registerZodSchema = z
+export const baseSchema = z
   .object({
     name: z
       .string("Name must be a string")
       .nonempty("Name is required")
       .min(3, "Name must be at least 3 characters long"),
-    role: z.enum(["rider", "driver"]),
+    // role: z.enum(["rider", "driver"]),
     email: z
       .string("Email must be a string")
       .nonempty("email is required")
@@ -30,43 +30,47 @@ export const registerZodSchema = z
     confirmPassword: z
       .string("Confirm Password must be a string")
       .min(8, { error: "password must be at least 8 character long" }),
-    licenseNumber: z
-      .string()
-      .min(6, "License number must be at least 6 characters")
-      .max(20, "License number must be at most 20 characters")
-      .optional(),
-    vehicleType: z.string().min(1, "Vehicle type is required").optional(),
-    model: z.string().min(1, "Model is required").optional(),
-    plate: z
-      .string()
-      .min(8, "Plate number must be at least 8 characters")
-      .max(30, "Plate number must be at most 30 characters").optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Password do not match",
     path: ["confirmPassword"],
   });
 
+export const riderSchema = baseSchema.extend({
+  role: z.literal("rider"),
+});
+
+export const driverSchema = baseSchema.extend({
+  role: z.literal("driver"),
+  licenseNumber: z
+    .string()
+    .min(6, "License number must be at least 6 characters")
+    .max(20, "License number must be at most 20 characters"),
+  vehicleType: z.string().min(1, "Vehicle type is required"),
+  model: z.string().min(1, "Model is required"),
+  plate: z
+    .string()
+    .min(8, "Plate number must be at least 8 characters")
+    .max(30, "Plate number must be at most 30 characters"),
+});
+
+export const registerZodSchema = z.discriminatedUnion("role", [
+  riderSchema, driverSchema
+]);
+
 export const updateProfileSchema = z.object({
   name: z
     .string("Name must be a string")
-    .nonempty("Name is required")
-    .min(3, "name must be contain at least 3 characters lont"),
-  email: z
-    .string("Email must be a string")
-    .nonempty("Email is required")
-    .email("please provide a valid email"),
+    .min(3, "name must be contain at least 3 characters lont").optional(),
   phoneNumber: z
     .string("Phone Number must be a string")
-    .nonempty("Phone Number is required")
     .regex(/^(?:\+8801\d{9}|01\d{9})$/, {
       message:
         "Phone number must be valid for Bangladesh. Format: +8801XXXXXXXXX or 01XXXXXXXXX",
-    }),
+    }).optional(),
   address: z
     .string("Address must be a string")
-    .nonempty("Address is required")
-    .max(200, "Address cannot exceed 200 characters."),
+    .max(200, "Address cannot exceed 200 characters.").optional(),
 });
 
 export const changePasswordSchema = z

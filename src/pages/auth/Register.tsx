@@ -1,5 +1,5 @@
 import Logo from "@/components/logo/Logo";
-import RegisterForm from "@/components/modals/auth/RegisterForm";
+import RegisterForm from "@/components/modules/auth/RegisterForm";
 import {
   Card,
   CardContent,

@@ -21,9 +21,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export default function RegisterForm() {
   const [register, { isLoading }] = useRegisterMutation();
-  const [searchParams] = useSearchParams()
-  const initialRole = searchParams.get("role") as 'rider' | 'driver'
-  const [userRole, setRole] = useState<"rider" | "driver">(initialRole || "rider");
+  const [searchParams] = useSearchParams();
+  const initialRole = searchParams.get("role");
+  const [userRole, setRole] = useState(initialRole || "rider");
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof registerZodSchema>>({
@@ -31,7 +31,7 @@ export default function RegisterForm() {
     defaultValues: {
       name: "",
       email: "",
-      role: initialRole || "rider",
+      role: initialRole === "driver" ? "driver" : "rider",
       password: "",
       confirmPassword: "",
       licenseNumber: "",
@@ -43,21 +43,35 @@ export default function RegisterForm() {
 
   const onSubmit = async (values: z.infer<typeof registerZodSchema>) => {
     const toastId = toast.loading("Registering...");
-    const userData = {
+    const baseUserData = {
       name: values.name,
       email: values.email,
       password: values.password,
-      role: userRole,
-      licenseNumber: values.licenseNumber,
-      vehicleInfo: {
-        vehicleType: values.vehicleType,
-        model: values.model,
-        plate: values.plate
-      }
+      role: values.role,
     };
 
+    let finalUserData;
+
+    // 👇 মূল সমাধান: 'values.role' দিয়ে কন্ডিশন চেক করুন
+    if (values.role === "driver") {
+      // এই if ব্লকের ভেতরে, TypeScript এখন ১০০% নিশ্চিত যে 'values' একজন ড্রাইভারের ডেটা
+      // তাই এখন `values.licenseNumber` ইত্যাদি ব্যবহার করলে আর কোনো error হবে না
+      finalUserData = {
+        ...baseUserData,
+        licenseNumber: values.licenseNumber,
+        vehicleInfo: {
+          vehicleType: values.vehicleType,
+          model: values.model,
+          plate: values.plate,
+        },
+      };
+    } else {
+      // যদি রাইডার হয়, তাহলে শুধু বেস ডেটাই থাকবে
+      finalUserData = baseUserData;
+    }
+
     try {
-      const res = await register(userData).unwrap();
+      const res = await register(finalUserData).unwrap();
 
       if (res.success && res.statusCode === 201) {
         toast.success(res.message, { id: toastId });
@@ -74,10 +88,8 @@ export default function RegisterForm() {
           ? (error as { data: { message: string } }).data.message
           : "An error occurred";
       toast.error(errorMessage, { id: toastId });
-
     }
   };
-
 
   return (
     <Form {...form}>
@@ -155,7 +167,9 @@ export default function RegisterForm() {
               <FormLabel>Role</FormLabel>
               <FormControl>
                 <RadioGroup
-                  onValueChange={(value) => setRole(value as "rider" | "driver")}
+                  onValueChange={(value) =>
+                    setRole(value as "rider" | "driver")
+                  }
                   defaultValue={field.value}
                   className="flex flex-row"
                 >
@@ -182,76 +196,76 @@ export default function RegisterForm() {
         {userRole === "driver" && (
           <>
             <div className="flex flex-col sm:flex-row sm:items-center gap-5">
-                <FormField
-                  control={form.control}
-                  name="licenseNumber"
-                  render={({ field }) => (
-                    <FormItem className="flex-1">
-                      <FormLabel>License Number</FormLabel>
-                      <FormControl className="w-full">
-                        <Input
-                          placeholder="NS9765FG56"
-                          {...field}
-                          value={field.value || ""}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="vehicleType"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Vehicle Type</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Moto bike"
-                          {...field}
-                          value={field.value || ""}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <FormField
+                control={form.control}
+                name="licenseNumber"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>License Number</FormLabel>
+                    <FormControl className="w-full">
+                      <Input
+                        placeholder="NS9765FG56"
+                        {...field}
+                        value={field.value || ""}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="vehicleType"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Vehicle Type</FormLabel>
+                    <FormControl className="w-full">
+                      <Input
+                        placeholder="Moto bike"
+                        {...field}
+                        value={field.value || ""}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
             <div className="flex flex-col sm:flex-row w-full sm:items-center gap-5">
-                <FormField
-                  control={form.control}
-                  name="model"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Vehicle Model</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Yamaha FZS v3"
-                          {...field}
-                          value={field.value || ""}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="plate"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Plate</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="XYZ-34-Z-90"
-                          {...field}
-                          value={field.value || ""}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <FormField
+                control={form.control}
+                name="model"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Vehicle Model</FormLabel>
+                    <FormControl className="w-full">
+                      <Input
+                        placeholder="Yamaha FZS v3"
+                        {...field}
+                        value={field.value || ""}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="plate"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Plate</FormLabel>
+                    <FormControl className="w-full">
+                      <Input
+                        placeholder="XYZ-34-Z-90"
+                        {...field}
+                        value={field.value || ""}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
           </>
         )}

@@ -21,7 +21,7 @@ import { useAppDispatch } from "@/redux/hook";
 import toast from "react-hot-toast";
 import { useMemo } from "react";
 
-// Navigation links array to be used in both desktop and mobile menus
+
 
 export default function Navbar() {
   // get user profile data and logout mutation
@@ -42,18 +42,18 @@ export default function Navbar() {
   };
 
 
-    // ২. useMemo ব্যবহার করে রোল অনুযায়ী নেভিগেশন লিংক তৈরি করুন
+    // 1. creating a new navigation link array using usememo based on user role
   const finalNavLinks = useMemo(() => {
-    // প্রথমে সবার জন্য প্রযোজ্য পাবলিক লিংকগুলো নিন
+    // public links
     const links = [...navigationLinks];
 
-    // ৩. রোল অনুযায়ী নতুন লিংক যোগ করুন
+    // 2. add new link based on role
     if (userProfile?.role === 'rider') {
       links.push({ href: "/ride", label: "Request Ride" });
     } else if (userProfile?.role === 'driver') {
-      links.push({ href: "/driver", label: "Driver Dashboard" });
+      links.push({ href: "/driver", label: "Dashboard" });
     } else if (userProfile?.role === 'admin') {
-      links.push({ href: "/admin", label: "Admin Dashboard" });
+      links.push({ href: "/admin", label: "Dashboard" });
     }
     
     return links;

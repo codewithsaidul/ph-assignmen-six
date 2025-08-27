@@ -61,7 +61,7 @@ export default function Navbar() {
 
 
   return (
-    <header className="sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b shadow-sm z-[60]">
+    <header className="sticky top-0 bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b shadow-sm z-[60]">
       <div className="flex h-16 items-center justify-between gap-4 container mx-auto px-4">
         {/* Left side */}
         {/* Main nav */}

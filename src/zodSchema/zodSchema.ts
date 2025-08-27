@@ -1,44 +1,44 @@
 import z from "zod";
 
-export const baseSchema = z
-  .object({
-    name: z
-      .string("Name must be a string")
-      .nonempty("Name is required")
-      .min(3, "Name must be at least 3 characters long"),
-    // role: z.enum(["rider", "driver"]),
-    email: z
-      .string("Email must be a string")
-      .nonempty("email is required")
-      .email({ message: "please provide valid email address" }),
-    password: z
-      .string("Password must be a string")
-      .nonempty({ message: "Password is required" })
-      .min(8, { message: "Password must be at least 8 characters long." })
-      .regex(/^(?=.*[A-Z])/, {
-        message: "Password must contain at least 1 uppercase letter.",
-      })
-      .regex(/^(?=.*[a-z])/, {
-        message: "Password must contain at least 1 lowercase letter.",
-      })
-      .regex(/^(?=.*[!@#$%^&*])/, {
-        message: "Password must contain at least 1 special character.",
-      })
-      .regex(/^(?=.*\d)/, {
-        message: "Password must contain at least 1 number.",
-      }),
-    confirmPassword: z
-      .string("Confirm Password must be a string")
-      .min(8, { error: "password must be at least 8 character long" }),
+export const baseSchema = z.object({
+  name: z
+    .string("Name must be a string")
+    .nonempty("Name is required")
+    .min(3, "Name must be at least 3 characters long"),
+  // role: z.enum(["rider", "driver"]),
+  email: z
+    .string("Email must be a string")
+    .nonempty("email is required")
+    .email({ message: "please provide valid email address" }),
+  password: z
+    .string("Password must be a string")
+    .nonempty({ message: "Password is required" })
+    .min(8, { message: "Password must be at least 8 characters long." })
+    .regex(/^(?=.*[A-Z])/, {
+      message: "Password must contain at least 1 uppercase letter.",
+    })
+    .regex(/^(?=.*[a-z])/, {
+      message: "Password must contain at least 1 lowercase letter.",
+    })
+    .regex(/^(?=.*[!@#$%^&*])/, {
+      message: "Password must contain at least 1 special character.",
+    })
+    .regex(/^(?=.*\d)/, {
+      message: "Password must contain at least 1 number.",
+    }),
+  confirmPassword: z
+    .string("Confirm Password must be a string")
+    .min(8, { error: "Confirm password must be at least 8 character long" }),
+});
+
+export const riderSchema = baseSchema
+  .extend({
+    role: z.literal("rider"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Password do not match",
     path: ["confirmPassword"],
   });
-
-export const riderSchema = baseSchema.extend({
-  role: z.literal("rider"),
-});
 
 export const driverSchema = baseSchema.extend({
   role: z.literal("driver"),
@@ -55,22 +55,26 @@ export const driverSchema = baseSchema.extend({
 });
 
 export const registerZodSchema = z.discriminatedUnion("role", [
-  riderSchema, driverSchema
+  riderSchema,
+  driverSchema,
 ]);
 
 export const updateProfileSchema = z.object({
   name: z
     .string("Name must be a string")
-    .min(3, "name must be contain at least 3 characters lont").optional(),
+    .min(3, "name must be contain at least 3 characters lont")
+    .optional(),
   phoneNumber: z
     .string("Phone Number must be a string")
     .regex(/^(?:\+8801\d{9}|01\d{9})$/, {
       message:
         "Phone number must be valid for Bangladesh. Format: +8801XXXXXXXXX or 01XXXXXXXXX",
-    }).optional(),
+    })
+    .optional(),
   address: z
     .string("Address must be a string")
-    .max(200, "Address cannot exceed 200 characters.").optional(),
+    .max(200, "Address cannot exceed 200 characters.")
+    .optional(),
 });
 
 export const changePasswordSchema = z

@@ -47,7 +47,7 @@ export default function RegisterForm() {
       name: values.name,
       email: values.email,
       password: values.password,
-      role: values.role,
+      role: userRole,
     };
 
     let finalUserData;
@@ -62,7 +62,7 @@ export default function RegisterForm() {
         vehicleInfo: {
           vehicleType: values.vehicleType,
           model: values.model,
-          plate: values.plate,
+          plate: values.plate
         },
       };
     } else {

@@ -1,6 +1,5 @@
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
-import { useIsMobile } from "@/hooks/use-mobile";
 import {
   Card,
   CardAction,
@@ -23,25 +22,22 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import type { IDailyRevenueData } from "@/types";
+import { useIsMobile } from "@/hooks/use-mobile";
+import type { IDriverDailyEarning } from "@/types";
 import { useEffect, useMemo, useState } from "react";
 
 const chartConfig = {
-  totalGrossFare: {
-    label: "Total Gross Fare",
-    color: "var(--primary)",
-  },
-  totalPlatformRevenue: {
-    label: "Platform Revenue",
+  totalDriverEarnings: {
+    label: "Daily Earnings ",
     color: "var(--primary)",
   },
 } satisfies ChartConfig;
 
 interface IRevenueChartProps {
-  dailyRevenueData: IDailyRevenueData[];
+  dailyRevenueData: IDriverDailyEarning[];
 }
 
-export default function RevenueChart ({
+export default function DriverEarningsCharts({
   dailyRevenueData,
 }: IRevenueChartProps) {
   const isMobile = useIsMobile();
@@ -64,9 +60,9 @@ export default function RevenueChart ({
     <div className="lg:px-6">
       <Card className="@container/card">
         <CardHeader>
-          <CardTitle>Revenue Trend</CardTitle>
-          <CardDescription>
-            Showing daily revenue for the selected period
+          <CardTitle>Your Daily Earnings</CardTitle>
+          <CardDescription className="max-w-[400px]:text-xs">
+            Here's your day-by-day income for the selected period.
           </CardDescription>
           <CardAction>
             <ToggleGroup
@@ -105,17 +101,21 @@ export default function RevenueChart ({
         <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
           <ChartContainer
             config={chartConfig}
-            className="aspect-auto h-[250px] w-full"
+            className="aspect-auto h-96 w-full"
           >
             <AreaChart data={chartDataShow}>
               <defs>
-                <linearGradient id="fillGrossFare" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="var(--color-totalGrossFare)" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="var(--color-totalGrossFare)" stopOpacity={0.1} />
-                </linearGradient>
-                <linearGradient id="fillPlatformRevenue" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="var(--color-totalPlatformRevenue)" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="var(--color-totalPlatformRevenue)" stopOpacity={0.1} />
+                <linearGradient id="fillTotalDriverEarnings" x1="0" y1="0" x2="0" y2="1">
+                  <stop
+                    offset="5%"
+                    stopColor="var(--color-totalDriverEarnings)"
+                    stopOpacity={0.8}
+                  />
+                  <stop
+                    offset="95%"
+                    stopColor="var(--color-totalDriverEarnings)"
+                    stopOpacity={0.1}
+                  />
                 </linearGradient>
               </defs>
               <CartesianGrid vertical={false} />
@@ -127,33 +127,33 @@ export default function RevenueChart ({
                 minTickGap={32}
                 tickFormatter={(value) => {
                   const date = new Date(value);
-                  return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+                  return date.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                  });
                 }}
               />
               <ChartTooltip
                 cursor={false}
                 content={
                   <ChartTooltipContent
-                    labelFormatter={(value) => new Date(value).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                    labelFormatter={(value) =>
+                      new Date(value).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                      })
+                    }
                     indicator="dot"
                   />
                 }
               />
               <Area
-                dataKey="totalGrossFare"
+                dataKey="totalDriverEarnings"
                 type="natural"
-                fill="url(#fillGrossFare)"
-                stroke="var(--color-totalGrossFare)"
+                fill="url(#fillTotalDriverEarnings)"
+                stroke="var(--color-totalDriverEarnings)"
                 stackId="a"
-                name={chartConfig.totalGrossFare.label}
-              />
-              <Area
-                dataKey="totalPlatformRevenue"
-                type="natural"
-                fill="url(#fillPlatformRevenue)"
-                stroke="var(--color-totalPlatformRevenue)"
-                stackId="a"
-                name={chartConfig.totalPlatformRevenue.label}
+                name={chartConfig.totalDriverEarnings.label}
               />
             </AreaChart>
           </ChartContainer>

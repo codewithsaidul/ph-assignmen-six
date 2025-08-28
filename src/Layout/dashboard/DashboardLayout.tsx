@@ -24,18 +24,17 @@ export default function DashboardLayout() {
   }, [driverProfile]);
 
   const handleToggle = async (checked: boolean) => {
-    console.log(checked)
     setIsOnline(checked);
     try {
       const status = {
         availability: checked ? 'online' : 'offline'
       }
-      await updateAvailability({ driverId: driverProfile?.driver, availability: status }).unwrap();
-    } catch (error) {
+      await updateAvailability(status).unwrap();
+    } catch {
       setIsOnline(!checked);
-      console.log(error)
     }
   };
+  
 
 
   return (
@@ -57,7 +56,7 @@ export default function DashboardLayout() {
                 id="availability-mode"
                 checked={isOnline}
                 onCheckedChange={handleToggle}
-                onClick={() => setIsOnline(!isOnline)}
+                // disabled={isLoading}
               />
               <Label htmlFor="availability-mode" className="capitalize">
                 {driverProfile?.availability}

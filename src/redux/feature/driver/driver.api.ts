@@ -1,5 +1,10 @@
 import { baseApi } from "@/redux/baseApi/base.api";
-import type { IDriverStats, IResponse, IUpdateDriverStatus } from "@/types";
+import type {
+  IDriverProfile,
+  IDriverStats,
+  IResponse,
+  IUpdateDriverStatus,
+} from "@/types";
 
 export const driverApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,13 +16,13 @@ export const driverApi = baseApi.injectEndpoints({
       providesTags: ["Analytics"],
       transformResponse: (response: { data: IDriverStats }) => response.data,
     }),
-    getDriverProfile: builder.query({
+    getDriverProfile: builder.query<IDriverProfile, undefined>({
       query: () => ({
-        url: "/drivers/driverProfile",
+        url: "/drivers/me",
         method: "GET",
       }),
       providesTags: ["Driver Profile"],
-      transformResponse: (response) => response.data,
+      transformResponse: (response: { data: IDriverProfile }) => response.data,
     }),
     updateDriverStatus: builder.mutation<IResponse<null>, IUpdateDriverStatus>({
       query: (userData) => ({
@@ -28,14 +33,35 @@ export const driverApi = baseApi.injectEndpoints({
       invalidatesTags: ["Users", "User Profile"],
     }),
     updateDriverAvaility: builder.mutation({
-      query: ({ driverId, availability}) => ({
-        url: `/drivers/${driverId}/availability`,
+      query: (availability) => ({
+        url: `/drivers/me/availability`,
         method: "PATCH",
         data: availability,
       }),
-      invalidatesTags: ["Users", "User Profile"],
+      async onQueryStarted({ availability }, { dispatch, queryFulfilled }) {
+        const cacheUpdate = dispatch(
+          driverApi.util.updateQueryData(
+            "getDriverProfile",
+            undefined,
+            (draft) => {
+              draft.availability = availability;
+            }
+          )
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          cacheUpdate.undo();
+        }
+      },
+      // invalidatesTags: ["Driver Profile"],
     }),
   }),
 });
 
-export const { useGetDriverAnalyticsQuery, useGetDriverProfileQuery, useUpdateDriverStatusMutation, useUpdateDriverAvailityMutation } = driverApi;
+export const {
+  useGetDriverAnalyticsQuery,
+  useGetDriverProfileQuery,
+  useUpdateDriverStatusMutation,
+  useUpdateDriverAvailityMutation,
+} = driverApi;

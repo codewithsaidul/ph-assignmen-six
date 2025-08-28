@@ -34,7 +34,7 @@ export type {
   IUserProfile,
 } from "./user.types";
 
-export type { IDriverDailyEarning, IDriverStats, IDriverStatsCardProps } from "./driver.types"
+export type { IDriverDailyEarning, IDriverStats, IDriverStatsCardProps, IDriverProfile, IVehicleInfo } from "./driver.types"
 
 export type Theme = "dark" | "light" | "system";
 

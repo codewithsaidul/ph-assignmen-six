@@ -56,6 +56,12 @@ export interface RideStatus {
 export interface IUpdateRideStatus {
   rideId: string;
   rideStatus: RideStatus;
+  page?: number;
+  limit?: number;
+  sortBy?: string;
+  sortOrder?: string;
+  minFare?: string;
+  maxFare?: string;
 }
 
 export interface IRideRequest {

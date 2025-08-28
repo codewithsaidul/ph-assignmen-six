@@ -64,10 +64,10 @@ export interface Rider {
 }
 
 export interface IIncomingRequestParams {
-  page: number;
-  limit: number;
-  sortBy: string;
-  sortOrder: string;
-  minFare: string;
-  maxFare: string;
+  page?: number;
+  limit?: number;
+  sortBy?: string;
+  sortOrder?: string;
+  minFare?: string;
+  maxFare?: string;
 }

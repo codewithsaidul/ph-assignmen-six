@@ -1,27 +1,24 @@
 import Loading from "@/components/loading/Loading";
+import LocationPickerMap from "@/components/modules/ride/LocationPickerMap";
 import DriverInformation from "@/components/modules/rideDetails/DriverInformation";
 import FareBreakDown from "@/components/modules/rideDetails/FareBreakDown";
 import RiderInformation from "@/components/modules/rideDetails/RiderInformation";
 import RideStatus from "@/components/modules/rideDetails/RideStatus";
 import RouteInformation from "@/components/modules/rideDetails/RouteInformation";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useRideDetailsQuery } from "@/redux/feature/ride/ride.api";
+import { useGetUserProfileQuery } from "@/redux/feature/user/user.api";
 import { dateFormater } from "@/utils/dateFormater";
+import L from "leaflet";
 import { useMemo } from "react";
 import { useParams } from "react-router";
-import L from "leaflet"
-import LocationPickerMap from "@/components/modules/ride/LocationPickerMap";
-import { useGetUserProfileQuery } from "@/redux/feature/user/user.api";
-
-
 
 export default function RideDetails() {
   const { rideId } = useParams();
   const { data: rideDetails, isLoading } = useRideDetailsQuery(
     rideId as string
   );
-  const { data: userProfile } = useGetUserProfileQuery(undefined)
+  const { data: userProfile } = useGetUserProfileQuery(undefined);
   const formattedLocations = useMemo(() => {
     if (!rideDetails) {
       return { pickup: null, destination: null };
@@ -64,12 +61,9 @@ export default function RideDetails() {
     userProfile?.role === "rider" &&
     `your trip ${dateFormater(new Date(rideDetails?.createdAt))}`;
   const adminTitle =
-    userProfile?.role === "admin" &&
-    `Ride Details: #${rideDetails?._id}`;
+    userProfile?.role === "admin" && `Ride Details: #${rideDetails?._id}`;
   const driverTitle =
-    userProfile?.role === "driver" &&
-    `Trip with ${rideDetails?.rider?.name}`;
-
+    userProfile?.role === "driver" && `Trip with ${rideDetails?.rider?.name}`;
 
   return (
     <div className="lg:px-6">
@@ -78,13 +72,25 @@ export default function RideDetails() {
       </h1>
 
       <div>
-        <div className="flex items-center gap-4 mb-6">
+        <div className="flex items-center justify-between gap-4 mb-6">
           <div>
             <h1 className="text-2xl font-bold text-foreground">Ride Details</h1>
             <p className="text-muted-foreground">
               {dateFormater(new Date(rideDetails.createdAt))}
             </p>
           </div>
+
+          {rideDetails?.rideStatus === "requested" && (
+            <div className="flex items-center gap-2">
+              <Button className="cursor-pointer">Accept</Button>
+              <Button
+                variant="default"
+                className="cursor-pointer bg-red-600 hover:bg-red-500"
+              >
+                Reject
+              </Button>
+            </div>
+          )}
         </div>
 
         <div className="grid gap-6 lg:grid-cols-5">
@@ -121,7 +127,7 @@ export default function RideDetails() {
             <RiderInformation rider={rideDetails.rider} />
 
             {/* Quick Actions */}
-            <Card>
+            {/* <Card>
               <CardHeader>
                 <CardTitle>Actions</CardTitle>
               </CardHeader>
@@ -136,12 +142,16 @@ export default function RideDetails() {
                   Report Issue
                 </Button>
               </CardContent>
-            </Card>
+            </Card> */}
           </div>
         </div>
 
         <div className="my-20">
-          <LocationPickerMap pickup={formattedLocations.pickup} destination={formattedLocations.destination} isInteractive={false} />
+          <LocationPickerMap
+            pickup={formattedLocations.pickup}
+            destination={formattedLocations.destination}
+            isInteractive={false}
+          />
         </div>
       </div>
     </div>

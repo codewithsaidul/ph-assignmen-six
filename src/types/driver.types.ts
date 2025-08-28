@@ -68,4 +68,6 @@ export interface IIncomingRequestParams {
   limit: number;
   sortBy: string;
   sortOrder: string;
+  minFare: string;
+  maxFare: string;
 }

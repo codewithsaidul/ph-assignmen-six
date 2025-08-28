@@ -23,6 +23,14 @@ export const navigationLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
+
+export const sortOptions = [
+  { value: "createdAt-desc", label: "Date: Newest to Oldest" },
+  { value: "createdAt-asc", label: "Date: Oldest to Newest" },
+  { value: "fare-desc", label: "Fare: High to Low" },
+  { value: "fare-asc", label: "Fare: Low to High" },
+];
+
 export const teamMembers = [
   {
     name: "Sarah Johnson",

@@ -4,7 +4,8 @@ import type {
   IDriverStats,
   IResponse,
   IUpdateDriverStatus,
-  IIncomingRideRequest, IIncomingRequestParams
+  IIncomingRideRequest,
+  IIncomingRequestParams,
 } from "@/types";
 
 export const driverApi = baseApi.injectEndpoints({
@@ -25,11 +26,33 @@ export const driverApi = baseApi.injectEndpoints({
       providesTags: ["Driver Profile"],
       transformResponse: (response: { data: IDriverProfile }) => response.data,
     }),
-    getIncomingRideRequests: builder.query<IIncomingRideRequest, IIncomingRequestParams>({
-      query: () => ({
-        url: "/drivers/incoming-request",
-        method: "GET",
-      }),
+    getIncomingRideRequests: builder.query<
+      IResponse<IIncomingRideRequest[]>,
+      IIncomingRequestParams
+    >({
+      query: ({
+        page = 1,
+        limit = 1,
+        sortBy = "createdAt",
+        sortOrder = "desc",
+        minFare,
+        maxFare,
+      }) => {
+        const params = new URLSearchParams();
+
+        if (page) params.append("page", page.toString());
+        if (limit) params.append("limit", limit.toString());
+        if (sortBy) params.append("sortBy", sortBy);
+        if (sortOrder) params.append("sortOrder", sortOrder);
+        if (minFare) params.append("minFare", minFare);
+        if (maxFare) params.append("maxFare", maxFare);
+
+        return {
+          url: "/drivers/incoming-request",
+          method: "GET",
+          params: params,
+        };
+      },
       providesTags: ["Incoming Ride"],
     }),
     updateDriverStatus: builder.mutation<IResponse<null>, IUpdateDriverStatus>({

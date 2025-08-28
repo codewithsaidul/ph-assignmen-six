@@ -4,6 +4,7 @@ import type {
   IDriverStats,
   IResponse,
   IUpdateDriverStatus,
+  IIncomingRideRequest, IIncomingRequestParams
 } from "@/types";
 
 export const driverApi = baseApi.injectEndpoints({
@@ -23,6 +24,13 @@ export const driverApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Driver Profile"],
       transformResponse: (response: { data: IDriverProfile }) => response.data,
+    }),
+    getIncomingRideRequests: builder.query<IIncomingRideRequest, IIncomingRequestParams>({
+      query: () => ({
+        url: "/drivers/incoming-request",
+        method: "GET",
+      }),
+      providesTags: ["Incoming Ride"],
     }),
     updateDriverStatus: builder.mutation<IResponse<null>, IUpdateDriverStatus>({
       query: (userData) => ({
@@ -62,6 +70,7 @@ export const driverApi = baseApi.injectEndpoints({
 export const {
   useGetDriverAnalyticsQuery,
   useGetDriverProfileQuery,
+  useGetIncomingRideRequestsQuery,
   useUpdateDriverStatusMutation,
   useUpdateDriverAvailityMutation,
 } = driverApi;

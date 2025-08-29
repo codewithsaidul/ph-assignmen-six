@@ -44,6 +44,26 @@
 
   --font-ride-title: "Lora", serif;
   --font-ride-body: "Poppins", sans-serif;
+
+  /* Animations */
+  --animate-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-bounce-subtle: bounce-subtle 1.5s ease-in-out infinite;
+
+  @keyframes pulse {
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  @keyframes bounce-subtle {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+  }
 }
 
 :root {
@@ -142,7 +162,7 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground font-ride-body;
@@ -150,15 +170,6 @@
 
   ::-webkit-scrollbar {
     display: none;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
   }
 
   /* src/index.css */

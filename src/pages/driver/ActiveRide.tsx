@@ -1,5 +1,7 @@
 import Loading from "@/components/loading/Loading";
 import RiderInfo from "@/components/modules/activeride(rider-driver)/RiderInfo";
+import RideStatus from "@/components/modules/activeride(rider-driver)/RideStatus";
+import SOSButton from "@/components/modules/activeride(rider-driver)/SOSButton";
 import StatusControl from "@/components/modules/activeride(rider-driver)/StatusControl";
 import LocationPickerMap from "@/components/modules/ride/LocationPickerMap";
 import { useMyActiveRideQuery } from "@/redux/feature/ride/ride.api";
@@ -67,7 +69,7 @@ export default function ActiveRide() {
   };
 
   return (
-    <div className="lg:px-6 w-full">
+    <div className="lg:px-6 relative">
       <h1 className="text-3xl capitalize font-ride-title font-bold mb-12">
         {riderTitle || driverTitle}
       </h1>
@@ -82,14 +84,35 @@ export default function ActiveRide() {
         </div>
 
         {/* Side Panel */}
-        <div className="md:col-span-5 border-l border-border bg-muted/30 p-4 space-y-4 overflow-y-auto">
-          <RiderInfo rider={activeRide?.rider} trip={tripData} />
-          <StatusControl
-            rideId={activeRide._id}
-            currentStatus={activeRide.rideStatus}
-          />
-        </div>
+        {userProfile?.role === "driver" && (
+          <div className="md:col-span-5 border-l border-border bg-muted/30 p-4 space-y-4 overflow-y-auto">
+            <RiderInfo rider={activeRide?.rider} trip={tripData} />
+            <StatusControl
+              rideId={activeRide._id}
+              currentStatus={activeRide.rideStatus}
+            />
+          </div>
+        )}
+
+        {/* ============== for rider ============= */}
+        {userProfile?.role === "rider" && (
+          <div className="md:col-span-5 border-l border-border bg-muted/30 p-4 space-y-4 overflow-y-auto">
+            <RideStatus
+              fare={activeRide.fare}
+              rideStatus={activeRide.rideStatus}
+              driver={activeRide.driver}
+              destinationAddress={activeRide.destinationAddress}
+            />
+          </div>
+        )}
       </div>
+
+      {/* SOS Button positioned in bottom right of sidebar */}
+      {userProfile?.role === "rider" && (
+        <div className="fixed bottom-6 right-6">
+          <SOSButton />
+        </div>
+      )}
     </div>
   );
 }

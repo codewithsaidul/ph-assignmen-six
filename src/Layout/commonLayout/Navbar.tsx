@@ -1,4 +1,5 @@
 import Logo from "@/components/logo/Logo";
+import { ModeToggle } from "@/components/ModeToggle/ModeToggle";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -51,6 +52,11 @@ export default function Navbar() {
         </div>
         {/* Right side */}
         <div className="flex items-center gap-2">
+
+          <div>
+            <ModeToggle />
+          </div>
+
           <Button asChild variant="default" size="sm" className="text-sm">
             <a href="#">Sign In</a>
           </Button>

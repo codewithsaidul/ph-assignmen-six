@@ -39,7 +39,7 @@ export function AppSidebar({ userProfile, ...props }: AppSidebarProps) {
       : undefined;
 
   return (
-    <Sidebar {...props} className="z-50">
+    <Sidebar {...props} className="z-[99999]">
       <SidebarHeader>
         <div className="px-4 mt-6 mb-10">
           <Link to="/" className="flex items-center gap-2">

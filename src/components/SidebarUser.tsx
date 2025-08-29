@@ -55,7 +55,7 @@ export default function SidebarUser({ user, tourClassName }: ISidebarUserProps) 
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className={cn("data-[state=open]:bg-sidebar-accent z-50 data-[state=open]:text-sidebar-accent-foreground", tourClassName)}
+              className={cn("data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground", tourClassName)}
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale">
                 <AvatarImage
@@ -79,7 +79,7 @@ export default function SidebarUser({ user, tourClassName }: ISidebarUserProps) 
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 z-[9999] rounded-lg"
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}

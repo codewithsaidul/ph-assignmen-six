@@ -58,6 +58,7 @@ export default function GuidedTour({ userRole }: GuidedTourProps) {
           textColor: '#0F172A',
           arrowColor: '#FFFFFF',
           backgroundColor: '#FFFFFF',
+          zIndex: 1000
         },
       }}
     />

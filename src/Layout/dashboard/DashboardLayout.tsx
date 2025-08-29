@@ -16,7 +16,7 @@ export default function DashboardLayout() {
   return (
     <SidebarProvider>
       <AppSidebar userProfile={userProfile} />
-      <SidebarInset>
+      <SidebarInset className="z-50">
         <header className="flex items-center justify-between border-b px-4 lg:px-6">
           <div className="flex h-16 shrink-0 items-center gap-2">
             <SidebarTrigger className="-ml-1" />

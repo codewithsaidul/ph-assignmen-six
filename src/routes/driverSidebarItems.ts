@@ -15,6 +15,7 @@ export const driverSidebarItems: ISidebarItem[] = [
         title: "Analytics",
         url: "/driver/earnings-analytics",
         component: EarningAnalytics,
+        tourClassName: "tour-step-1-analytics"
       },
     ],
   },
@@ -26,16 +27,19 @@ export const driverSidebarItems: ISidebarItem[] = [
         title: "Incoming Request",
         url: "/driver/incoming-request",
         component: IncomingRequest,
+        tourClassName: "tour-step-3-incoming-requests"
       },
       {
         title: "Active Ride",
         url: "/driver/active-ride",
         component: ActiveRide,
+        tourClassName: "tour-step-4-active-ride"
       },
       {
         title: "Ride History",
         url: "/driver/ride-history",
         component: RideHistory,
+        tourClassName: "tour-step-5-ride-history"
       },
     ],
   },

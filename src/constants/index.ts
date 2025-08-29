@@ -15,6 +15,10 @@ import {
   Users,
 } from "lucide-react";
 
+
+
+export { riderTourSteps, driverTourSteps } from "./tour.steps"
+
 export const navigationLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },

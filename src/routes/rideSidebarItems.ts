@@ -14,16 +14,19 @@ export const rideSidebarItems: ISidebarItem[] = [
         title: "Request Ride",
         url: "/ride/request-ride",
         component: RequestRide,
+        tourClassName: "tour-step-1-request-ride"
       },
       {
         title: "Active Ride",
         url: "/ride/active-ride",
         component: ActiveRide,
+        tourClassName: "tour-step-2-active-ride"
       },
       {
         title: "Ride History",
         url: "/ride/history",
         component: RideHistory,
+        tourClassName: "tour-step-3-ride-history"
       },
     ],
   },

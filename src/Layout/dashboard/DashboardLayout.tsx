@@ -1,46 +1,22 @@
 import { AppSidebar } from "@/components/app-sidebar";
-import { Label } from "@/components/ui/label";
+import GuidedTour from "@/components/GuidedTour";
+import DriverAvailabilityToggle from "@/components/modules/driver/DriverAvailabilityToggle";
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Switch } from "@/components/ui/switch";
-import { useGetDriverProfileQuery, useUpdateDriverAvailityMutation } from "@/redux/feature/driver/driver.api";
-import { useEffect, useState } from "react";
+import { useGetUserProfileQuery } from "@/redux/feature/user/user.api";
 import { Outlet } from "react-router";
 
 export default function DashboardLayout() {
-  const { data: driverProfile } = useGetDriverProfileQuery(undefined);
-  const [updateAvailability] = useUpdateDriverAvailityMutation()
-  const [isOnline, setIsOnline] = useState(false);
-
-
-   useEffect(() => {
-    if (driverProfile) {
-      setIsOnline(driverProfile.availability === 'online');
-    }
-  }, [driverProfile]);
-
-  const handleToggle = async (checked: boolean) => {
-    setIsOnline(checked);
-    try {
-      const status = {
-        availability: checked ? 'online' : 'offline'
-      }
-      await updateAvailability(status).unwrap();
-    } catch {
-      setIsOnline(!checked);
-    }
-  };
-  
-
+  const { data: userProfile } = useGetUserProfileQuery(undefined);
 
   return (
     <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
+      <AppSidebar userProfile={userProfile} />
+      <SidebarInset className="z-50">
         <header className="flex items-center justify-between border-b px-4 lg:px-6">
           <div className="flex h-16 shrink-0 items-center gap-2">
             <SidebarTrigger className="-ml-1" />
@@ -50,23 +26,13 @@ export default function DashboardLayout() {
             />
           </div>
 
-          {driverProfile && (
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="availability-mode"
-                checked={isOnline}
-                onCheckedChange={handleToggle}
-                // disabled={isLoading}
-              />
-              <Label htmlFor="availability-mode" className="capitalize">
-                {driverProfile?.availability}
-              </Label>
-            </div>
-          )}
+          {userProfile?.role === "driver" && <DriverAvailabilityToggle />}
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
           <Outlet />
         </div>
+
+        <GuidedTour userRole={userProfile?.role} />
       </SidebarInset>
     </SidebarProvider>
   );

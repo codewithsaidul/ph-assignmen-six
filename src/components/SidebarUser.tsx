@@ -25,12 +25,14 @@ import { useLogoutMutation } from "@/redux/feature/auth/auth.api";
 import { useAppDispatch } from "@/redux/hook";
 import toast from "react-hot-toast";
 import { userApi } from "@/redux/feature/user/user.api";
+import { cn } from "@/lib/utils";
 
 interface ISidebarUserProps {
   user: IUser;
+  tourClassName?: string
 }
 
-export default function SidebarUser({ user }: ISidebarUserProps) {
+export default function SidebarUser({ user, tourClassName }: ISidebarUserProps) {
   const { isMobile } = useSidebar();
   const [logout] = useLogoutMutation();
   const dispatch = useAppDispatch();
@@ -53,7 +55,7 @@ export default function SidebarUser({ user }: ISidebarUserProps) {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent z-50 data-[state=open]:text-sidebar-accent-foreground"
+              className={cn("data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground", tourClassName)}
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale">
                 <AvatarImage
@@ -77,7 +79,7 @@ export default function SidebarUser({ user }: ISidebarUserProps) {
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 z-[9999] rounded-lg"
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}

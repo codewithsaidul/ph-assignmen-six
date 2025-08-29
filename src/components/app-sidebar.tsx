@@ -13,27 +13,38 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
+import type { IUser, TRole } from "@/types";
+import { getSidebarItems } from "@/utils/getSidebarItems";
 import { Link, useLocation } from "react-router";
 import Logo from "./logo/Logo";
-import { getSidebarItems } from "@/utils/getSidebarItems";
-import { useGetUserProfileQuery } from "@/redux/feature/user/user.api";
 import SidebarUser from "./SidebarUser";
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { data: userProfile } = useGetUserProfileQuery(undefined);
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  userProfile: IUser | undefined;
+}
+
+export function AppSidebar({ userProfile, ...props }: AppSidebarProps) {
   const { pathname } = useLocation();
 
   const data = {
-    navMain: getSidebarItems(userProfile?.role),
+    navMain: getSidebarItems(userProfile?.role as TRole),
   };
 
+  const getClassname =
+    userProfile?.role === "driver"
+      ? "tour-step-6-profile-menu"
+      : userProfile?.role === "rider"
+      ? "tour-step-4-profile-menu"
+      : undefined;
+
   return (
-    <Sidebar {...props} className="z-50">
+    <Sidebar {...props} className="z-[99999]">
       <SidebarHeader>
         <div className="px-4 mt-6 mb-10">
           <Link to="/" className="flex items-center gap-2">
             <Logo width="28" height="28" />
-          <h2 className="text-3xl font-ride-title">Rydex</h2>
+            <h2 className="text-3xl font-ride-title">Rydex</h2>
           </Link>
         </div>
       </SidebarHeader>
@@ -44,13 +55,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarGroupLabel>{item?.title}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {item?.items?.map((item: { title: string, url: string}) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={pathname === item.url}>
-                      <Link to={item.url}>{item.title}</Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
+                {item?.items?.map(
+                  (item: {
+                    title: string;
+                    url: string;
+                    tourClassName: string;
+                  }) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={pathname === item.url}
+                        className={cn(item.tourClassName)}
+                      >
+                        <Link to={item.url}>{item.title}</Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )
+                )}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
@@ -58,7 +79,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarRail />
       <SidebarFooter>
-        <SidebarUser user={userProfile} />
+        <SidebarUser user={userProfile as IUser} tourClassName={getClassname} />
       </SidebarFooter>
     </Sidebar>
   );

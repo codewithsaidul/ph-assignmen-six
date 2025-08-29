@@ -1,8 +1,10 @@
-import ActiveRide from "@/pages/driver/ActiveRide";
-import RequestRide from "@/pages/ride/RequestRide";
-import RideHistory from "@/pages/ride/RideHistory";
+import { lazy } from "react";
 import type { ISidebarItem } from "@/types";
 
+
+const ActiveRide = lazy(() => import("@/pages/driver/ActiveRide"));
+const RequestRide = lazy(() => import("@/pages/ride/RequestRide"));
+const RideHistory = lazy(() => import("@/pages/ride/RideHistory"));
 
 
 export const rideSidebarItems: ISidebarItem[] = [

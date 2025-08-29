@@ -92,6 +92,14 @@ export const rideApi = baseApi.injectEndpoints({
       providesTags: ["Ride"],
       transformResponse: (response: { data: IRide }) => response.data,
     }),
+    myActiveRide: builder.query<IRide, undefined>({
+      query: () => ({
+        url: `/rides/myActiveRide`,
+        method: "GET",
+      }),
+      providesTags: ["Active Ride"],
+      transformResponse: (response: { data: IRide }) => response.data,
+    }),
     requestRide: builder.mutation<IResponse<IRide>, IRideRequest>({
       query: (rideData) => ({
         url: "/rides",
@@ -129,7 +137,7 @@ export const rideApi = baseApi.injectEndpoints({
           patchResult.undo();
         }
       },
-      invalidatesTags: ["Rides", "Rides History"],
+      invalidatesTags: ["Rides", "Rides History", "Active Ride"],
     }),
   }),
 });
@@ -138,6 +146,7 @@ export const {
   useGetAllRidesQuery,
   useRideHistoryQuery,
   useRideDetailsQuery,
+  useMyActiveRideQuery,
   useRequestRideMutation,
   useUpdateRideStatusMutation,
 } = rideApi;

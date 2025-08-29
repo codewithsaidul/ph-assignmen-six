@@ -22,6 +22,7 @@ export interface IRider {
   name: string
   email: string
   role: string
+  phoneNumber: string;
 }
 
 export interface IDriver {

@@ -53,6 +53,8 @@ export interface IRideData {
 export interface RideStatus {
   rideStatus: string;
 }
+
+
 export interface IUpdateRideStatus {
   rideId: string;
   rideStatus: RideStatus;

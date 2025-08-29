@@ -17,6 +17,33 @@ export const navigationLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
+export const teamMembers = [
+  {
+    name: "Sarah Johnson",
+    role: "CEO & Founder",
+    image: "/team/sarah.jpg",
+    bio: "With 15 years in transportation tech, Sarah founded RideBook to revolutionize urban mobility.",
+    linkedin: "#",
+    email: "sarah@rydex.com",
+  },
+  {
+    name: "Michael Chen",
+    role: "CTO",
+    image: "/team/michael.jpg",
+    bio: "Former Google engineer passionate about building scalable, user-friendly transportation solutions.",
+    linkedin: "#",
+    email: "michael@rydex.com",
+  },
+  {
+    name: "Emily Rodriguez",
+    role: "Head of Operations",
+    image: "/team/emily.jpg",
+    bio: "Operations expert ensuring safe, efficient rides and exceptional customer experiences.",
+    linkedin: "#",
+    email: "emily@rydex.com",
+  },
+];
+
 export const steps = [
   {
     icon: MapPin,
@@ -66,19 +93,19 @@ export const testimonials = [
   {
     name: "Maria Rodriguez",
     rating: 5,
-    text: "RideBook has been a lifesaver! As someone who prefers cash payments, this service is perfect. The drivers are always professional and the rides are comfortable.",
+    text: "Rydex has been a lifesaver! As someone who prefers cash payments, this service is perfect. The drivers are always professional and the rides are comfortable.",
     location: "Downtown Customer",
   },
   {
     name: "David Chen",
     rating: 5,
-    text: "I've been driving for RideBook for 6 months now. The platform is easy to use and I love helping people who need reliable transportation. Great community!",
-    location: "RideBook Driver",
+    text: "I've been driving for Rydex for 6 months now. The platform is easy to use and I love helping people who need reliable transportation. Great community!",
+    location: "Rydex Driver",
   },
   {
     name: "Sarah Johnson",
     rating: 5,
-    text: "Excellent service! I use RideBook for my daily commute and it's always reliable. The cash payment option is so convenient and the drivers are friendly.",
+    text: "Excellent service! I use Rydex for my daily commute and it's always reliable. The cash payment option is so convenient and the drivers are friendly.",
     location: "Regular Rider",
   },
 ];
@@ -172,7 +199,7 @@ export const faqs = [
     id: "availability",
     question: "What are your service hours?",
     answer:
-      "RideBook operates 24/7 in all our service areas. Whether you need an early morning ride to the airport or a late-night trip home, our drivers are available around the clock.",
+      "Rydex operates 24/7 in all our service areas. Whether you need an early morning ride to the airport or a late-night trip home, our drivers are available around the clock.",
   },
   {
     id: "cancellation",

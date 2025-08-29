@@ -1,25 +1,28 @@
 import App from "@/App";
 import { role } from "@/constants";
 import DashboardLayout from "@/Layout/dashboard/DashboardLayout";
-import Login from "@/pages/auth/Login";
-import Register from "@/pages/auth/Register";
-import UpdateProfile from "@/pages/user/UpdateProfile";
 import type { TRole } from "@/types";
 import { generateRoutes } from "@/utils/generateRoutes";
 import { withAuth } from "@/utils/withAuth";
 import { createBrowserRouter, Navigate } from "react-router";
 import { adminSidebarItems } from "./adminSidebarItems";
-import UserProfile from "@/pages/user/UserProfile";
 import { rideSidebarItems } from "./rideSidebarItems";
-import RideDetails from "@/pages/ride/RideDetails";
 import HomePage from "@/pages/public/HomePage";
 import FaqPage from "@/pages/public/FaqPage";
 import ContactPage from "@/pages/public/ContactPage";
 import AboutPage from "@/pages/public/AboutPage";
 import FeaturesPage from "@/pages/public/FeaturesPage";
 import { driverSidebarItems } from "./driverSidebarItems";
-import AccountStatusPage from "@/pages/common/AccountStatusPage";
-import Unauthorized from "@/pages/common/Unauthorized";
+import { lazy } from "react";
+
+const Login = lazy(() => import("@/pages/auth/Login"))
+const Register = lazy(() => import("@/pages/auth/Register"))
+const AccountStatusPage = lazy(() => import("@/pages/common/AccountStatusPage"))
+const UpdateProfile = lazy(() => import("@/pages/user/UpdateProfile"))
+const UserProfile = lazy(() => import("@/pages/user/UserProfile"))
+const RideDetails = lazy(() => import("@/pages/ride/RideDetails"))
+const Unauthorized = lazy(() => import("@/pages/common/Unauthorized"))
+
 
 
 export const router = createBrowserRouter([
@@ -50,7 +53,7 @@ export const router = createBrowserRouter([
     ]
   },
   {
-    path: "/dashboard", // <-- একটি কমন পাথ, যেমন 'dashboard'
+    path: "/dashboard",
     Component: withAuth(DashboardLayout, [
       role.admin,
       role.rider,

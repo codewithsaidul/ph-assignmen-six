@@ -13,7 +13,7 @@ export interface ILogin {
 
 export interface IRegister extends ILogin {
   name: string;
-  role: "rider" | "driver";
+  role: string;
   licenseNumber?: string;
   vehicleInfo?: IVehicleInfo;
 }

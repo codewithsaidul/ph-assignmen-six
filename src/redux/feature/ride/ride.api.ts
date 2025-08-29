@@ -1,4 +1,5 @@
 import { baseApi } from "@/redux/baseApi/base.api";
+
 import type {
   IResponse,
   IRide,
@@ -7,6 +8,7 @@ import type {
   IRidesParams,
   IUpdateRideStatus,
 } from "@/types";
+import { driverApi } from "../driver/driver.api";
 
 export const rideApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -56,7 +58,7 @@ export const rideApi = baseApi.injectEndpoints({
         fields,
         minFare,
         maxFare,
-        rideStatus
+        rideStatus,
       }) => {
         const params = new URLSearchParams();
 
@@ -84,11 +86,19 @@ export const rideApi = baseApi.injectEndpoints({
     }),
     rideDetails: builder.query<IRide, string>({
       query: (rideId) => ({
-          url: `/rides/${rideId}/details`,
-          method: "GET",
+        url: `/rides/${rideId}/details`,
+        method: "GET",
       }),
       providesTags: ["Ride"],
-      transformResponse: (response: { data: IRide }) => response.data
+      transformResponse: (response: { data: IRide }) => response.data,
+    }),
+    myActiveRide: builder.query<IRide, undefined>({
+      query: () => ({
+        url: `/rides/myActiveRide`,
+        method: "GET",
+      }),
+      providesTags: ["Active Ride"],
+      transformResponse: (response: { data: IRide }) => response.data,
     }),
     requestRide: builder.mutation<IResponse<IRide>, IRideRequest>({
       query: (rideData) => ({
@@ -104,7 +114,30 @@ export const rideApi = baseApi.injectEndpoints({
         method: "PATCH",
         data: rideStatus,
       }),
-      invalidatesTags: ["Rides", "Rides History"],
+      async onQueryStarted(
+        { rideId, page, limit, sortBy, sortOrder },
+        { dispatch, queryFulfilled }
+      ) {
+        const patchResult = dispatch(
+          driverApi.util.updateQueryData(
+            "getIncomingRideRequests",
+            { page, limit, sortBy, sortOrder },
+            (draft) => {
+              const index = draft.data.findIndex((ride) => ride._id === rideId);
+              if (index !== -1) {
+                draft.data.splice(index, 1);
+              }
+            }
+          )
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+      invalidatesTags: ["Rides", "Rides History", "Active Ride"],
     }),
   }),
 });
@@ -113,6 +146,7 @@ export const {
   useGetAllRidesQuery,
   useRideHistoryQuery,
   useRideDetailsQuery,
+  useMyActiveRideQuery,
   useRequestRideMutation,
   useUpdateRideStatusMutation,
 } = rideApi;

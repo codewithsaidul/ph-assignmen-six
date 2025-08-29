@@ -25,13 +25,14 @@ export default function LocationPickerMap({
     onFareCalculated?.(null); // fare reseting
   };
 
+
   const handleResetDestination = () => {
     onDestinationSelect?.(null); // reseting only destination location
     onFareCalculated?.(null); // fare reseting
   };
   return (
     <div className="relative">
-      {isInteractive && (
+      { isInteractive && (
         <div className="absolute top-2 left-1/2 w-full max-w-xl -translate-x-1/2 z-[1000] p-2 bg-background/80 text-foreground rounded-md shadow-lg flex items-center gap-4 backdrop-blur-3xl bg-opacity-50">
           <div className="flex flex-col gap-5 items-center p-5 w-full">
             <p className="font-semibold text-sm">
@@ -99,7 +100,8 @@ export default function LocationPickerMap({
         minZoom={12}
         maxZoom={30}
         maxBoundsViscosity={1.0}
-        style={{ height: "500px", width: "100%" }}
+        className="w-full h-72 md:h-[800px]"
+        // style={{ height: "100%", width: "100%" }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <CurrentLocationFinder />
@@ -111,7 +113,7 @@ export default function LocationPickerMap({
           destination={destination}
           onPickupSelect={onPickupSelect}
           onDestinationSelect={onDestinationSelect}
-          isInteractive={false}
+          isInteractive={isInteractive}
         />
       </MapContainer>
     </div>

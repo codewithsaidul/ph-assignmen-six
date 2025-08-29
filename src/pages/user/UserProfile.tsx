@@ -8,12 +8,14 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import { useGetDriverProfileQuery } from "@/redux/feature/driver/driver.api";
 import { useGetUserProfileQuery } from "@/redux/feature/user/user.api";
 import { useState } from "react";
 import { Link } from "react-router";
 
 export default function UserProfile() {
   const { data: userProfile, isLoading } = useGetUserProfileQuery(undefined);
+  const { data: driverInfo } = useGetDriverProfileQuery(undefined);
   const [open, setOpen] = useState(false);
 
   if (isLoading) return <Loading />;
@@ -79,6 +81,31 @@ export default function UserProfile() {
                 </div>
               </div>
             </div>
+
+            {driverInfo && (
+              <div className="mt-5">
+                <h2 className="text-muted-foreground text-lg">Vehicle Info</h2>
+
+                <div className="mt-10">
+                  <div className="flex flex-col items-start min-[400px]:flex-row justify-between mt-5 min-[400px]:items-center gap-4 min-[400px]:gap-20 border-b pb-3">
+                    <p>License Number:</p>
+                    <span>{driverInfo?.licenseNumber}</span>
+                  </div>
+                  <div className="flex flex-col items-start min-[400px]:flex-row justify-between mt-5 min-[400px]:items-center gap-4 min-[400px]:gap-20 border-b pb-3">
+                    <p>Vehicle Type:</p>
+                    <span>{driverInfo?.vehicleInfo?.vehicleType}</span>
+                  </div>
+                  <div className="flex flex-col items-start min-[400px]:flex-row justify-between mt-5 min-[400px]:items-center gap-4 min-[400px]:gap-20 border-b pb-3">
+                    <p>Model:</p>
+                    <span>{driverInfo?.vehicleInfo?.model}</span>
+                  </div>
+                  <div className="flex flex-col items-start min-[400px]:flex-row justify-between mt-5 min-[400px]:items-center gap-4 min-[400px]:gap-20">
+                    <p>Plate:</p>
+                    <span>{driverInfo?.vehicleInfo?.plate}</span>
+                  </div>
+                </div>
+              </div>
+            )}
           </CardContent>
           <CardFooter className="flex justify-end">
             <ChangePasswordModal open={open} onChange={setOpen} />

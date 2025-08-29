@@ -1,5 +1,11 @@
 import { baseApi } from "@/redux/baseApi/base.api";
-import type { IResponse, IRiderUpdateStatus, IRidesParams, IUpdateDriverStatus, IUpdateProfile, IUser } from "@/types";
+import type {
+  IResponse,
+  IRiderUpdateStatus,
+  IRidesParams,
+  IUpdateProfile,
+  IUser,
+} from "@/types";
 
 export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -12,7 +18,14 @@ export const userApi = baseApi.injectEndpoints({
       transformResponse: (response) => response.data,
     }),
     getAllUsers: builder.query<IResponse<IUser[]>, IRidesParams>({
-      query: ({ page = 1, limit = 10, sortBy = "createdAt", sortOrder = "desc", searchTerm, fields }) => {
+      query: ({
+        page = 1,
+        limit = 10,
+        sortBy = "createdAt",
+        sortOrder = "desc",
+        searchTerm,
+        fields,
+      }) => {
         const params = new URLSearchParams();
 
         if (page) params.append("page", page.toString());
@@ -29,7 +42,7 @@ export const userApi = baseApi.injectEndpoints({
         return {
           url: "/user/all-users",
           method: "GET",
-          params: params
+          params: params,
         };
       },
       providesTags: ["Users"],
@@ -40,19 +53,11 @@ export const userApi = baseApi.injectEndpoints({
         method: "PATCH",
         data: userData,
       }),
-      invalidatesTags: ["Users", "User Profile"],
+      invalidatesTags: ["Users", "User Profile", "Driver Profile"],
     }),
     updateRiderStatus: builder.mutation<IResponse<IUser>, IRiderUpdateStatus>({
       query: (userData) => ({
         url: `/user/${userData.userId}/userStatus`,
-        method: "PATCH",
-        data: userData,
-      }),
-      invalidatesTags: ["Users", "User Profile"],
-    }),
-    updateDriverStatus: builder.mutation<IResponse<null>, IUpdateDriverStatus>({
-      query: (userData) => ({
-        url: `/drivers/${userData.driverId}/driverStatus`,
         method: "PATCH",
         data: userData,
       }),
@@ -73,6 +78,5 @@ export const {
   useGetAllUsersQuery,
   useUpdateUserInfoMutation,
   useUpdateRiderStatusMutation,
-  useUpdateDriverStatusMutation,
-  useDeleteUserMutation
+  useDeleteUserMutation,
 } = userApi;

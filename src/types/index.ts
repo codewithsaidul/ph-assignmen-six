@@ -13,24 +13,28 @@ export type {
   IRegister,
 } from "./auth.types";
 export type {
-  IDestinationLocation,
-  IPickedupLocation,
+  IDestinationCoordinates,
+  ILocationMapProps,
+  IPickedupCoordinates,
   IRide,
   IRideData,
   IRideRequest,
   IRidesParams,
   IStatusLog,
   IUpdateRideStatus,
-  ILocationMapProps
 } from "./ride.types";
 export type { SidebarContextProps } from "./sidebar.types";
 export type {
+  IDriver,
+  IRider,
   IRiderUpdateStatus,
   IUpdateDriverStatus,
   IUpdateProfile,
   IUser,
   IUserProfile,
 } from "./user.types";
+
+export type { IDriverDailyEarning, IDriverStats, IDriverStatsCardProps, IDriverProfile, IVehicleInfo, IIncomingRideRequest, IIncomingRequestParams } from "./driver.types"
 
 export type Theme = "dark" | "light" | "system";
 

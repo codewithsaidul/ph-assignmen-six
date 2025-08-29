@@ -112,10 +112,6 @@ export function RideStatusUpdateModal({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="requested">Requested</SelectItem>
-                        <SelectItem value="cancelled">Cancelled</SelectItem>
-                        <SelectItem value="rejected">Rejected</SelectItem>
-                        <SelectItem value="accepted">Accepted</SelectItem>
                         <SelectItem value="picked_up">Picked Up</SelectItem>
                         <SelectItem value="in_transit">In Transit</SelectItem>
                         <SelectItem value="completed">Completed</SelectItem>

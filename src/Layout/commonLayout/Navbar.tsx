@@ -19,8 +19,9 @@ import { Link, useLocation } from "react-router";
 import ProfileAvatar from "./ProfileAvatar";
 import { useAppDispatch } from "@/redux/hook";
 import toast from "react-hot-toast";
+import { useMemo } from "react";
 
-// Navigation links array to be used in both desktop and mobile menus
+
 
 export default function Navbar() {
   // get user profile data and logout mutation
@@ -41,8 +42,26 @@ export default function Navbar() {
   };
 
 
+    // 1. creating a new navigation link array using usememo based on user role
+  const finalNavLinks = useMemo(() => {
+    // public links
+    const links = [...navigationLinks];
+
+    // 2. add new link based on role
+    if (userProfile?.role === 'rider') {
+      links.push({ href: "/ride", label: "Request Ride" });
+    } else if (userProfile?.role === 'driver') {
+      links.push({ href: "/driver", label: "Dashboard" });
+    } else if (userProfile?.role === 'admin') {
+      links.push({ href: "/admin", label: "Dashboard" });
+    }
+    
+    return links;
+  }, [userProfile?.role]); 
+
+
   return (
-    <header className="sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b shadow-sm z-[60]">
+    <header className="sticky top-0 bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b shadow-sm z-[60]">
       <div className="flex h-16 items-center justify-between gap-4 container mx-auto px-4">
         {/* Left side */}
         {/* Main nav */}
@@ -60,7 +79,7 @@ export default function Navbar() {
           {/* Navigation menu */}
           <NavigationMenu className="max-md:hidden">
             <NavigationMenuList className="gap-6">
-              {navigationLinks.map((link, index) => (
+              {finalNavLinks.map((link, index) => (
                 <NavigationMenuItem key={index}>
                   <NavigationMenuLink
                     className="text-muted-foreground data-[active]:border-b-primary hover:text-primary py-1.5 font-medium"
@@ -128,7 +147,7 @@ export default function Navbar() {
             <PopoverContent align="start" className="w-60 p-1 md:hidden">
               <NavigationMenu className="max-w-none *:w-full">
                 <NavigationMenuList className="flex-col items-center py-10 px-10 gap-0 md:gap-2">
-                  {navigationLinks.map((link, index) => (
+                  {finalNavLinks.map((link, index) => (
                     <NavigationMenuItem key={index} className="w-fit">
                       <NavigationMenuLink
                         className="py-1.5 text-xl"

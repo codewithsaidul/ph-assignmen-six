@@ -17,6 +17,7 @@ import FaqPage from "@/pages/public/FaqPage";
 import ContactPage from "@/pages/public/ContactPage";
 import AboutPage from "@/pages/public/AboutPage";
 import FeaturesPage from "@/pages/public/FeaturesPage";
+import { driverSidebarItems } from "./driverSidebarItems";
 
 
 export const router = createBrowserRouter([
@@ -83,6 +84,14 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to="/ride/request-ride" /> },
       ...generateRoutes(rideSidebarItems),
+    ],
+  },
+  {
+    path: "/driver",
+    Component: withAuth(DashboardLayout, role.driver as TRole),
+    children: [
+      { index: true, element: <Navigate to="/driver/earnings-analytics" /> },
+      ...generateRoutes(driverSidebarItems),
     ],
   },
   {

@@ -1,5 +1,3 @@
-"use client";
-
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -66,7 +64,6 @@ export default function RevenueChart ({
     <div className="lg:px-6">
       <Card className="@container/card">
         <CardHeader>
-          {/* 修正点 ১: শিরোনাম এবং বিবরণ আপডেট */}
           <CardTitle>Revenue Trend</CardTitle>
           <CardDescription>
             Showing daily revenue for the selected period
@@ -134,7 +131,6 @@ export default function RevenueChart ({
                 }}
               />
               <ChartTooltip
-                // 修正点 ২: হোভার লাইন দেখানোর জন্য cursor={true}
                 cursor={false}
                 content={
                   <ChartTooltipContent
@@ -149,7 +145,6 @@ export default function RevenueChart ({
                 fill="url(#fillGrossFare)"
                 stroke="var(--color-totalGrossFare)"
                 stackId="a"
-                // 修正点 ৩: টুলটিপের জন্য name প্রপার্টি যোগ
                 name={chartConfig.totalGrossFare.label}
               />
               <Area
@@ -158,7 +153,6 @@ export default function RevenueChart ({
                 fill="url(#fillPlatformRevenue)"
                 stroke="var(--color-totalPlatformRevenue)"
                 stackId="a"
-                // 修正点 ৩: টুলটিপের জন্য name প্রপার্টি যোগ
                 name={chartConfig.totalPlatformRevenue.label}
               />
             </AreaChart>

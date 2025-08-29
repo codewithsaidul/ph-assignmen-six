@@ -1,6 +1,5 @@
 import RideRequestForm from "@/components/modules/ride/RideRequestForm";
-import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
-import "leaflet/dist/leaflet.css";
+
 
 export default function RequestRide() {
   return (

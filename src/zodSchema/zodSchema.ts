@@ -5,7 +5,6 @@ export const baseSchema = z.object({
     .string("Name must be a string")
     .nonempty("Name is required")
     .min(3, "Name must be at least 3 characters long"),
-  // role: z.enum(["rider", "driver"]),
   email: z
     .string("Email must be a string")
     .nonempty("email is required")
@@ -59,11 +58,13 @@ export const registerZodSchema = z.discriminatedUnion("role", [
   driverSchema,
 ]);
 
-export const updateProfileSchema = z.object({
+
+export const baseUpdateSchema = z.object({
   name: z
     .string("Name must be a string")
     .min(3, "name must be contain at least 3 characters lont")
     .optional(),
+  email: z.email().optional(),
   phoneNumber: z
     .string("Phone Number must be a string")
     .regex(/^(?:\+8801\d{9}|01\d{9})$/, {
@@ -76,6 +77,34 @@ export const updateProfileSchema = z.object({
     .max(200, "Address cannot exceed 200 characters.")
     .optional(),
 });
+
+
+export const updateDriverSchma = baseUpdateSchema.extend({
+  role: z.literal("driver"),
+  licenseNumber: z
+    .string()
+    .min(6, "License number must be at least 6 characters")
+    .max(20, "License number must be at most 20 characters"),
+  vehicleType: z.string().min(1, "Vehicle type is required").optional(),
+  model: z.string().min(1, "Model is required").optional(),
+  plate: z
+    .string()
+    .min(8, "Plate number must be at least 8 characters")
+    .max(30, "Plate number must be at most 30 characters").optional(),
+});
+
+export const updateRiderSchema = baseUpdateSchema
+  .extend({
+    role: z.literal("rider"),
+  })
+
+export const updateProfileSchema = z.discriminatedUnion("role", [
+  updateRiderSchema,
+  updateDriverSchma,
+]);
+
+
+
 
 export const changePasswordSchema = z
   .object({

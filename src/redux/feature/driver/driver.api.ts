@@ -26,10 +26,7 @@ export const driverApi = baseApi.injectEndpoints({
       providesTags: ["Driver Profile"],
       transformResponse: (response: { data: IDriverProfile }) => response.data,
     }),
-    getIncomingRideRequests: builder.query<
-      IResponse<IIncomingRideRequest[]>,
-      IIncomingRequestParams
-    >({
+    getIncomingRideRequests: builder.query<IResponse<IIncomingRideRequest[]>, IIncomingRequestParams>({
       query: ({
         page = 1,
         limit = 1,

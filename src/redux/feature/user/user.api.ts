@@ -53,7 +53,7 @@ export const userApi = baseApi.injectEndpoints({
         method: "PATCH",
         data: userData,
       }),
-      invalidatesTags: ["Users", "User Profile"],
+      invalidatesTags: ["Users", "User Profile", "Driver Profile"],
     }),
     updateRiderStatus: builder.mutation<IResponse<IUser>, IRiderUpdateStatus>({
       query: (userData) => ({

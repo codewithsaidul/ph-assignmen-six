@@ -35,9 +35,9 @@ export interface IDriver {
 }
 
 export interface IVehicleInfo {
-  vehicleType: string
-  model: string
-  plate: string
+  vehicleType?: string
+  model?: string
+  plate?: string
 }
 
 export interface IUpdateProfile {
@@ -46,9 +46,11 @@ export interface IUpdateProfile {
 }
 
 export interface IUserProfile {
-  name: string;
-  phoneNumber: string;
-  address: string;
+  name?: string;
+  phoneNumber?: string;
+  address?: string;
+  vehicleInfo?: IVehicleInfo
+  licenseNumber?: string
 }
 
 export interface IRiderUpdateStatus {

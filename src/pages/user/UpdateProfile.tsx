@@ -16,6 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useGetDriverProfileQuery } from "@/redux/feature/driver/driver.api";
 import {
   useGetUserProfileQuery,
   useUpdateUserInfoMutation,
@@ -28,21 +29,25 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 import z from "zod";
 
-
-
 export default function UpdateProfile() {
   const { data: userProfile, isLoading } = useGetUserProfileQuery(undefined);
+  const { data: driverInfo } = useGetDriverProfileQuery(undefined);
   const [updateUserInfo, { isLoading: updateProfileLoading }] =
     useUpdateUserInfoMutation();
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof updateProfileSchema>>({
     resolver: zodResolver(updateProfileSchema),
-    defaultValues: {
+    values: {
       name: userProfile?.name,
       email: userProfile?.email,
       phoneNumber: userProfile?.phoneNumber,
+      role: userProfile?.role,
       address: userProfile?.address,
+      licenseNumber: driverInfo?.licenseNumber,
+      vehicleType: driverInfo?.vehicleInfo?.vehicleType,
+      model: driverInfo?.vehicleInfo?.model,
+      plate: driverInfo?.vehicleInfo?.plate,
     },
   });
 
@@ -54,36 +59,58 @@ export default function UpdateProfile() {
         name: userProfile.name,
         email: userProfile.email,
         phoneNumber: userProfile.phoneNumber,
-        address: userProfile.address,
+        role: userProfile?.role,
+        address: userProfile?.address,
+        licenseNumber: driverInfo?.licenseNumber,
+        vehicleType: driverInfo?.vehicleInfo?.vehicleType,
+        model: driverInfo?.vehicleInfo?.model,
+        plate: driverInfo?.vehicleInfo?.plate,
       });
     }
-  }, [userProfile, form]);
-
-
+  }, [userProfile, form, driverInfo?.licenseNumber, driverInfo?.vehicleInfo]);
 
   if (isLoading) return <Loading />;
-
 
   // Handle Update Profile
   const onSubmit = async (values: z.infer<typeof updateProfileSchema>) => {
     const toastId = toast.loading("Updating...");
 
-    const userData = {
+    const baseUserData = {
       name: values.name,
       phoneNumber: values.phoneNumber,
       address: values.address
-    }
+    };
 
+    let finalUserData;
+
+    if (userProfile?.role === "driver") {
+      if (values.role === "driver") {
+        finalUserData = {
+          ...baseUserData,
+          licenseNumber: values.licenseNumber,
+          vehicleInfo: {
+            vehicleType: values.vehicleType,
+            model: values.model,
+            plate: values.plate,
+          },
+        };
+      } else {
+        finalUserData = baseUserData;
+      }
+    } else {
+      // যদি রাইডার হয়, তাহলে শুধু বেস ডেটাই থাকবে
+      finalUserData = baseUserData;
+    }
 
     try {
       const res = await updateUserInfo({
         userId: userProfile?._id,
-        userData: userData,
+        userData: finalUserData,
       }).unwrap();
 
       if (res.success && res.statusCode === 200) {
         toast.success(res.message, { id: toastId });
-        navigate("/dashboard/profile")
+        navigate("/dashboard/profile");
       }
     } catch (error: unknown) {
       const errorMessage =
@@ -160,41 +187,120 @@ export default function UpdateProfile() {
                   )}
                 />
 
-                <FormField
-                  control={form.control}
-                  name="phoneNumber"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Phone Number</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="+880 123456789"
-                          {...field}
-                          value={field.value || ""}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="flex flex-col sm:flex-row w-full sm:items-center gap-5">
+                  <FormField
+                    control={form.control}
+                    name="phoneNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Phone Number</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="+880 123456789"
+                            {...field}
+                            value={field.value || ""}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  control={form.control}
-                  name="address"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Address</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="123 streat, Dhaka Bangladesh"
-                          {...field}
-                          value={field.value || ""}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="address"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Address</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="123 streat, Dhaka Bangladesh"
+                            {...field}
+                            value={field.value || ""}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                {userProfile?.role === "driver" && (
+                  <>
+                    <div className="flex flex-col sm:flex-row w-full sm:items-center gap-5">
+                      <FormField
+                        control={form.control}
+                        name="licenseNumber"
+                        render={({ field }) => (
+                          <FormItem className="flex-1">
+                            <FormLabel>License Number</FormLabel>
+                            <FormControl className="w-full">
+                              <Input
+                                placeholder="NS9765FG56"
+                                {...field}
+                                value={field.value || ""}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="vehicleType"
+                        render={({ field }) => (
+                          <FormItem className="flex-1">
+                            <FormLabel>Vehicle Type</FormLabel>
+                            <FormControl className="w-full">
+                              <Input
+                                placeholder="Moto bike"
+                                {...field}
+                                value={field.value || ""}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className="flex flex-col sm:flex-row w-full sm:items-center gap-5">
+                      <FormField
+                        control={form.control}
+                        name="model"
+                        render={({ field }) => (
+                          <FormItem className="flex-1">
+                            <FormLabel>Vehicle Model</FormLabel>
+                            <FormControl className="w-full">
+                              <Input
+                                placeholder="Yamaha FZS v3"
+                                {...field}
+                                value={field.value || ""}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="plate"
+                        render={({ field }) => (
+                          <FormItem className="flex-1">
+                            <FormLabel>Plate</FormLabel>
+                            <FormControl className="w-full">
+                              <Input
+                                placeholder="XYZ-34-Z-90"
+                                {...field}
+                                value={field.value || ""}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </>
+                )}
               </form>
             </Form>
           </CardContent>

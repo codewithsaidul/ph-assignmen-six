@@ -40,12 +40,12 @@ export default function DriverAvailabilityToggle({
   }
 
   return (
-    <div className="flex items-center space-x-2 tour-step-1-availability">
+    <div className="flex items-center space-x-2 tour-step-2-availability">
       <Switch
         id="availability-mode"
         checked={isOnline}
         onCheckedChange={handleToggle}
-        className="cursor-pointer"
+        className="cursor-pointer tour-step-2-availability"
       />
       <Label htmlFor="availability-mode" className="capitalize">
         {driverProfile.availability}

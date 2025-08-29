@@ -12,12 +12,14 @@ import { useRequestRideMutation } from "@/redux/feature/ride/ride.api";
 import { calculateDistanceInKm } from "@/utils/calculateDistanceInKm";
 import { calculateFare } from "@/utils/calculateFare";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import z from "zod";
-import LocationPickerMap from "./LocationPickerMap";
 import { useNavigate } from "react-router";
+
+
+const LocationPickerMap = lazy(() => import("./LocationPickerMap"))
 
 interface LocationData {
   latlng: L.LatLng;

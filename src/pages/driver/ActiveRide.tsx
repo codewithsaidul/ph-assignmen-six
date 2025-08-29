@@ -3,14 +3,17 @@ import RiderInfo from "@/components/modules/activeride(rider-driver)/RiderInfo";
 import RideStatus from "@/components/modules/activeride(rider-driver)/RideStatus";
 import SOSButton from "@/components/modules/activeride(rider-driver)/SOSButton";
 import StatusControl from "@/components/modules/activeride(rider-driver)/StatusControl";
-import LocationPickerMap from "@/components/modules/ride/LocationPickerMap";
 import { useMyActiveRideQuery } from "@/redux/feature/ride/ride.api";
 import { useGetUserProfileQuery } from "@/redux/feature/user/user.api";
 import { socketConnection } from "@/utils/socketConnection";
 import L from "leaflet";
-import { useEffect, useMemo } from "react";
+import { lazy, useEffect, useMemo } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
+
+
+
+const LocationPickerMap = lazy(() => import("@/components/modules/ride/LocationPickerMap"))
 
 export default function ActiveRide() {
   const { data: userProfile } = useGetUserProfileQuery(undefined);

@@ -1,5 +1,4 @@
 import Loading from "@/components/loading/Loading";
-import LocationPickerMap from "@/components/modules/ride/LocationPickerMap";
 import DriverInformation from "@/components/modules/rideDetails/DriverInformation";
 import FareBreakDown from "@/components/modules/rideDetails/FareBreakDown";
 import RiderInformation from "@/components/modules/rideDetails/RiderInformation";
@@ -10,8 +9,13 @@ import { useRideDetailsQuery } from "@/redux/feature/ride/ride.api";
 import { useGetUserProfileQuery } from "@/redux/feature/user/user.api";
 import { dateFormater } from "@/utils/dateFormater";
 import L from "leaflet";
-import { useMemo } from "react";
+import { lazy, useMemo } from "react";
 import { useParams } from "react-router";
+
+
+
+const LocationPickerMap =  lazy(() => import("@/components/modules/ride/LocationPickerMap"));
+
 
 export default function RideDetails() {
   const { rideId } = useParams();

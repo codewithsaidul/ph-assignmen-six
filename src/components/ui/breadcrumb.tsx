@@ -31,23 +31,28 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
   )
 }
 
-function BreadcrumbLink({
-  asChild,
-  className,
-  ...props
-}: React.ComponentProps<"a"> & {
-  asChild?: boolean
-}) {
-  const Comp = asChild ? Slot : "a"
+export interface BreadcrumbLinkProps
+  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  asChild?: boolean;
+}
+
+// React.forwardRef দিয়ে কম্পোনেন্ট র‍্যাপ করা হলো
+const BreadcrumbLink = React.forwardRef<
+  HTMLAnchorElement,
+  BreadcrumbLinkProps
+>(({ asChild = false, className, ...props }, ref) => {
+  const Comp = asChild ? Slot : "a";
 
   return (
     <Comp
       data-slot="breadcrumb-link"
       className={cn("hover:text-foreground transition-colors", className)}
+      ref={ref} // ref-টি এখানে পাস করুন
       {...props}
     />
-  )
-}
+  );
+});
+BreadcrumbLink.displayName = "BreadcrumbLink";
 
 function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
   return (

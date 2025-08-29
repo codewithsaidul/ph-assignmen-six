@@ -20,7 +20,7 @@ interface IAvatarProps {
 const ProfileAvatar = ({ name, image, userRole, logOutFn }: IAvatarProps) => {
   const isMobile = useMediaQuery({ maxWidth: 1023 });
 
-  const dashboardUrl  = userRole === role.admin ? "/admin" : userRole === role.rider ? "/rider" : "/driver"
+  const dashboardUrl  = userRole === role.admin ? "/admin" : userRole === role.rider ? "/ride" : "/driver"
 
   return (
     <DropdownMenu>

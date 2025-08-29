@@ -3,6 +3,7 @@ import * as React from "react";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -16,6 +17,7 @@ import { Link, useLocation } from "react-router";
 import Logo from "./logo/Logo";
 import { getSidebarItems } from "@/utils/getSidebarItems";
 import { useGetUserProfileQuery } from "@/redux/feature/user/user.api";
+import SidebarUser from "./SidebarUser";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: userProfile } = useGetUserProfileQuery(undefined);
@@ -28,11 +30,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <div className="flex items-center gap-2 px-4 mt-6 mb-10">
-          <Link to="/" className="text-primary hover:text-primary/90">
+        <div className="px-4 mt-6 mb-10">
+          <Link to="/" className="flex items-center gap-2">
             <Logo width="28" height="28" />
-          </Link>
           <h2 className="text-3xl font-ride-title">Rydex</h2>
+          </Link>
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -42,7 +44,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarGroupLabel>{item?.title}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {item?.items?.map((item) => (
+                {item?.items?.map((item: { title: string, url: string}) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild isActive={pathname === item.url}>
                       <Link to={item.url}>{item.title}</Link>
@@ -55,6 +57,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         ))}
       </SidebarContent>
       <SidebarRail />
+      <SidebarFooter>
+        <SidebarUser user={userProfile} />
+      </SidebarFooter>
     </Sidebar>
   );
 }

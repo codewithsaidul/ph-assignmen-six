@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -41,8 +41,27 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
   --font-ride-title: "Lora", serif;
   --font-ride-body: "Poppins", sans-serif;
+
+  --gradient-primary: linear-gradient(
+    135deg,
+    hsl(25, 100%, 20%),,
+    hsl(25, 100%, 50%)
+  );
+  --gradient-accent: linear-gradient(
+    135deg,
+    hsl(142 71% 45%),
+    hsl(142 71% 55%)
+  );
+  --gradient-hero: linear-gradient(
+    135deg,
+    hsl(25, 100%, 50%) 0%,
+  --color-gradient-primary: var(--gradient-primary);
+  --color-gradient-accent: var(--gradient-accent);
+  --color-gradient-hero: var(--gradient-hero);
+  );
 }
 
 :root {
@@ -78,6 +97,23 @@
   --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: oklch(0.705 0.213 47.604);
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(
+    135deg,
+    hsl(25, 100%, 20%),,
+    oklch(0.705 0.213 47.604)
+  );
+  --gradient-accent: linear-gradient(
+    135deg,
+    hsl(142 71% 45%),
+    hsl(142 71% 55%)
+  );
+  --gradient-hero: linear-gradient(
+    135deg,
+    hsl(25, 100%, 50%) 0%,
+    hsl(142 71% 45%) 100%
+  );
 }
 
 .dark {
@@ -112,6 +148,22 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.646 0.222 41.116);
+  /* Gradients */
+  --gradient-primary: linear-gradient(
+    135deg,
+    hsl(25, 100%, 20%),
+    hsl(25, 100%, 50%)
+  );
+  --gradient-accent: linear-gradient(
+    135deg,
+    hsl(142 71% 45%),
+    hsl(142 71% 55%)
+  );
+  --gradient-hero: linear-gradient(
+    135deg,
+    hsl(25, 100%, 50%) 0%,
+    hsl(142 71% 45%) 100%
+  );
 }
 
 @layer base {
@@ -125,9 +177,19 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+   @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  .gradient-primary {
+    background-image: var(--gradient-primary);
+  }
+  .gradient-accent {
+    background-image: var(--gradient-accent);
+  }
+  .gradient-hero {
+    background-image: var(--gradient-hero);
   }
 }

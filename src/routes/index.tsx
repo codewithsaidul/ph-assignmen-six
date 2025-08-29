@@ -3,18 +3,27 @@ import { role } from "@/constants";
 import DashboardLayout from "@/Layout/dashboard/DashboardLayout";
 import Login from "@/pages/auth/Login";
 import Register from "@/pages/auth/Register";
+import UpdateProfile from "@/pages/user/UpdateProfile";
 import type { TRole } from "@/types";
 import { generateRoutes } from "@/utils/generateRoutes";
 import { withAuth } from "@/utils/withAuth";
 import { createBrowserRouter, Navigate } from "react-router";
 import { adminSidebarItems } from "./adminSidebarItems";
-import { userSidebarItems } from "./userSidebarItems";
-import UpdateProfile from "@/pages/user/UpdateProfile";
+import UserProfile from "@/pages/user/UserProfile";
+import { rideSidebarItems } from "./rideSidebarItems";
+import RideDetails from "@/pages/ride/RideDetails";
+import HomePage from "@/pages/public/HomePage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: App,
+    children: [
+      {
+        index: true,
+        Component: HomePage
+      }
+    ]
   },
   {
     path: "/dashboard", // <-- একটি কমন পাথ, যেমন 'dashboard'
@@ -25,11 +34,18 @@ export const router = createBrowserRouter([
     ] as TRole[]),
     children: [
       { index: true, element: <Navigate to="/dashboard/profile" /> },
-      ...generateRoutes(userSidebarItems),
+      {
+        path: "/dashboard/profile",
+        Component: UserProfile,
+      },
       {
         path: "/dashboard/updateProfile",
-        Component: UpdateProfile
-      }
+        Component: UpdateProfile,
+      },
+            {
+        path: "/dashboard/rideDetails/:rideId",
+        Component: RideDetails,
+      },
     ],
   },
   {
@@ -38,6 +54,14 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to="/admin/analytics" /> },
       ...generateRoutes(adminSidebarItems),
+    ],
+  },
+  {
+    path: "/ride",
+    Component: withAuth(DashboardLayout, role.rider as TRole),
+    children: [
+      { index: true, element: <Navigate to="/ride/request-ride" /> },
+      ...generateRoutes(rideSidebarItems),
     ],
   },
   {

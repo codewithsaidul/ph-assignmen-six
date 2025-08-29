@@ -1,26 +1,59 @@
-import type { ComponentType, Dispatch, SetStateAction } from "react"
+import type { ComponentType, Dispatch, SetStateAction } from "react";
 
-export type { ILogin, ILoginResponse, IRegister, IChangePassword } from "./auth.types"
-export type { IUser, IUpdateProfile, IUserProfile } from "./user.types"
-export type { SidebarContextProps } from "./sidebar.types"
+export type {
+  IAdminAnalytics,
+  IAdminAnalyticsResponseData,
+  IDailyRevenueData,
+  IStatsCardProps,
+} from "./admin.types";
+export type {
+  IChangePassword,
+  ILogin,
+  ILoginResponse,
+  IRegister,
+} from "./auth.types";
+export type {
+  IDestinationLocation,
+  IPickedupLocation,
+  IRide,
+  IRideData,
+  IRideRequest,
+  IRidesParams,
+  IStatusLog,
+  IUpdateRideStatus,
+  ILocationMapProps
+} from "./ride.types";
+export type { SidebarContextProps } from "./sidebar.types";
+export type {
+  IRiderUpdateStatus,
+  IUpdateDriverStatus,
+  IUpdateProfile,
+  IUser,
+  IUserProfile,
+} from "./user.types";
 
+export type Theme = "dark" | "light" | "system";
 
-
-export type Theme = "dark" | "light" | "system"
-
-export type TRole = "admin" | "rider" | "driver"
-
+export type TRole = "admin" | "rider" | "driver";
 
 export interface IModalsProps {
   open: boolean;
-  onChange: Dispatch<SetStateAction<boolean>>
+  onChange: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface IResponse<T> {
-  statusCode: number
-  success: boolean
-  message: string
-  data: T
+  statusCode: number;
+  success: boolean;
+  message: string;
+  meta?: Meta;
+  data: T;
+}
+
+export interface Meta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
 }
 
 export interface ISidebarItem {
@@ -30,7 +63,11 @@ export interface ISidebarItem {
     title: string;
     url: string;
     component: ComponentType;
-  }[]
+  }[];
 }
 
-
+export interface PaginationPageProps {
+  page: number;
+  totalPages: number;
+  setPage: Dispatch<SetStateAction<number>>;
+}

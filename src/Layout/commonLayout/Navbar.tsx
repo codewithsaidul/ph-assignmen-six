@@ -15,7 +15,7 @@ import {
 import { navigationLinks } from "@/constants";
 import { useLogoutMutation } from "@/redux/feature/auth/auth.api";
 import { useGetUserProfileQuery, userApi } from "@/redux/feature/user/user.api";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import ProfileAvatar from "./ProfileAvatar";
 import { useAppDispatch } from "@/redux/hook";
 import toast from "react-hot-toast";
@@ -27,6 +27,7 @@ export default function Navbar() {
   const { data: userProfile } = useGetUserProfileQuery(undefined);
   const [logout] = useLogoutMutation();
   const dispatch = useAppDispatch();
+  const { pathname } = useLocation();
 
   // Handle user logout
   const handleLogout = async () => {
@@ -39,17 +40,18 @@ export default function Navbar() {
     }
   };
 
+
   return (
-    <header className="border-b">
+    <header className="sticky top-0  bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b shadow-sm z-[60]">
       <div className="flex h-16 items-center justify-between gap-4 container mx-auto px-4">
         {/* Left side */}
         {/* Main nav */}
         <div className="flex items-center gap-6">
-          <div className=" flex items-center gap-2">
-            <Link to="/" className="text-primary hover:text-primary/90">
+          <div className="">
+            <Link to="/" className="hover:text-primary duration-500 hover:duration-500 flex items-center gap-2">
               <Logo width="28" height="28" />
-            </Link>
             <h2 className="text-3xl font-ride-title">Rydex</h2>
+            </Link>
           </div>
         </div>
 
@@ -57,12 +59,13 @@ export default function Navbar() {
         <div>
           {/* Navigation menu */}
           <NavigationMenu className="max-md:hidden">
-            <NavigationMenuList className="gap-2">
+            <NavigationMenuList className="gap-6">
               {navigationLinks.map((link, index) => (
                 <NavigationMenuItem key={index}>
                   <NavigationMenuLink
                     href={link.href}
-                    className="text-muted-foreground text-xl hover:text-primary py-1.5 font-medium"
+                    className="text-muted-foreground data-[active]:border-b-primary hover:text-primary py-1.5 font-medium"
+                    active={pathname === link.href}
                   >
                     {link.label}
                   </NavigationMenuLink>
@@ -122,14 +125,15 @@ export default function Navbar() {
                 </svg>
               </Button>
             </PopoverTrigger>
-            <PopoverContent align="start" className="w-40 p-1 md:hidden">
+            <PopoverContent align="start" className="w-60 p-1 md:hidden">
               <NavigationMenu className="max-w-none *:w-full">
-                <NavigationMenuList className="flex-col items-end gap-0 md:gap-2">
+                <NavigationMenuList className="flex-col items-center py-10 px-10 gap-0 md:gap-2">
                   {navigationLinks.map((link, index) => (
-                    <NavigationMenuItem key={index} className="w-full">
+                    <NavigationMenuItem key={index} className="w-fit">
                       <NavigationMenuLink
                         href={link.href}
                         className="py-1.5 text-xl"
+                        active={pathname === link.href}
                       >
                         {link.label}
                       </NavigationMenuLink>

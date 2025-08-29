@@ -4,8 +4,9 @@ export const registerZodSchema = z
   .object({
     name: z
       .string("Name must be a string")
-      .nonempty("email is required")
+      .nonempty("Name is required")
       .min(3, "Name must be at least 3 characters long"),
+    role: z.enum(["rider", "driver"]),
     email: z
       .string("Email must be a string")
       .nonempty("email is required")
@@ -29,12 +30,22 @@ export const registerZodSchema = z
     confirmPassword: z
       .string("Confirm Password must be a string")
       .min(8, { error: "password must be at least 8 character long" }),
+    licenseNumber: z
+      .string()
+      .min(6, "License number must be at least 6 characters")
+      .max(20, "License number must be at most 20 characters")
+      .optional(),
+    vehicleType: z.string().min(1, "Vehicle type is required").optional(),
+    model: z.string().min(1, "Model is required").optional(),
+    plate: z
+      .string()
+      .min(8, "Plate number must be at least 8 characters")
+      .max(30, "Plate number must be at most 30 characters").optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Password do not match",
     path: ["confirmPassword"],
   });
-
 
 export const updateProfileSchema = z.object({
   name: z
@@ -57,8 +68,6 @@ export const updateProfileSchema = z.object({
     .nonempty("Address is required")
     .max(200, "Address cannot exceed 200 characters."),
 });
-
-
 
 export const changePasswordSchema = z
   .object({
@@ -84,7 +93,10 @@ export const changePasswordSchema = z
       }),
     confirmNewPassword: z
       .string("Confirm New Password must be a string")
-      .min(8, "Confirm New Password must be contain at least 8 characters long"),
+      .min(
+        8,
+        "Confirm New Password must be contain at least 8 characters long"
+      ),
   })
   .refine((data) => data.newPassword === data.confirmNewPassword, {
     message: "New Password do not match",

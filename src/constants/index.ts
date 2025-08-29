@@ -1,15 +1,118 @@
+import {
+  CheckCircle,
+  Clock,
+  CreditCard,
+  DollarSign,
+  MapPin,
+  Shield,
+} from "lucide-react";
+
 export const navigationLinks = [
-  { href: "#", label: "Home" },
+  { href: "/", label: "Home" },
   { href: "#", label: "Features" },
   { href: "#", label: "Pricing" },
   { href: "#", label: "About" },
 ];
 
+export const steps = [
+  {
+    icon: MapPin,
+    title: "Book Your Ride",
+    description:
+      "Enter pickup location and destination. We'll find the nearest driver for you.",
+  },
+  {
+    icon: CheckCircle,
+    title: "Enjoy the Ride",
+    description:
+      "Relax while our verified driver safely takes you to your destination.",
+  },
+  {
+    icon: CreditCard,
+    title: "Pay in Cash",
+    description:
+      "Simple cash payment at the end of your ride. No cards or apps required.",
+  },
+];
 
+export const highlights = [
+  {
+    icon: Shield,
+    title: "Safety First",
+    description:
+      "All drivers are background-checked and vehicles are regularly inspected for your safety.",
+    color: "text-primary",
+  },
+  {
+    icon: DollarSign,
+    title: "Affordable Pricing",
+    description:
+      "Transparent, competitive rates with no hidden fees. Cash payments make it accessible to everyone.",
+    color: "text-green-500",
+  },
+  {
+    icon: Clock,
+    title: "24/7 Availability",
+    description:
+      "Need a ride at any time? Our drivers are available around the clock, every day of the year.",
+    color: "text-primary",
+  },
+];
 
+export const testimonials = [
+  {
+    name: "Maria Rodriguez",
+    rating: 5,
+    text: "RideBook has been a lifesaver! As someone who prefers cash payments, this service is perfect. The drivers are always professional and the rides are comfortable.",
+    location: "Downtown Customer",
+  },
+  {
+    name: "David Chen",
+    rating: 5,
+    text: "I've been driving for RideBook for 6 months now. The platform is easy to use and I love helping people who need reliable transportation. Great community!",
+    location: "RideBook Driver",
+  },
+  {
+    name: "Sarah Johnson",
+    rating: 5,
+    text: "Excellent service! I use RideBook for my daily commute and it's always reliable. The cash payment option is so convenient and the drivers are friendly.",
+    location: "Regular Rider",
+  },
+];
 
 export const role = {
   admin: "admin",
   rider: "rider",
   driver: "driver",
+};
+
+export const rideStatusColorMap: Record<string, string> = {
+  requested:
+    "text-yellow-800 bg-yellow-100 dark:text-yellow-300 dark:bg-yellow-900/50",
+  accepted: "text-sky-800 bg-sky-100 dark:text-sky-300 dark:bg-sky-900/50",
+  picked_up: "text-blue-800 bg-blue-100 dark:text-blue-300 dark:bg-blue-900/50",
+  in_transit:
+    "text-indigo-800 bg-indigo-100 dark:text-indigo-300 dark:bg-indigo-900/50",
+  completed:
+    "text-green-800 bg-green-100 dark:text-green-300 dark:bg-green-900/50",
+  cancelled: "text-red-800 bg-red-100 dark:text-red-300 dark:bg-red-900/50",
+  rejected: "text-red-800 bg-red-100 dark:text-red-300 dark:bg-red-900/50",
+};
+
+export const userStatusColorMap: Record<string, string> = {
+  // IsActive statuses
+  active:
+    "text-green-800 bg-green-100 dark:text-green-300 dark:bg-green-900/50",
+  inactive: "text-gray-800 bg-gray-100 dark:text-gray-400 dark:bg-gray-800/50",
+  blocked: "text-red-800 bg-red-100 dark:text-red-300 dark:bg-red-900/50",
+
+  // DriverStatus statuses
+  pending:
+    "text-yellow-800 bg-yellow-100 dark:text-yellow-300 dark:bg-yellow-900/50",
+  approved:
+    "text-green-800 bg-green-100 dark:text-green-300 dark:bg-green-900/50",
+  rejected: "text-red-800 bg-red-100 dark:text-red-300 dark:bg-red-900/50",
+  // 'suspend' এবং 'blocked' এর জন্য ভিন্ন কালার ব্যবহার করা যেতে পারে
+  suspend:
+    "text-orange-800 bg-orange-100 dark:text-orange-300 dark:bg-orange-900/50",
 };

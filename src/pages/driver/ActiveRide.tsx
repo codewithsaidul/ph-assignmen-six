@@ -6,13 +6,16 @@ import StatusControl from "@/components/modules/activeride(rider-driver)/StatusC
 import LocationPickerMap from "@/components/modules/ride/LocationPickerMap";
 import { useMyActiveRideQuery } from "@/redux/feature/ride/ride.api";
 import { useGetUserProfileQuery } from "@/redux/feature/user/user.api";
+import { socketConnection } from "@/utils/socketConnection";
 import L from "leaflet";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 export default function ActiveRide() {
   const { data: userProfile } = useGetUserProfileQuery(undefined);
   const { data: activeRide, isLoading } = useMyActiveRideQuery(undefined);
-
+  const navigate  = useNavigate()
   //   formating the location
   const formattedLocations = useMemo(() => {
     if (!activeRide) {
@@ -39,6 +42,33 @@ export default function ActiveRide() {
 
     return { pickup, destination };
   }, [activeRide]);
+
+  useEffect(() => {
+    if (userProfile?.role === "rider" && activeRide?._id) {
+
+      socketConnection.on("connect", () => {
+        socketConnection.emit("join_ride_room", activeRide._id);
+      });
+
+
+      socketConnection.on("ride_Status_updated", (data) => {
+        if (data.newStatus === "completed") {
+          navigate("/ride/history")
+          toast.success("Your Trip is successfull!")
+        }
+      });
+
+
+      socketConnection.connect();
+
+
+      return () => {
+        socketConnection.off("connect");
+        socketConnection.off("ride_Status_updated");
+        socketConnection.disconnect();
+      };
+    }
+  }, [userProfile?.role, activeRide?._id, navigate]);
 
   if (isLoading) return <Loading />;
 

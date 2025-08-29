@@ -13,6 +13,7 @@ import UserProfile from "@/pages/user/UserProfile";
 import { rideSidebarItems } from "./rideSidebarItems";
 import RideDetails from "@/pages/ride/RideDetails";
 import HomePage from "@/pages/public/HomePage";
+import FaqPage from "@/pages/public/FaqPage";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: HomePage
+      },
+      {
+        path: "/faq",
+        Component: FaqPage
       }
     ]
   },

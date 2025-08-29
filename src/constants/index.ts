@@ -3,15 +3,18 @@ import {
   Clock,
   CreditCard,
   DollarSign,
+  Mail,
   MapPin,
+  Phone,
   Shield,
 } from "lucide-react";
 
 export const navigationLinks = [
   { href: "/", label: "Home" },
-  { href: "#", label: "Features" },
+  { href: "/about", label: "About" },
+  { href: "/features", label: "Features" },
   { href: "/faq", label: "Faq" },
-  { href: "#", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export const steps = [
@@ -86,6 +89,29 @@ export const role = {
   driver: "driver",
 };
 
+export const contactInfo = [
+  {
+    icon: MapPin,
+    title: "Office Address",
+    content: "123 Innovation Drive, Sylhet, Bangladesh",
+  },
+  {
+    icon: Phone,
+    title: "Phone Number",
+    content: "1-800-RYDEX (1-800-743-3266)",
+  },
+  {
+    icon: Mail,
+    title: "Email Address",
+    content: "support@rydex.com",
+  },
+  {
+    icon: Clock,
+    title: "Business Hours",
+    content: "24/7 Customer Support",
+  },
+];
+
 export const rideStatusColorMap: Record<string, string> = {
   requested:
     "text-yellow-800 bg-yellow-100 dark:text-yellow-300 dark:bg-yellow-900/50",
@@ -122,7 +148,7 @@ export const faqs = [
     id: "payment",
     question: "Do you accept cash payments?",
     answer:
-      "Yes! RideBook is unique in that we accept cash payments exclusively. Simply pay your driver in cash at the end of your ride. No credit card or digital payment required.",
+      "Yes! Rydex is unique in that we accept cash payments exclusively. Simply pay your driver in cash at the end of your ride. No credit card or digital payment required.",
   },
   {
     id: "booking",
@@ -158,13 +184,13 @@ export const faqs = [
     id: "driver-requirements",
     question: "What are the requirements to become a driver?",
     answer:
-      "To drive with RideBook, you need a valid driver's license, clean driving record, vehicle registration, insurance, and must pass our background check. Your vehicle must be 2010 or newer and pass our safety inspection.",
+      "To drive with Rydex, you need a valid driver's license, clean driving record, vehicle registration, insurance, and must pass our background check. Your vehicle must be 2010 or newer and pass our safety inspection.",
   },
   {
     id: "support",
     question: "How can I contact customer support?",
     answer:
-      "Our support team is available 24/7 through the app, website chat, phone at 1-800-RIDEBOOK, or email at support@ridebook.com. We typically respond within 15 minutes during business hours.",
+      "Our support team is available 24/7 through the app, website chat, phone at 1-800-Rydex, or email at support@rydex.com. We typically respond within 15 minutes during business hours.",
   },
   {
     id: "ratings",
@@ -176,6 +202,6 @@ export const faqs = [
     id: "areas",
     question: "Which cities do you serve?",
     answer:
-      "We currently operate in 15 major cities across the country, with plans to expand to more areas. Check our app or website to see if RideBook is available in your location.",
+      "We currently operate in 15 major cities across the country, with plans to expand to more areas. Check our app or website to see if Rydex is available in your location.",
   },
 ];

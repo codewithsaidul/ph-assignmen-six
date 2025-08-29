@@ -63,11 +63,11 @@ export default function Navbar() {
               {navigationLinks.map((link, index) => (
                 <NavigationMenuItem key={index}>
                   <NavigationMenuLink
-                    href={link.href}
                     className="text-muted-foreground data-[active]:border-b-primary hover:text-primary py-1.5 font-medium"
                     active={pathname === link.href}
+                    asChild
                   >
-                    {link.label}
+                    <Link to={link.href} >{link.label}</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               ))}
@@ -131,11 +131,11 @@ export default function Navbar() {
                   {navigationLinks.map((link, index) => (
                     <NavigationMenuItem key={index} className="w-fit">
                       <NavigationMenuLink
-                        href={link.href}
                         className="py-1.5 text-xl"
                         active={pathname === link.href}
+                        asChild
                       >
-                        {link.label}
+                        <Link to={link.href} >{link.label}</Link>
                       </NavigationMenuLink>
                     </NavigationMenuItem>
                   ))}

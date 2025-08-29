@@ -193,3 +193,10 @@
     background-image: var(--gradient-hero);
   }
 }
+
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}

@@ -31,7 +31,7 @@ import z from "zod";
 
 export default function UpdateProfile() {
   const { data: userProfile, isLoading } = useGetUserProfileQuery(undefined);
-  const { data: driverInfo } = useGetDriverProfileQuery(undefined);
+  const { data: driverInfo } = useGetDriverProfileQuery(undefined, { skip: !userProfile || userProfile?.role !== "driver" });
   const [updateUserInfo, { isLoading: updateProfileLoading }] =
     useUpdateUserInfoMutation();
   const navigate = useNavigate();

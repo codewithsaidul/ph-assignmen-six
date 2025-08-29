@@ -18,6 +18,7 @@ import ContactPage from "@/pages/public/ContactPage";
 import AboutPage from "@/pages/public/AboutPage";
 import FeaturesPage from "@/pages/public/FeaturesPage";
 import { driverSidebarItems } from "./driverSidebarItems";
+import AccountStatusPage from "@/pages/common/AccountStatusPage";
 
 
 export const router = createBrowserRouter([
@@ -101,5 +102,9 @@ export const router = createBrowserRouter([
   {
     path: "/register",
     Component: Register,
+  },
+  {
+    path: "/account-status",
+    Component: AccountStatusPage,
   },
 ]);

@@ -1,6 +1,7 @@
 import ActiveRide from "@/pages/driver/ActiveRide";
 import EarningAnalytics from "@/pages/driver/EarningAnalytics";
 import IncomingRequest from "@/pages/driver/IncomingRequest";
+import RideHistory from "@/pages/ride/RideHistory";
 import type { ISidebarItem } from "@/types";
 
 
@@ -30,6 +31,11 @@ export const driverSidebarItems: ISidebarItem[] = [
         title: "Active Ride",
         url: "/driver/active-ride",
         component: ActiveRide,
+      },
+      {
+        title: "Ride History",
+        url: "/driver/ride-history",
+        component: RideHistory,
       },
     ],
   },

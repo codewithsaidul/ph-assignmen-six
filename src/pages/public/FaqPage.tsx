@@ -83,14 +83,13 @@ export default function FaqPage() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button
             size="lg"
-            variant="default"
-            className="duration-700 hover:duration-700 cursor-pointer text-xl transition-colors text-white py-7 px-7"
+            className="cursor-pointer bg-green-600 hover:bg-green-700 text-xl transition-colors text-white duration-700 hover:duration-700 px-8 py-6"
           >
             <Link to="/contact">Contact Support</Link>
           </Button>
-          {/* <Button size="lg" variant="outline" className="cursor-pointer text-xl transition-colors">
-            Email Us
-          </Button> */}
+          <Button size="lg" variant="outline" className="bg-primary-foreground/10 border-primary-foreground/30 text-white hover:text-white hover:bg-primary-foreground/20 text-lg duration-700 hover:duration-700 px-8 py-6 cursor-pointer">
+            <Link to="mailto:saidulislamr333@gmail.com">Email Us</Link>
+          </Button>
         </div>
       </div>
     </main>

@@ -16,6 +16,7 @@ import HomePage from "@/pages/public/HomePage";
 import FaqPage from "@/pages/public/FaqPage";
 import ContactPage from "@/pages/public/ContactPage";
 import AboutPage from "@/pages/public/AboutPage";
+import FeaturesPage from "@/pages/public/FeaturesPage";
 
 
 export const router = createBrowserRouter([
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
       {
         path: "/about",
         Component: AboutPage
+      },
+      {
+        path: "/features",
+        Component: FeaturesPage
       },
       {
         path: "/faq",

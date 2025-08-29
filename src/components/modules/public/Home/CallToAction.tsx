@@ -24,9 +24,9 @@ export default function CallToAction() {
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Button
                 size="lg"
-                className="bg-green-600 cursor-pointer hover:bg-accent-light text-white border-0 text-lg px-8 py-4"
+                className="bg-green-600 cursor-pointer hover:bg-green-700 duration-700 hover:duration-700 px-8 py-6 text-white border-0 text-lg"
               >
-                <Link to="/register" className="flex items-center gap-3">
+                <Link to="/register?role=rider" className="flex items-center gap-3">
                   Book Your First Ride
                   <ArrowRight className="h-5 w-5" />
                 </Link>
@@ -34,9 +34,9 @@ export default function CallToAction() {
               <Button
                 size="lg"
                 variant="outline"
-                className="bg-primary-foreground/10 border-primary-foreground/30 text-white hover:text-white hover:bg-primary-foreground/20 text-lg px-8 py-4 cursor-pointer"
+                className="bg-primary-foreground/10 border-primary-foreground/30 text-white hover:text-white hover:bg-primary-foreground/20 text-lg duration-700 hover:duration-700 px-8 py-6 cursor-pointer"
               >
-                <Link to="/register">Become a Driver</Link>
+                <Link to="/register?role=driver">Become a Driver</Link>
               </Button>
             </div>
 

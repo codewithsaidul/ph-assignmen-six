@@ -13,7 +13,7 @@ import { registerZodSchema } from "@/zodSchema/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import type z from "zod";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -21,7 +21,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export default function RegisterForm() {
   const [register, { isLoading }] = useRegisterMutation();
-  const [userRole, setRole] = useState<"rider" | "driver">("rider");
+  const [searchParams] = useSearchParams()
+  const initialRole = searchParams.get("role") as 'rider' | 'driver'
+  const [userRole, setRole] = useState<"rider" | "driver">(initialRole || "rider");
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof registerZodSchema>>({
@@ -29,7 +31,7 @@ export default function RegisterForm() {
     defaultValues: {
       name: "",
       email: "",
-      role: "rider",
+      role: initialRole || "rider",
       password: "",
       confirmPassword: "",
       licenseNumber: "",

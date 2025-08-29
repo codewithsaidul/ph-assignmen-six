@@ -6,9 +6,15 @@ import {
 } from "@/redux/feature/driver/driver.api";
 import { useEffect, useState } from "react";
 
-export default function DriverAvailabilityToggle() {
-  const { data: driverProfile, isLoading } =
-    useGetDriverProfileQuery(undefined);
+export default function DriverAvailabilityToggle({
+  userRole,
+}: {
+  userRole: string;
+}) {
+  const { data: driverProfile, isLoading } = useGetDriverProfileQuery(
+    undefined,
+    { skip: userRole !== "driver" }
+  );
   const [updateAvailability] = useUpdateDriverAvailityMutation();
   const [isOnline, setIsOnline] = useState(false);
 

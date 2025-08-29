@@ -15,7 +15,9 @@ import { Link } from "react-router";
 
 export default function UserProfile() {
   const { data: userProfile, isLoading } = useGetUserProfileQuery(undefined);
-  const { data: driverInfo } = useGetDriverProfileQuery(undefined);
+  const { data: driverInfo } = useGetDriverProfileQuery(undefined, {
+    skip: !userProfile || userProfile?.role !== "driver",
+  });
   const [open, setOpen] = useState(false);
 
   if (isLoading) return <Loading />;

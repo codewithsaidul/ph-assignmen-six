@@ -4,14 +4,12 @@ import Joyride, { type Step, type CallBackProps, STATUS } from 'react-joyride';
 
 
 interface GuidedTourProps {
-  userRole: 'rider' | 'driver' | undefined;
+  userRole: 'rider' | 'driver' | 'admin' | undefined;
 }
 
 export default function GuidedTour({ userRole }: GuidedTourProps) {
   const [runTour, setRunTour] = useState(false);
   const [steps, setSteps] = useState<Step[]>([]);
-
-  console.log(userRole)
 
   // রোল অনুযায়ী localStorage-এর জন্য একটি ডাইনামিক কী তৈরি করুন
   const tourLocalStorageKey = `tourCompleted_${userRole}`;

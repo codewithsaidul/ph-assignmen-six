@@ -68,6 +68,22 @@ export default function Login() {
         return;
       } else if (error.data === "Network Error" && !error.status) {
         return toast.error("Server is currently down", { id: toastId });
+      } else if (
+        error.data.message ===
+        "You are suspend. Please contact with our support team"
+      ) {
+        toast.error(error.data.message, { id: toastId });
+        return navigate("/account-status", {
+          state: { status: "suspended", message: error.data.message },
+        });
+      } else if (
+        error.data.message ===
+        "User is blocked, please contact our support team."
+      ) {
+        toast.error(error.data.message, { id: toastId });
+        return navigate("/account-status", {
+          state: { status: "blocked", message: error.data.message },
+        });
       }
       toast.error(error.data.message, { id: toastId });
     }
@@ -135,9 +151,7 @@ export default function Login() {
                       <FormItem>
                         <FormLabel>Password</FormLabel>
                         <FormControl>
-                          <Password
-                            {...field}
-                          />
+                          <Password {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

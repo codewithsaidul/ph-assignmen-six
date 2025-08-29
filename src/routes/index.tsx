@@ -19,6 +19,7 @@ import AboutPage from "@/pages/public/AboutPage";
 import FeaturesPage from "@/pages/public/FeaturesPage";
 import { driverSidebarItems } from "./driverSidebarItems";
 import AccountStatusPage from "@/pages/common/AccountStatusPage";
+import Unauthorized from "@/pages/common/Unauthorized";
 
 
 export const router = createBrowserRouter([
@@ -106,5 +107,9 @@ export const router = createBrowserRouter([
   {
     path: "/account-status",
     Component: AccountStatusPage,
+  },
+  {
+    path: "/unauthorized",
+    Component: Unauthorized,
   },
 ]);

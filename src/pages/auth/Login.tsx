@@ -16,6 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import Password from "@/components/ui/Password";
 import { cn } from "@/lib/utils";
 import { useLoginMutation } from "@/redux/feature/auth/auth.api";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -134,11 +135,8 @@ export default function Login() {
                       <FormItem>
                         <FormLabel>Password</FormLabel>
                         <FormControl>
-                          <Input
-                            type="password"
-                            placeholder="********"
+                          <Password
                             {...field}
-                            value={field.value || ""}
                           />
                         </FormControl>
                         <FormMessage />

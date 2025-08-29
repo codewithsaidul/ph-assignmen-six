@@ -21,3 +21,10 @@ export interface IRegister extends ILogin {
 }
 
 
+
+export interface IChangePassword {
+  oldPassword: string;
+  newPassword: string;
+}
+
+

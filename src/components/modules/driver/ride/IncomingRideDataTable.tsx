@@ -111,7 +111,7 @@ export default function IncomingRideDataTable({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {incomingRidesToShow.length > 0 &&
+          {incomingRidesToShow?.length > 0 &&
             incomingRidesToShow?.map((ride) => (
               <TableRow key={ride._id}>
                 <TableCell className="font-medium">

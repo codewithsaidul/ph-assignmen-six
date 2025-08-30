@@ -83,7 +83,7 @@ export default function ViewAllRides() {
     minFare,
     maxFare,
     rideStatus: rideStatus === "all" ? "" : rideStatus,
-    fields: "fare  rideStatus createdAt",
+    fields: "fare riderName, driverName rideStatus createdAt",
   });
 
   if (isLoading && !data) return <Loading />;
@@ -230,10 +230,10 @@ export default function ViewAllRides() {
                   {serialNumber + idx + 1}
                 </TableCell>
                 <TableCell className="font-medium">
-                  {ride?.rider?.name}
+                  {ride?.riderName}
                 </TableCell>
                 <TableCell className="font-medium">
-                  {ride?.driver?.name || "Not Assigned"}
+                  {ride?.driverName || "Not Assigned"}
                 </TableCell>
                 <TableCell>
                   <Badge

@@ -1,24 +1,83 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useCancelRideMutation } from "@/redux/feature/ride/ride.api";
 import type { IDriver } from "@/types";
 import { DollarSign } from "lucide-react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 export default function RideStatus({
+  rideId,
   rideStatus,
+  pickupAddress,
   destinationAddress,
   driver,
-  fare
+  fare,
 }: {
+  rideId: string;
   rideStatus: string;
+  pickupAddress: string;
   destinationAddress: string;
   driver: IDriver;
   fare: number;
 }) {
+  const [cancelRide, { isLoading }] = useCancelRideMutation();
+  const navigate = useNavigate();
+
+  const handleUpdateStatus = async () => {
+    const toastId = toast.loading("Cancelling...");
+    try {
+      const rideStatus = { rideStatus: "cancelled" };
+
+      const res = await cancelRide({ rideId, rideStatus }).unwrap();
+
+      if (res.success && res.statusCode === 200) {
+        toast.success(res.message, { id: toastId });
+        navigate("/ride/history");
+      }
+    } catch (error: unknown) {
+      const errorMessage =
+        typeof error === "object" &&
+        error !== null &&
+        "data" in error &&
+        typeof (error as { data?: unknown }).data === "object" &&
+        (error as { data?: unknown }).data !== null &&
+        "message" in (error as { data?: { message?: string } }).data!
+          ? (error as { data: { message: string } }).data.message
+          : "An error occurred";
+      toast.error(errorMessage, { id: toastId });
+    }
+  };
+
   return (
     <div className="space-y-4">
       {/* Current Status Card */}
       <Card className="bg-gradient-card shadow-card border-0">
         <CardContent className="p-6">
+          {/* requested স্ট্যাটাসের জন্য UI */}
+          {rideStatus === "requested" && (
+            <div className="text-center space-y-4">
+              <h2 className="text-xl font-bold text-yellow-600">
+                Finding a Driver...
+              </h2>
+              <p className="text-muted-foreground">
+                Please wait while we look for a nearby driver to accept your
+                ride.
+              </p>
+
+              <div className="flex gap-4">
+                <Button
+                  variant="destructive"
+                  className="flex-1 mx-auto max-w-sm cursor-pointer"
+                  onClick={handleUpdateStatus}
+                  disabled={isLoading}
+                >
+                  Cancel Ride
+                </Button>
+              </div>
+            </div>
+          )}
+
           {/* accepted স্ট্যাটাসের জন্য UI */}
           {rideStatus === "accepted" && (
             <div className="text-center space-y-4">
@@ -50,7 +109,12 @@ export default function RideStatus({
                 <Button variant="outline" className="flex-1">
                   Contact Driver
                 </Button>
-                <Button variant="destructive" className="flex-1">
+                <Button
+                  variant="destructive"
+                  className="flex-1 cursor-pointer"
+                  onClick={handleUpdateStatus}
+                  disabled={isLoading}
+                >
                   Cancel Ride
                 </Button>
               </div>
@@ -70,9 +134,6 @@ export default function RideStatus({
                 <Button variant="outline" className="flex-1">
                   Contact Driver
                 </Button>
-                <Button variant="destructive" className="flex-1 bg-red-600">
-                  SOS
-                </Button>
               </div>
             </div>
           )}
@@ -88,10 +149,7 @@ export default function RideStatus({
                 <div className="font-medium text-sm text-muted-foreground">
                   Pickup
                 </div>
-                <div className="text-sm font-medium">123 Main Street</div>
-                <div className="text-xs text-muted-foreground">
-                  Downtown • 2:30 PM
-                </div>
+                <div className="text-sm font-medium">{pickupAddress}</div>
               </div>
             </div>
 
@@ -105,10 +163,7 @@ export default function RideStatus({
                 <div className="font-medium text-sm text-muted-foreground">
                   Destination
                 </div>
-                <div className="text-sm font-medium">456 Oak Avenue</div>
-                <div className="text-xs text-muted-foreground">
-                  Uptown • Est. 2:45 PM
-                </div>
+                <div className="text-sm font-medium">{destinationAddress}</div>
               </div>
             </div>
           </div>

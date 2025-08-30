@@ -71,7 +71,7 @@ export default function RideHistory() {
     maxFare,
     rideStatus: rideStatus === "all" ? "" : rideStatus,
     fields:
-      "fare pickupAddress destinationAddress paymentMethod  rideStatus createdAt",
+      "fare pickupAddress destinationAddress paymentMethod  rideStatus createdAt riderName, driverName",
   });
 
   if (isLoading && !data) return <Loading />;
@@ -108,6 +108,8 @@ export default function RideHistory() {
       setSearchTerm(inputValue);
     }
   };
+
+  console.log(rideHistory)
 
   return (
     <div className="lg:px-6">
@@ -230,10 +232,10 @@ export default function RideHistory() {
                   {serialNumber + idx + 1}
                 </TableCell>
                 <TableCell className="font-medium">
-                  {ride?.rider?.name}
+                  {ride?.riderName}
                 </TableCell>
                 <TableCell className="font-medium">
-                  {ride?.driver?.name || "Not Assigned"}
+                  {ride?.driverName || "Not Assigned"}
                 </TableCell>
                 <TableCell className="font-medium max-w-sm truncate">
                   {ride?.pickupAddress}

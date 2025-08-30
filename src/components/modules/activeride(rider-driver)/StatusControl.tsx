@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useUpdateRideStatusMutation } from "@/redux/feature/ride/ride.api";
 import { getStatusInfo } from "@/utils/getStatusInfo";
-import { Shield } from "lucide-react";
 import toast from "react-hot-toast";
 
 const StatusControl = ({
@@ -21,7 +20,6 @@ const StatusControl = ({
     if (!nextStatus) return;
 
     try {
-
       const rideStatus = { rideStatus: nextStatus };
 
       const res = await updateRideStatus({ rideId, rideStatus }).unwrap();
@@ -100,25 +98,18 @@ const StatusControl = ({
             </Button>
           )}
 
-          {/* SOS Emergency Button */}
-          {currentStatus !== "completed" && (
-            <Button
-              variant="destructive"
-              size="lg"
-              className="w-full font-bold bg-red-600 hover:bg-red-700 text-white border-2 border-red-500"
-            >
-              <Shield className="h-5 w-5" />
-              SOS - Emergency Help
-            </Button>
-          )}
-
           {/* Emergency Actions */}
-          {currentStatus !== "completed" && (
+          {currentStatus === "accepted" && (
             <div className="flex gap-2 pt-2">
               <Button variant="outline" size="sm" className="flex-1">
                 Report Issue
               </Button>
-              <Button variant="outline" size="sm" className="flex-1">
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex-1 cursor-pointer"
+                onClick={() => handleUpdateStatus("cancelled")}
+              >
                 Cancel Trip
               </Button>
             </div>

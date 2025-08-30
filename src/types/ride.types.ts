@@ -66,6 +66,11 @@ export interface IUpdateRideStatus {
   maxFare?: string;
 }
 
+export interface ICancelRide {
+  rideId: string;
+  rideStatus: RideStatus;
+}
+
 export interface IRideRequest {
   pickupAddress: string;
   destinationAddress: string;

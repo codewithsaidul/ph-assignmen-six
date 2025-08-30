@@ -5,6 +5,28 @@ import "leaflet-routing-machine";
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import CurrentLocationFinder from "./CurrentLocationFinder";
 import MapLogic from "./MapLogic";
+import { cn } from "@/lib/utils";
+
+const markerSvg = `
+  <svg viewBox="0 0 24 24" width="36" height="36" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+  </svg>
+`;
+
+// 👇 ধাপ ২.২: দুটি কাস্টম DivIcon তৈরি করুন
+const pickupIcon = new L.DivIcon({
+  html: markerSvg,
+  className: "custom-marker-svg pickup-marker-svg",
+  iconSize: [36, 36],
+  iconAnchor: [18, 36], // আইকনের পিন-পয়েন্ট (মাঝখানে নিচে)
+});
+
+const destinationIcon = new L.DivIcon({
+  html: markerSvg,
+  className: "custom-marker-svg destination-marker-svg",
+  iconSize: [36, 36],
+  iconAnchor: [18, 36],
+});
 
 // Defining bangladesh border
 const bounds = new L.LatLngBounds(
@@ -25,14 +47,13 @@ export default function LocationPickerMap({
     onFareCalculated?.(null); // fare reseting
   };
 
-
   const handleResetDestination = () => {
     onDestinationSelect?.(null); // reseting only destination location
     onFareCalculated?.(null); // fare reseting
   };
   return (
     <div className="relative">
-      { isInteractive && (
+      {isInteractive && (
         <div className="absolute top-2 left-1/2 w-full max-w-xl -translate-x-1/2 z-[1000] p-2 bg-background/80 text-foreground rounded-md shadow-lg flex items-center gap-4 backdrop-blur-3xl bg-opacity-50">
           <div className="flex flex-col gap-5 items-center p-5 w-full">
             <p className="font-semibold text-sm">
@@ -100,13 +121,18 @@ export default function LocationPickerMap({
         minZoom={12}
         maxZoom={30}
         maxBoundsViscosity={1.0}
-        className="w-full h-72 md:h-[800px]"
+        className={cn(
+          "w-full",
+          isInteractive ? "h-[500px]" : "h-72 md:h-[800px]"
+        )}
         // style={{ height: "100%", width: "100%" }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <CurrentLocationFinder />
-        {pickup && <Marker position={pickup.latlng} />}
-        {destination && <Marker position={destination.latlng} />}
+        {pickup && <Marker position={pickup.latlng} icon={pickupIcon} />}
+        {destination && (
+          <Marker position={destination.latlng} icon={destinationIcon} />
+        )}
 
         <MapLogic
           pickup={pickup}

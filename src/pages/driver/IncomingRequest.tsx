@@ -49,7 +49,7 @@ export default function IncomingRequest() {
     [page, sortParams, minFare, maxFare]
   );
   // fetch incoming ride request data from db using rtk query
-  const { data, isLoading } = useGetIncomingRideRequestsQuery(queryParams);
+  const { data, isLoading } = useGetIncomingRideRequestsQuery(queryParams, { pollingInterval: 15000});
 
   if (isLoading && !data) return <Loading />;
 

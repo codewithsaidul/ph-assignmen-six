@@ -203,4 +203,26 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
+  .custom-marker-svg {
+    background: none !important;
+    border: none !important;
+  }
+
+  /* কাস্টম মার্কারের সাধারণ স্টাইল */
+  .custom-marker-svg svg {
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
+    stroke: white;
+    stroke-width: 1.5px;
+  }
+
+  /* পিকআপ মার্কারের জন্য (আপনার থিমের প্রাইমারি রঙ) */
+  .pickup-marker-svg svg {
+    fill: var(--primary);
+  }
+
+  /* ডেস্টিনেশন মার্কারের জন্য (আপনার থিমের destructive বা লাল রঙ) */
+  .destination-marker-svg svg {
+    fill: #FF0000;
+  }
 }

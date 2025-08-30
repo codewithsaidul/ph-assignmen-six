@@ -15,11 +15,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { lazy, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import z from "zod";
 import { useNavigate } from "react-router";
+import z from "zod";
 
-
-const LocationPickerMap = lazy(() => import("./LocationPickerMap"))
+const LocationPickerMap = lazy(() => import("./LocationPickerMap"));
 
 interface LocationData {
   latlng: L.LatLng;

@@ -11,14 +11,17 @@ import { lazy, useEffect, useMemo } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 
-
-
-const LocationPickerMap = lazy(() => import("@/components/modules/ride/LocationPickerMap"))
+const LocationPickerMap = lazy(
+  () => import("@/components/modules/ride/LocationPickerMap")
+);
 
 export default function ActiveRide() {
   const { data: userProfile } = useGetUserProfileQuery(undefined);
-  const { data: activeRide, isLoading } = useMyActiveRideQuery(undefined);
-  const navigate  = useNavigate()
+  const { data: activeRide, isLoading } = useMyActiveRideQuery(undefined, {
+    pollingInterval: 15000,
+  });
+  const navigate = useNavigate();
+
   //   formating the location
   const formattedLocations = useMemo(() => {
     if (!activeRide) {
@@ -48,22 +51,23 @@ export default function ActiveRide() {
 
   useEffect(() => {
     if (userProfile?.role === "rider" && activeRide?._id) {
-
       socketConnection.on("connect", () => {
         socketConnection.emit("join_ride_room", activeRide._id);
       });
 
-
       socketConnection.on("ride_Status_updated", (data) => {
         if (data.newStatus === "completed") {
-          navigate("/ride/history")
-          toast.success("Your Trip is successfull!")
+          navigate("/ride/history");
+          toast.success("Your Trip is successfull!");
+        }
+
+        if (data.newStatus === "cancelled") {
+          navigate("/ride/history");
+          toast.success("Your trip was cancelled by the driver!");
         }
       });
 
-
       socketConnection.connect();
-
 
       return () => {
         socketConnection.off("connect");
@@ -79,7 +83,7 @@ export default function ActiveRide() {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <p className="text-2xl font-ride-title font-bold">
-          No Ride Details Found
+          You have not any active ride
         </p>
       </div>
     );
@@ -131,9 +135,11 @@ export default function ActiveRide() {
         {userProfile?.role === "rider" && (
           <div className="md:col-span-5 border-l border-border bg-muted/30 p-4 space-y-4 overflow-y-auto">
             <RideStatus
+              rideId={activeRide._id}
               fare={activeRide.fare}
               rideStatus={activeRide.rideStatus}
               driver={activeRide.driver}
+              pickupAddress={activeRide.pickupAddress}
               destinationAddress={activeRide.destinationAddress}
             />
           </div>

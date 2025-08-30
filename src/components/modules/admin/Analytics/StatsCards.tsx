@@ -52,7 +52,8 @@ export default function StatsCards({
   const formatValue = (title: string, value: number) => {
     if (title === "Platform Revenue") {
       // ৳ চিহ্ন যোগ করুন
-      return `৳${new Intl.NumberFormat("en-IN").format(value)}`;
+      const money = Math.ceil(value)
+      return `৳${new Intl.NumberFormat("en-IN").format(money)}`;
     }
     // সাধারণ সংখ্যা ফরম্যাট করুন
     return new Intl.NumberFormat("en-IN").format(value);

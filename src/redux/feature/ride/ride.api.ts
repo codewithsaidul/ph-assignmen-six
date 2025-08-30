@@ -1,6 +1,7 @@
 import { baseApi } from "@/redux/baseApi/base.api";
 
 import type {
+  ICancelRide,
   IResponse,
   IRide,
   IRideData,
@@ -106,7 +107,7 @@ export const rideApi = baseApi.injectEndpoints({
         method: "POST",
         data: rideData,
       }),
-      invalidatesTags: ["Rides"],
+      invalidatesTags: ["Rides", "Active Ride"],
     }),
     updateRideStatus: builder.mutation<IResponse<IRide>, IUpdateRideStatus>({
       query: ({ rideId, rideStatus }) => ({
@@ -133,10 +134,21 @@ export const rideApi = baseApi.injectEndpoints({
 
         try {
           await queryFulfilled;
+          dispatch(rideApi.util.invalidateTags(["Active Ride"]));
+          dispatch(rideApi.util.invalidateTags(["Rides History"]));
+          dispatch(rideApi.util.invalidateTags(["Rides"]));
         } catch {
           patchResult.undo();
         }
       },
+      invalidatesTags: ["Rides", "Rides History", "Active Ride"],
+    }),
+    cancelRide: builder.mutation<IResponse<IRide>, ICancelRide>({
+      query: ({ rideId, rideStatus }) => ({
+        url: `/rides/${rideId}/cancel`,
+        method: "PATCH",
+        data: rideStatus,
+      }),
       invalidatesTags: ["Rides", "Rides History", "Active Ride"],
     }),
   }),
@@ -149,4 +161,5 @@ export const {
   useMyActiveRideQuery,
   useRequestRideMutation,
   useUpdateRideStatusMutation,
+  useCancelRideMutation,
 } = rideApi;

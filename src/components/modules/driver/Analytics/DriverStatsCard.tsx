@@ -39,8 +39,9 @@ const statsData = [
 ];
 
   const formatValue = (title: string, value: number) => {
-    if (title === "Platform Revenue") {
-      return `৳${new Intl.NumberFormat("en-IN").format(value)}`;
+    if (title === "Total Earnings") {
+      const money = Math.ceil(value)
+      return `৳${new Intl.NumberFormat("en-IN").format(money)}`;
     }
     return new Intl.NumberFormat("en-IN").format(value);
   };

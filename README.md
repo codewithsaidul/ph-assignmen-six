@@ -1,69 +1,98 @@
-# React + TypeScript + Vite
+# Rydex - Intelligent Ride Booking Platform (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Rydex Homepage](https://rydex.vercel.app/home.png)
+<!-- <img src="./public/home.png" alt="rydex photo" /> -->
 
-Currently, two official plugins are available:
+**Rydex** is a modern, full-stack, role-based ride booking platform designed to provide a seamless and secure experience for riders, drivers, and administrators. Built with a production-grade technology stack, this application demonstrates complex state management, real-time communication, and a robust, scalable architecture.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Live Frontend URL:** [**https://rydex.vercel.app**](https://rydex.vercel.app)
+**Live Backend URL:** [**https://rydex-ride-booking-system-backend.onrender.com**](https://rydex-ride-booking-system-backend.onrender.com)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### ⚠️ Important Note for Testing
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+The backend for this project is hosted on Render's free tier, which automatically spins down the server after 15 minutes of inactivity. **Please click the backend link above and wait 30-60 seconds for it to "wake up" before testing the frontend.** You will see a welcome message when the server is ready.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🔑 Test Credentials
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+| Role | Email | Password |
+| :--- | :--- | :--- |
+| **Admin** | `admin@rydex.com` | `Ad@@1234` |
+| **Driver** | `driver.tanjiro@gmail.com` | `Di@@1234` |
+| **Rider** | `rider.saidul@gmail.com` | `Ri@@1234` |
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## ✨ Core Features
+
+### 👨‍💼 Admin Features
+- **Analytics Dashboard:** Visualizes key platform metrics like total revenue, ride volume, and user statistics with dynamic charts.
+- **User Management:** A comprehensive interface to search, filter, and manage all riders and drivers. Admins can `block/unblock` riders and `approve/suspend` drivers.
+- **Ride Oversight:** A complete log of all rides on the platform with advanced filtering and sorting capabilities (by date, fare range, status, etc.).
+
+### 🚗 Driver Features
+- **Availability Control:** A real-time toggle to switch between `Online` and `Offline` status, with optimistic UI updates.
+- **Incoming Requests:** A paginated and filterable "marketplace" view of available ride requests. Drivers can `accept` or `dismiss` requests.
+- **Active Ride Management:** A dedicated, map-based interface to manage ongoing trips with clear, step-by-step actions (`Confirm Pickup`, `Start Trip`, `Complete Ride`).
+- **Earnings Dashboard:** A personal analytics page showing total earnings, completed trips, and daily income trends via interactive charts.
+- **Ride History:** A detailed, paginated log of all past rides.
+
+### 🧍 Rider Features
+- **Dynamic Ride Request:** An interactive map-based form to select pickup and destination, with real-time fare estimation.
+- **Active Ride View:** A page to view the current ride status and driver details, with real-time status updates pushed from the server via WebSockets.
+- **Ride History:** A paginated and sortable list of all previous trips.
+- **Profile Management:** All users can update their personal information and change their passwords.
+
+### 🛡️ General & Safety Features
+- **Role-Based Access Control (RBAC):** Secure dashboards and routes tailored to the logged-in user's role (Admin, Driver, or Rider).
+- **Real-time Notifications:** Riders receive instant notifications (via Socket.IO) when their ride status is updated (e.g., completed or cancelled).
+- **Simulated SOS Button:** A safety feature on the active ride screen for emergency situations.
+- **Guided Tour:** A one-time, role-specific guided tour for new users using `react-joyride`.
+- **Persistent Dismissals:** A driver's dismissed ride requests are saved to `localStorage` for a seamless session experience.
+- **Robust Error Handling:** Professional handling of validation, authorization, and network errors with user-friendly toast notifications.
+
+---
+
+## 🛠️ Technology Stack
+
+| Category | Technology |
+| :--- | :--- |
+| **Frontend** | React, TypeScript, React Router, Vite |
+| **State Management** | Redux Toolkit, RTK Query |
+| **Styling** | Tailwind CSS, shadcn/ui |
+| **Mapping** | React Leaflet, OpenStreetMap, OSRM (Routing) |
+| **Real-time** | Socket.IO Client |
+| **UI/UX**| react-hot-toast (Notifications), recharts (Charts), react-joyride (Guided Tour) |
+| **Backend** | Node.js, Express.js, TypeScript, Mongoose |
+| **Database** | MongoDB |
+| **Authentication** | JWT, Passport.js, bcrypt |
+| **Deployment** | **Frontend:** Vercel, **Backend:** Render |
+
+---
+
+## 🚀 How to Run Locally
+
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/codewithsaidul/ph-assignmen-six](https://github.com/codewithsaidul/ph-assignmen-six)
+    cd ph-assignmen-six
+    ```
+2.  **Install dependencies:**
+    ```bash
+    bun install
+    ```
+3.  **Set up environment variables:**
+    Create a `.env` file in the root and add the following:
+    ```
+    VITE_API_BASE_URL=http://localhost:3000/api/v1
+    VITE_SOCKET_BACKEND_URL=http://localhost:3000
+    ```
+4.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
+
+The application will be available at `http://localhost:5173`.

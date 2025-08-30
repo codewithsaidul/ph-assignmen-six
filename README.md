@@ -5,8 +5,7 @@
 
 **Rydex** is a modern, full-stack, role-based ride booking platform designed to provide a seamless and secure experience for riders, drivers, and administrators. Built with a production-grade technology stack, this application demonstrates complex state management, real-time communication, and a robust, scalable architecture.
 
-**Live Frontend URL:** [**https://rydex.vercel.app**](https://rydex.vercel.app)
-**Live Backend URL:** [**https://rydex-ride-booking-system-backend.onrender.com**](https://rydex-ride-booking-system-backend.onrender.com)
+**Live Frontend URL:** [**https://rydex.vercel.app**](https://rydex.vercel.app)<br>**Live Backend URL:** [**https://rydex-ride-booking-system-backend.onrender.com**](https://rydex-ride-booking-system-backend.onrender.com)
 
 ---
 
@@ -96,3 +95,17 @@ The backend for this project is hosted on Render's free tier, which automaticall
     ```
 
 The application will be available at `http://localhost:5173`.
+
+
+
+
+<br>
+<br>
+
+## 🧑‍💻 Author
+
+##### SAIDUL ISLAM RANA
+
+Frontend Dev | Backend Learner | MERN Stack Enthusiast
+<br>
+GitHub: @codewithsaidul<br>Linkedin: @codewithsaidul

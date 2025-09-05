@@ -16,13 +16,19 @@ export const riderTourSteps: Step[] = [
     title: "Track Your Ride",
   },
   {
-    target: ".tour-step-3-ride-history", // CSS class for the Ride History link
+    target: ".tour-step-3-apply-driver", // CSS class for the Ride History link
+    content:
+      "If you want to become a driver, you can apply from here by submitting your details and documents.",
+    title: "Apply For Driver",
+  },
+  {
+    target: ".tour-step-4-ride-history", // CSS class for the Ride History link
     content:
       "After completing a trip, you can see all your past ride details here.",
     title: "Your Ride History",
   },
   {
-    target: ".tour-step-4-profile-menu", // CSS class for the Profile avatar/dropdown
+    target: ".tour-step-5-profile-menu", // CSS class for the Profile avatar/dropdown
     content: "Manage your profile, settings, and password from this menu.",
     title: "Your Account",
   },

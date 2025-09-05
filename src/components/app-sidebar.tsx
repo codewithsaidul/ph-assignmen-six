@@ -35,7 +35,7 @@ export function AppSidebar({ userProfile, ...props }: AppSidebarProps) {
     userProfile?.role === "driver"
       ? "tour-step-6-profile-menu"
       : userProfile?.role === "rider"
-      ? "tour-step-4-profile-menu"
+      ? "tour-step-5-profile-menu"
       : undefined;
 
   return (

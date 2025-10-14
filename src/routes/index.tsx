@@ -14,16 +14,17 @@ import AboutPage from "@/pages/public/AboutPage";
 import FeaturesPage from "@/pages/public/FeaturesPage";
 import { driverSidebarItems } from "./driverSidebarItems";
 import { lazy } from "react";
+import VerifyEmailPage from "@/pages/verifyEmail/VerifyEmail";
 
-const Login = lazy(() => import("@/pages/auth/Login"))
-const Register = lazy(() => import("@/pages/auth/Register"))
-const AccountStatusPage = lazy(() => import("@/pages/common/AccountStatusPage"))
-const UpdateProfile = lazy(() => import("@/pages/user/UpdateProfile"))
-const UserProfile = lazy(() => import("@/pages/user/UserProfile"))
-const RideDetails = lazy(() => import("@/pages/ride/RideDetails"))
-const Unauthorized = lazy(() => import("@/pages/common/Unauthorized"))
-
-
+const Login = lazy(() => import("@/pages/auth/Login"));
+const Register = lazy(() => import("@/pages/auth/Register"));
+const AccountStatusPage = lazy(
+  () => import("@/pages/common/AccountStatusPage")
+);
+const UpdateProfile = lazy(() => import("@/pages/user/UpdateProfile"));
+const UserProfile = lazy(() => import("@/pages/user/UserProfile"));
+const RideDetails = lazy(() => import("@/pages/ride/RideDetails"));
+const Unauthorized = lazy(() => import("@/pages/common/Unauthorized"));
 
 export const router = createBrowserRouter([
   {
@@ -32,25 +33,25 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: HomePage
+        Component: HomePage,
       },
       {
         path: "/about",
-        Component: AboutPage
+        Component: AboutPage,
       },
       {
         path: "/features",
-        Component: FeaturesPage
+        Component: FeaturesPage,
       },
       {
         path: "/faq",
-        Component: FaqPage
+        Component: FaqPage,
       },
       {
         path: "/contact",
-        Component: ContactPage
+        Component: ContactPage,
       },
-    ]
+    ],
   },
   {
     path: "/dashboard",
@@ -69,7 +70,7 @@ export const router = createBrowserRouter([
         path: "/dashboard/updateProfile",
         Component: UpdateProfile,
       },
-            {
+      {
         path: "/dashboard/rideDetails/:rideId",
         Component: RideDetails,
       },
@@ -106,6 +107,10 @@ export const router = createBrowserRouter([
   {
     path: "/register",
     Component: Register,
+  },
+  {
+    path: "/verify-email",
+    Component: VerifyEmailPage,
   },
   {
     path: "/account-status",
